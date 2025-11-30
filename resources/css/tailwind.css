@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@config "./tailwind.config.cjs";
+
+/* থিম কনফিগারেশন */
+@theme {
+  --color-primary-500: #6366f1;
+  --color-primary-600: #4f46e5;
+  
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+  --color-slate-950: #020617;
+  
+  --font-family-heading: "Hind Siliguri", sans-serif;
+  --font-family-body: "Kohinoor Bangla", sans-serif;
+  
+  --color-dark-bg: #0f172a;
+  --color-dark-text: #e2e8f0;
+}
+
+/* বেস স্টাইলস */
+body {
+  font-family: var(--font-family-body);
+  letter-spacing: 0.5px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-heading);
+}
+
+[x-cloak] { 
+  display: none !important; 
+}
+
+/* অথেন্টিকেশন কন্টেইনার স্টাইল */
+.auth-container {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95));
+  background-size: 30%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.dark .auth-container {
+  background-image: linear-gradient(rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.95));
+}
+
+/* সোশ্যাল বাটন স্টাইল */
+.social-btn {
+  transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ফর্ম ইনপুট ফোকাস স্টাইল */
+.form-input:focus {
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* ডার্ক মোড স্টাইলস */
+.dark {
+  background-color: var(--color-dark-bg);
+  color: var(--color-dark-text);
+}

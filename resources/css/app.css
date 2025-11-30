@@ -1,0 +1,96 @@
+/* Tailwind CSS v4 Import */
+@import "tailwindcss";
+
+/* ফন্ট ইম্পোর্ট */
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Kohinoor+Bangla:wght@300;400;500;600;700&display=swap');
+
+/* ফন্ট অ্যাওয়েসম আইকন */
+@import '@fortawesome/fontawesome-free/css/all.css';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+
+@variant dark (&:where(.dark, .dark *));
+
+/* v4 এ কনফিগারেশন এখন এখানেই করা হয় @theme ব্লকের মাধ্যমে 
+   tailwind.config.js এর দরকার নেই
+*/
+@theme {
+    /* Custom Colors */
+    --color-slate-50: #f8fafc;
+    --color-slate-100: #f1f5f9;
+    --color-slate-200: #e2e8f0;
+    --color-slate-800: #1e293b;
+    --color-slate-900: #0f172a;
+    --color-slate-950: #020617;
+
+    --color-primary-500: #6366f1;
+    --color-primary-600: #4f46e5;
+
+    /* Custom Fonts */
+    --font-heading: 'Hind Siliguri', sans-serif;
+    --font-body: 'Kohinoor Bangla', sans-serif;
+
+    /* Custom Animations */
+    --animate-float: float 6s ease-in-out infinite;
+    --animate-float-delay: float-delay 7s ease-in-out infinite 1s;
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-15px); }
+    }
+
+    @keyframes float-delay {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+}
+
+/* Custom Utilities (Scrollbar & Others) */
+@layer utilities {
+    /* Custom Scrollbar */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #cbd5e1;
+        border-radius: 4px;
+    }
+    .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #475569;
+    }
+
+    /* Section Divider */
+    .section-divider {
+        border-top-width: 1px;
+        margin: 1.5rem 0;
+    }
+
+    /* Link Hover Effect */
+    .link-icon {
+        transition: all 0.2s ease;
+    }
+    .link-icon:hover {
+        transform: translateY(-2px);
+    }
+}
+
+/* Base Styles */
+@layer base {
+    body {
+        font-family: var(--font-body);
+        letter-spacing: 0.5px;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-heading);
+    }
+    [x-cloak] { 
+        display: none !important; 
+    }
+}

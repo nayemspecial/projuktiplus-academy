@@ -1,0 +1,44 @@
+name: Deploy Laravel LMS
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Deploy via SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd /home/projuktip/public_html/academy
+
+          # ১. গিটহাব থেকে নতুন কোড নামানো
+          git pull origin main
+
+          # ২. ডিপেন্ডেন্সি আপডেট (চেক করে)
+          if [ -f composer.phar ]; then
+             /usr/local/bin/php composer.phar install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+          else
+             echo "⚠️ composer.phar not found! Please upload it manually."
+          fi
+
+          # ৩. লারাভেল কমান্ড
+          /usr/local/bin/php artisan migrate --force
+          /usr/local/bin/php artisan config:cache
+          /usr/local/bin/php artisan route:cache
+          /usr/local/bin/php artisan view:cache
+          
+          # ৪. পারমিশন ঠিক রাখা
+          chmod -R 775 storage bootstrap/cache
+
+          echo "Deployment Successful! 🚀"

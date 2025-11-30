@@ -8,5 +8,5 @@
     @include('frontend.partials.courses-list')
     @include('frontend.partials.testimonials')
     <!-- @include('frontend.partials.learning-path') -->
-    <!-- @include('frontend.partials.instructor-showcase') -->
+    @include('frontend.partials.instructor-showcase')
 @endsection

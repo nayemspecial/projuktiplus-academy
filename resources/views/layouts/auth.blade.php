@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'ProjuktiPlus LMS')</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    {{-- Vite Assets (CSS & JS) --}}
+    @vite(['resources/css/tailwind.css', 'resources/js/app.js'])
+    
 </head>
 <body class="bg-gray-50 dark:bg-slate-900 text-gray-800 dark:text-slate-300 min-h-screen">
     <div class="flex min-h-screen">

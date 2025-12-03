@@ -58,7 +58,7 @@
     @endif
 
     {{-- Vite Assets (CSS & JS) --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/tailwind.css', 'resources/js/app.js'])
     
     {{-- Font Awesome (Backup) --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Frontend\CourseController;
 use App\Http\Controllers\Frontend\HomeController;
 
 // Authentication Routes
@@ -19,7 +20,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Future Frontend Routes (যখন তৈরি করবেন তখন আনকমেন্ট করবেন)
-// Route::get('/courses', [CourseController::class, 'index'])->name('courses');
+// কোর্স পেজসমূহ (Course Pages)
+Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+Route::get('/courses/{slug}', [CourseController::class, 'show'])->name('courses.show');
 // Route::get('/about', [PageController::class, 'about'])->name('about');
 // Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 

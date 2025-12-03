@@ -121,8 +121,18 @@ class User extends Authenticatable
         return $this->role === 'student';
     }
 
+    /**
+     * [UPDATED] প্রফেশনাল ডিফল্ট অ্যাভাটার (UI Avatars)
+     * যদি ইউজার ছবি আপলোড না করে থাকে, তবে তার নামের প্রথম অক্ষর দিয়ে একটি সুন্দর ছবি জেনারেট হবে।
+     */
     public function getAvatarUrlAttribute()
     {
-        return $this->avatar ? asset('storage/' . $this->avatar) : asset('images/default-avatar.png');
+        if ($this->avatar) {
+            return asset('storage/' . $this->avatar);
+        }
+
+        // UI Avatars API ব্যবহার করে ডাইনামিক ইমেজ
+        $name = urlencode($this->name);
+        return "https://ui-avatars.com/api/?name={$name}&background=random&color=fff&size=128&bold=true&font-size=0.5";
     }
 }

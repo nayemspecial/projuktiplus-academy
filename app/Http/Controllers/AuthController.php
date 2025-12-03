@@ -2,147 +2,123 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Auth\Events\PasswordReset;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // Show Login Form
+    /**
+     * লগইন ফর্ম প্রদর্শন
+     */
     public function showLoginForm()
     {
+        if (Auth::check()) {
+            return $this->redirectUser();
+        }
         return view('auth.login');
     }
 
-    // Show Registration Form
-    public function showRegisterForm()
-    {
-        return view('auth.register');
-    }
-
-    // Show Forgot Password Form
-    public function showForgotPasswordForm()
-    {
-        return view('auth.forgot-password');
-    }
-
-    // Show Reset Password Form
-    public function showResetForm(Request $request, $token = null)
-    {
-        return view('auth.reset-password')->with(
-            ['token' => $token, 'email' => $request->email]
-        );
-    }
-
-    // Process Login
+    /**
+     * লগইন প্রসেস
+     */
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
+            'email' => ['required', 'email'],
+            'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials, $request->remember)) {
+        $remember = $request->boolean('remember');
+
+        if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
             
-            // Redirect based on user role
-            $user = Auth::user();
-            
-            // Get the intended URL or use role-based default
-            $intended = session()->pull('url.intended');
-            
-            if ($intended) {
-                return redirect($intended);
-            }
-            
-            // Role-based redirection
-            return match($user->role) {
-                'admin' => redirect()->route('admin.dashboard'),
-                'instructor' => redirect()->route('instructor.dashboard'),
-                default => redirect()->route('student.dashboard')
-            };
+            // [FIXED] লগইনের পর রোল অনুযায়ী সঠিক ড্যাশবোর্ডে পাঠানো হচ্ছে
+            return $this->redirectUser()->with('success', 'স্বাগতম! সফলভাবে লগইন হয়েছে।');
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+            'email' => 'ইমেইল বা পাসওয়ার্ড সঠিক নয়।',
+        ])->onlyInput('email');
     }
 
-    // Process Registration
+    /**
+     * রেজিস্ট্রেশন ফর্ম প্রদর্শন
+     */
+    public function showRegisterForm()
+    {
+        if (Auth::check()) {
+            return $this->redirectUser();
+        }
+        return view('auth.register');
+    }
+
+    /**
+     * রেজিস্ট্রেশন প্রসেস
+     */
     public function register(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8|confirmed',
-            'role' => 'required|in:student,instructor' // Only allow student or instructor registration
-        ]);
-
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'role' => $validated['role']
-        ]);
-
-        Auth::login($user);
-
-        // Redirect based on user role after registration
-        if ($user->isInstructor()) {
-            return redirect('/instructor/dashboard');
-        } else {
-            return redirect('/student/dashboard');
-        }
-    }
-
-    // Send Password Reset Link
-    public function sendResetLink(Request $request)
-    {
-        $request->validate(['email' => 'required|email']);
-
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
-
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with(['status' => __($status)])
-            : back()->withErrors(['email' => __($status)]);
-    }
-
-    // Reset Password
-    public function resetPassword(Request $request)
-    {
         $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'agreeTerms' => 'accepted',
         ]);
 
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->save();
+        // ইউজার তৈরি
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'student', // ডিফল্ট রোল স্টুডেন্ট
+            'status' => 'active',
+        ]);
 
-                event(new PasswordReset($user));
-            }
-        );
+        // অটো লগইন
+        Auth::login($user);
+        $request->session()->regenerate();
 
-        return $status == Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
-            : back()->withErrors(['email' => [__($status)]]);
+        // [FIXED] রেজিস্ট্রেশনের পর সরাসরি স্টুডেন্ট ড্যাশবোর্ডে রিডাইরেক্ট
+        return $this->redirectUser()->with('success', 'অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে! ড্যাশবোর্ডে স্বাগতম।');
     }
 
-    // Logout
+    /**
+     * লগআউট
+     */
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+
+        return redirect('/')->with('success', 'লগআউট সফল হয়েছে।');
+    }
+
+    public function showForgotPasswordForm()
+    {
+        return view('auth.forgot-password');
+    }
+
+    /**
+     * [FIXED] ইউজার রোল অনুযায়ী সঠিক ড্যাশবোর্ডে রিডাইরেক্ট হেল্পার
+     */
+    protected function redirectUser()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $role = Auth::user()->role;
+
+        if ($role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        } elseif ($role === 'instructor') {
+            return redirect()->route('instructor.dashboard');
+        } else {
+            return redirect()->route('student.dashboard');
+        }
     }
 }

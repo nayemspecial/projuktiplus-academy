@@ -3,7 +3,7 @@
     use App\Models\Setting;
     
     // গ্লোবাল সেটিংস লোড
-    $siteName = Setting::get('site_name', 'ProjuktiPlus LMS');
+    $siteName = Setting::get('site_name', 'ProjuktiPlus Academy');
     $siteFavicon = Setting::get('site_favicon');
     $primaryColor = Setting::get('primary_color', '#4F46E5');
     
@@ -26,13 +26,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    {{-- [FIX] ডার্ক মোড প্রি-লোডার স্ক্রিপ্ট (FOUC ফিক্স) --}}
+    {{-- [FIXED] ডিফল্ট ডার্ক মোড স্ক্রিপ্ট --}}
+    {{-- এটি পেজ লোড হওয়ার আগেই চেক করবে। যদি ইউজার ম্যানুয়ালি 'false' সেট না করে থাকে, তবে ডিফল্ট 'Dark' হবে --}}
     <script>
-        // পেজ রেন্ডার হওয়ার আগেই চেক করে ক্লাস বসিয়ে দিবে
-        if (localStorage.getItem('darkMode') === 'true' || (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
+        if (localStorage.getItem('darkMode') === 'false') {
             document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
         }
     </script>
     
@@ -58,7 +58,7 @@
     @endif
 
     {{-- Vite Assets (CSS & JS) --}}
-    @vite(['resources/css/tailwind.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     {{-- Font Awesome (Backup) --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -74,16 +74,15 @@
 </head>
 <body class="text-slate-600 dark:text-slate-400 transition-colors duration-300 bg-slate-50 dark:bg-slate-900 flex flex-col min-h-screen font-body antialiased"
       x-data="{ 
-          darkMode: localStorage.getItem('darkMode') === 'true' || (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+          // [FIXED] এখানেও ডিফল্ট লজিক আপডেট করা হয়েছে
+          darkMode: localStorage.getItem('darkMode') !== 'false', 
           mobileMenuOpen: false 
-      }"
+      }" 
       x-init="$watch('darkMode', val => {
           localStorage.setItem('darkMode', val);
           val ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
       })"
 >
-
-
 
     <!-- হেডার -->
     @include('frontend.partials.header')

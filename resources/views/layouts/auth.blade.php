@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'ProjuktiPlus LMS')</title>
+    <title>@yield('title', 'ProjuktiPlus Academy')</title>
 
     {{-- Vite Assets (CSS & JS) --}}
     @vite(['resources/css/tailwind.css', 'resources/js/app.js'])
@@ -15,7 +15,7 @@
         <div class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900 text-white p-12">
             <div class="max-w-md mx-auto flex flex-col justify-center">
                 <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-16 w-16 mb-6">
-                <h1 class="text-4xl font-bold mb-4">প্রযুক্তি প্লাস LMS</h1>
+                <h1 class="text-4xl font-bold mb-4">ProjuktiPlus Academy</h1>
                 <p class="text-lg mb-8">আমাদের প্ল্যাটফর্মে আপনার লার্নিং জার্নি শুরু করুন। দক্ষতা অর্জন করুন এবং আপনার ক্যারিয়ারকে এগিয়ে নিন।</p>
                 <div class="space-y-4">
                     <div class="flex items-center">

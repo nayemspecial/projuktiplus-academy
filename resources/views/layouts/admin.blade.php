@@ -40,7 +40,8 @@
     @endif
     
     <!-- Tailwind & FontAwesome -->
-    <script src="https://cdn.tailwindcss.com"></script>
+        {{-- Vite Assets --}}
+    @vite(['resources/css/tailwind.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Alpine.js Plugins -->

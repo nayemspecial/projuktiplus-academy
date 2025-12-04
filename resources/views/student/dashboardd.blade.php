@@ -3,382 +3,385 @@
 @section('title', 'ড্যাশবোর্ড - ProjuktiPlus LMS')
 
 @section('student-content')
-<div x-data="studentDashboard()" x-init="init()">
-    <!-- Welcome Banner -->
-    <div class="bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 rounded-lg shadow-md p-6 mb-6 text-white">
-        <div class="flex flex-col md:flex-row items-center justify-between">
-            <div>
-                <h2 class="text-2xl font-bold mb-2">স্বাগতম, <span x-text="student.name"></span>!</h2>
-                <p class="opacity-90">আপনার লার্নিং জার্নি ট্র্যাক করুন এবং নতুন কোর্স এক্সপ্লোর করুন</p>
-            </div>
-            <div class="mt-4 md:mt-0">
-                <button class="px-4 py-2 bg-white text-blue-600 rounded-md font-medium hover:bg-opacity-90 transition">
-                    নতুন কোর্স এক্সপ্লোর করুন
-                </button>
-            </div>
-        </div>
+<div x-data="studentDashboard()">
+    
+    <!-- Tab Navigation -->
+    <div class="mb-6 border-b border-gray-200 dark:border-slate-700 overflow-x-auto">
+        <nav class="flex space-x-8">
+            <button @click="activeTab = 'dashboard'" 
+                    :class="activeTab === 'dashboard' ? 'border-blue-600 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors flex items-center gap-2">
+                <i class="fas fa-columns"></i> ড্যাশবোর্ড
+            </button>
+            <button @click="activeTab = 'courses'" 
+                    :class="activeTab === 'courses' ? 'border-blue-600 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors flex items-center gap-2">
+                <i class="fas fa-book"></i> আমার কোর্স
+            </button>
+            <button @click="activeTab = 'certificates'" 
+                    :class="activeTab === 'certificates' ? 'border-blue-600 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors flex items-center gap-2">
+                <i class="fas fa-certificate"></i> সার্টিফিকেট
+            </button>
+        </nav>
     </div>
 
-    <!-- Progress Overview -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <!-- Overall Progress -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6">
-            <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-4">সামগ্রিক প্রোগ্রেস</h3>
-            <div class="flex items-center justify-center">
-                <div class="relative w-32 h-32">
-                    <svg class="w-full h-full" viewBox="0 0 36 36">
-                        <!-- Background circle -->
-                        <path
-                            d="M18 2.0845
-                                a 15.9155 15.9155 0 0 1 0 31.831
-                                a 15.9155 15.9155 0 0 1 0 -31.831"
-                            fill="none"
-                            stroke="#e6e6e6"
-                            stroke-width="3"
-                        />
-                        <!-- Progress circle -->
-                        <path
-                            d="M18 2.0845
-                                a 15.9155 15.9155 0 0 1 0 31.831
-                                a 15.9155 15.9155 0 0 1 0 -31.831"
-                            fill="none"
-                            stroke="#3b82f6"
-                            stroke-width="3"
-                            stroke-dasharray="70, 100"
-                            class="progress-ring__circle"
-                        />
-                        <!-- Center text -->
-                        <text x="18" y="20" text-anchor="middle" fill="#3b82f6" font-size="8" font-weight="bold" class="dark:fill-blue-400">70%</text>
-                        <text x="18" y="25" text-anchor="middle" fill="#6b7280" font-size="4" class="dark:fill-gray-400">সম্পন্ন</text>
+    <!-- Dashboard Tab -->
+    <template x-if="activeTab === 'dashboard'">
+        <div class="space-y-6"> 
+            
+            <!-- 1. Modern Hero Section -->
+            <div class="relative rounded-2xl overflow-hidden bg-slate-900 text-white shadow-xl">
+                <!-- Mesh Gradient Background -->
+                <div class="absolute inset-0 pointer-events-none">
+                    <div class="absolute top-0 left-0 w-[300px] h-[300px] bg-blue-600/30 rounded-full blur-[80px] -translate-x-1/2 -translate-y-1/2"></div>
+                    <div class="absolute bottom-0 right-0 w-[300px] h-[300px] bg-purple-600/30 rounded-full blur-[80px] translate-x-1/2 translate-y-1/2"></div>
+                    <svg class="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
+                        <defs><pattern id="hero-grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="currentColor" stroke-width="0.5"/></pattern></defs>
+                        <rect width="100%" height="100%" fill="url(#hero-grid)" />
                     </svg>
                 </div>
-            </div>
-            <div class="mt-4 text-center">
-                <p class="text-sm text-gray-600 dark:text-gray-400">আপনি <span class="font-medium text-blue-600 dark:text-blue-400">12</span> টি কোর্সের মধ্যে <span class="font-medium text-blue-600 dark:text-blue-400">8</span> টি সম্পন্ন করেছেন</p>
-            </div>
-        </div>
-        
-        <!-- Active Courses -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6">
-            <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-4">সক্রিয় কোর্স</h3>
-            <div class="space-y-4">
-                <template x-for="course in activeCourses" :key="course.id">
-                    <div class="flex items-center p-3 hover:bg-gray-50 dark:hover:bg-slate-700 rounded-lg transition">
-                        <img :src="course.image" :alt="course.name" class="h-12 w-12 rounded-md object-cover">
-                        <div class="ml-3 flex-1">
-                            <h4 class="text-sm font-medium text-gray-800 dark:text-white" x-text="course.name"></h4>
-                            <div class="mt-1 w-full bg-gray-200 dark:bg-slate-700 rounded-full h-1.5">
-                                <div class="bg-blue-600 dark:bg-blue-400 h-1.5 rounded-full" :style="`width: ${course.progress}%`"></div>
-                            </div>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" x-text="`${course.progress}% সম্পন্ন`"></p>
-                        </div>
-                        <button @click="continueCourse(course.id)" class="ml-2 px-3 py-1 bg-blue-600 text-white text-xs rounded-md hover:bg-blue-700 transition">
-                            চালিয়ে যান
-                        </button>
+
+                <div class="relative z-10 p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="text-center md:text-left">
+                        <h2 class="text-2xl md:text-3xl font-bold mb-2 font-heading">স্বাগতম, <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">{{ $user->name }}</span>! 👋</h2>
+                        <p class="text-slate-300 text-sm md:text-base max-w-xl">
+                            @if($lastPlayedCourse)
+                                আপনি সর্বশেষ <span class="text-white font-semibold">"{{ $lastPlayedCourse->course->title }}"</span> দেখছিলেন। শেখা চালিয়ে যেতে চান?
+                            @else
+                                আপনার লার্নিং জার্নি শুরু করতে নতুন কোর্স এক্সপ্লোর করুন এবং নিজের দক্ষতা বৃদ্ধি করুন।
+                            @endif
+                        </p>
                     </div>
-                </template>
+                    
+                    <div class="flex-shrink-0">
+                        @if($lastPlayedCourse)
+                            <a href="{{ route('student.courses.content', $lastPlayedCourse->course_id) }}" 
+                               class="inline-flex items-center px-6 py-3 bg-white text-slate-900 rounded-xl font-bold text-sm hover:bg-blue-50 transition shadow-lg transform hover:-translate-y-1">
+                                <i class="fas fa-play mr-2"></i> শেখা চালিয়ে যান
+                            </a>
+                        @else
+                            <a href="{{ route('student.courses.index') }}" 
+                               class="inline-flex items-center px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-xl font-bold text-sm hover:bg-white/20 transition shadow-lg">
+                                <i class="fas fa-search mr-2"></i> কোর্স খুঁজুন
+                            </a>
+                        @endif
+                    </div>
+                </div>
             </div>
-            <div class="mt-4 text-center">
-                <a href="{{ route('student.courses.index') }}" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">সব দেখুন</a>
+
+            <!-- 2. Stats Grid -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                <!-- Total Courses -->
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 flex items-center gap-4 group hover:border-blue-200 dark:hover:border-blue-800 transition-colors">
+                    <div class="p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl group-hover:scale-110 transition-transform">
+                        <i class="fas fa-book-open text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">মোট কোর্স</p>
+                        <h4 class="text-2xl font-bold text-slate-800 dark:text-white">{{ $totalEnrolled }}</h4>
+                    </div>
+                </div>
+
+                <!-- Average Progress -->
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 flex items-center gap-4 group hover:border-green-200 dark:hover:border-green-800 transition-colors">
+                    <div class="p-3 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-xl group-hover:scale-110 transition-transform">
+                        <i class="fas fa-chart-pie text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">গড় অগ্রগতি</p>
+                        <h4 class="text-2xl font-bold text-slate-800 dark:text-white">{{ $averageProgress }}%</h4>
+                    </div>
+                </div>
+
+                <!-- Certificates -->
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 flex items-center gap-4 group hover:border-amber-200 dark:hover:border-amber-800 transition-colors">
+                    <div class="p-3 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-xl group-hover:scale-110 transition-transform">
+                        <i class="fas fa-award text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">সার্টিফিকেট</p>
+                        <h4 class="text-2xl font-bold text-slate-800 dark:text-white">{{ $totalCertificates }}</h4>
+                    </div>
+                </div>
+
+                <!-- XP Points -->
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 flex items-center gap-4 group hover:border-purple-200 dark:hover:border-purple-800 transition-colors">
+                    <div class="p-3 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 rounded-xl group-hover:scale-110 transition-transform">
+                        <i class="fas fa-bolt text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">XP অর্জন</p>
+                        <h4 class="text-2xl font-bold text-slate-800 dark:text-white">{{ $totalXP }}</h4>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <!-- Recent Activities -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6">
-            <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-4">সাম্প্রতিক অ্যাক্টিভিটি</h3>
-            <div class="space-y-4">
-                <template x-for="activity in recentActivities" :key="activity.id">
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 mt-1">
-                            <div :class="`h-8 w-8 rounded-full flex items-center justify-center ${activity.type === 'lesson' ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400' : 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400'}`">
-                                <i :class="activity.type === 'lesson' ? 'fas fa-play' : 'fas fa-question'"></i>
-                            </div>
-                        </div>
-                        <div class="ml-3">
-                            <p class="text-sm text-gray-800 dark:text-white" x-text="activity.message"></p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" x-text="activity.time"></p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- 3. Active Courses List (2/3) -->
+                <div class="lg:col-span-2 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden flex flex-col">
+                    <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 flex justify-between items-center">
+                        <h3 class="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                            <span class="relative flex h-2 w-2">
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                              <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                            </span>
+                            চলমান কোর্স
+                        </h3>
+                        <a href="#" @click.prevent="activeTab = 'courses'" class="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline">সব দেখুন</a>
+                    </div>
+                    
+                    <div class="p-4 flex-1">
+                        <div class="space-y-3">
+                            <template x-for="course in activeCourses" :key="course.id">
+                                <div class="group p-3 rounded-xl border border-slate-100 dark:border-slate-700/60 hover:border-blue-200 dark:hover:border-blue-800 hover:bg-blue-50/30 dark:hover:bg-slate-700/30 transition-all duration-200 flex flex-col sm:flex-row gap-4 items-center">
+                                    <!-- Thumbnail -->
+                                    <div class="relative w-full sm:w-20 h-32 sm:h-14 rounded-lg overflow-hidden flex-shrink-0 bg-slate-200 dark:bg-slate-700">
+                                        <img :src="course.image" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" :alt="course.name">
+                                    </div>
+                                    
+                                    <!-- Info -->
+                                    <div class="flex-1 min-w-0 w-full text-center sm:text-left">
+                                        <h4 class="text-sm font-bold text-slate-800 dark:text-white truncate mb-1" x-text="course.name"></h4>
+                                        <div class="flex items-center justify-center sm:justify-start gap-3 mt-1.5">
+                                            <div class="flex-1 h-1.5 bg-slate-200 dark:bg-slate-600 rounded-full overflow-hidden max-w-[200px]">
+                                                <div class="h-full bg-blue-600 rounded-full transition-all duration-500" :style="`width: ${course.progress}%`"></div>
+                                            </div>
+                                            <span class="text-[10px] font-bold text-blue-600 dark:text-blue-400" x-text="`${course.progress}%`"></span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Action -->
+                                    <a :href="`/student/courses/${course.id}/content`" class="px-4 py-2 bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-600 hover:text-blue-600 hover:border-blue-200 dark:hover:border-blue-500 transition shadow-sm whitespace-nowrap w-full sm:w-auto text-center">
+                                        চালিয়ে যান
+                                    </a>
+                                </div>
+                            </template>
+                            
+                            <template x-if="activeCourses.length === 0">
+                                <div class="text-center py-8 flex flex-col items-center justify-center text-slate-400">
+                                    <i class="far fa-folder-open text-3xl mb-2 opacity-50"></i>
+                                    <p class="text-sm">কোনো চলমান কোর্স নেই</p>
+                                </div>
+                            </template>
                         </div>
                     </div>
-                </template>
+                </div>
+
+                <!-- 4. Recommended Courses -->
+                @if($recommendedCourses->count() > 0)
+                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50">
+                        <h3 class="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                            <i class="fas fa-star text-amber-500"></i> আপনার জন্য সুপারিশকৃত
+                        </h3>
+                    </div>
+                    <div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        @foreach($recommendedCourses as $course)
+                        <a href="{{ route('student.courses.show', $course->id) }}" class="flex items-center gap-3 p-3 rounded-xl border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-800 hover:shadow-md transition group bg-white dark:bg-slate-700/20">
+                            <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-slate-200">
+                                <img src="{{ $course->thumbnail_url }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="text-xs font-bold text-slate-800 dark:text-white truncate group-hover:text-blue-600 transition mb-1">{{ $course->title }}</h4>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate mb-2">{{ $course->instructor->name ?? 'Instructor' }}</p>
+                                <span class="text-[10px] font-bold bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 px-2 py-0.5 rounded">
+                                    {{ $course->price > 0 ? '৳'.number_format($course->price) : 'ফ্রি' }}
+                                </span>
+                            </div>
+                        </a>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+            </div>
+
+            <!-- Right Column: Activity & Progress (1/3) -->
+            <div class="space-y-6">
+                
+                <!-- Overall Progress -->
+                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 flex flex-col items-center relative overflow-hidden">
+                    <h3 class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-4 w-full text-left">সামগ্রিক অগ্রগতি</h3>
+                    
+                    <div class="relative w-40 h-40">
+                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                            <path class="text-slate-100 dark:text-slate-700" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="text-blue-600 transition-all duration-1000 ease-out" stroke-dasharray="{{ $averageProgress }}, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span class="text-3xl font-extrabold text-slate-800 dark:text-white">{{ $averageProgress }}<span class="text-sm">%</span></span>
+                            <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">সম্পন্ন</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 text-center w-full pt-4 border-t border-slate-100 dark:border-slate-700">
+                        <div class="flex justify-between text-xs">
+                            <span class="text-slate-500">মোট কোর্স: <strong class="text-slate-800 dark:text-white">{{ $totalEnrolled }}</strong></span>
+                            <span class="text-slate-500">শেষ হয়েছে: <strong class="text-green-600">{{ $completedCourses }}</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 p-5">
+                    <h3 class="text-sm font-bold text-slate-800 dark:text-white mb-5 flex items-center gap-2">
+                        <i class="fas fa-history text-blue-500"></i> সাম্প্রতিক কার্যক্রম
+                    </h3>
+                    
+                    <div class="space-y-0">
+                        @if(count($recentActivitiesData) > 0)
+                            <div class="relative border-l-2 border-slate-100 dark:border-slate-700 ml-2 space-y-6 pb-2">
+                                @foreach($recentActivitiesData as $activity)
+                                    <div class="relative pl-6 group">
+                                        <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-white dark:bg-slate-800 border-2 border-blue-500 z-10 group-hover:border-green-500 transition-colors"></div>
+                                        <div class="flex flex-col">
+                                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1">{{ $activity['time'] }}</span>
+                                            <p class="text-xs text-slate-600 dark:text-slate-300 font-medium leading-snug">
+                                                {{ $activity['message'] }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <div class="text-center py-6 text-slate-400">
+                                <p class="text-xs">কোনো সাম্প্রতিক কার্যক্রম নেই</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
             </div>
         </div>
-    </div>
-    
-    <!-- My Courses Section -->
-    <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden mb-6">
-        <div class="px-6 py-4 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center">
-            <h3 class="text-lg font-medium text-gray-800 dark:text-white">আমার কোর্সসমূহ</h3>
-            <a href="{{ route('student.courses.index') }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-500 text-sm font-medium">সব দেখুন</a>
-        </div>
-        <div class="p-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <template x-for="course in myCourses" :key="course.id">
-                    <div class="course-card bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg shadow-sm overflow-hidden hover:shadow-md transition">
-                        <img class="w-full h-40 object-cover" :src="course.image" :alt="course.name">
-                        <div class="p-4">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-1" x-text="course.name"></h3>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400" x-text="course.instructor"></p>
-                                </div>
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" :class="course.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400'" x-text="course.status === 'completed' ? 'সম্পন্ন' : 'চলমান'"></span>
-                            </div>
-                            <div class="mt-4">
-                                <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
-                                    <span>প্রোগ্রেস</span>
-                                    <span x-text="`${course.progress}%`"></span>
-                                </div>
-                                <div class="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
-                                    <div class="bg-blue-600 dark:bg-blue-400 h-2 rounded-full" :style="`width: ${course.progress}%`"></div>
-                                </div>
-                            </div>
-                            <div class="mt-4 flex justify-between items-center">
-                                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                                    <i class="fas fa-book-open mr-1"></i>
-                                    <span x-text="`${course.completedLessons}/${course.totalLessons} লেসন`"></span>
-                                </div>
-                                <button @click="viewCourse(course.id)" class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium">
-                                    বিস্তারিত দেখুন
+    </template>
+
+    <!-- My Courses Tab (Filterable) -->
+    <template x-if="activeTab === 'courses'">
+         <div class="space-y-6">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden p-5">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <h3 class="text-lg font-bold text-slate-800 dark:text-white">আমার সকল কোর্স</h3>
+                    <div class="flex gap-3 w-full sm:w-auto">
+                        <div class="relative flex-1 sm:flex-none">
+                            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                            <input type="text" class="w-full sm:w-48 pl-8 pr-3 py-2 text-xs border border-slate-200 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="খুঁজুন..." x-model="courseSearchQuery">
+                        </div>
+                        <select x-model="courseFilter" class="px-3 py-2 text-xs border border-slate-200 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            <option value="all">সব</option>
+                            <option value="active">চলমান</option>
+                            <option value="completed">সম্পন্ন</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <template x-for="course in filteredMyCourses" :key="course.id">
+                    <div class="group bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl overflow-hidden hover:shadow-lg transition hover:-translate-y-1 flex flex-col h-full">
+                        <div class="relative h-40 overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition duration-500" :src="course.image" :alt="course.name">
+                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center backdrop-blur-[1px]">
+                                <button @click="continueCourse(course.id)" class="px-4 py-2 bg-white rounded-lg text-xs font-bold text-blue-600 hover:scale-105 transition shadow-lg">
+                                    <i class="fas fa-play mr-1"></i> চালিয়ে যান
                                 </button>
                             </div>
-                        </div>
-                    </div>
-                </template>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Quiz & Assignments Status -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <!-- Pending Quizzes -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200 dark:border-slate-700">
-                <h3 class="text-lg font-medium text-gray-800 dark:text-white">পেন্ডিং কুইজ</h3>
-            </div>
-            <div class="divide-y divide-gray-200 dark:divide-slate-700">
-                <template x-for="quiz in pendingQuizzes" :key="quiz.id">
-                    <div class="px-6 py-4 hover:bg-gray-50 dark:hover:bg-slate-700 transition">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-800 dark:text-white" x-text="quiz.title"></h4>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" x-text="`${quiz.course} • ডিউ ডেট: ${quiz.dueDate}`"></p>
+                            <div class="absolute top-3 right-3">
+                                <span class="px-2 py-1 text-[10px] font-bold text-white rounded backdrop-blur-md shadow-sm uppercase"
+                                      :class="course.status === 'completed' ? 'bg-green-500/90' : 'bg-blue-500/90'">
+                                    <span x-text="course.status === 'completed' ? 'সম্পন্ন' : 'চলমান'"></span>
+                                </span>
                             </div>
-                            <button @click="startQuiz(quiz.id)" class="px-3 py-1 bg-blue-600 text-white text-xs rounded-md hover:bg-blue-700 transition">
-                                শুরু করুন
-                            </button>
                         </div>
-                    </div>
-                </template>
-            </div>
-        </div>
-        
-        <!-- Completed Assignments -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200 dark:border-slate-700">
-                <h3 class="text-lg font-medium text-gray-800 dark:text-white">সম্পন্ন অ্যাসাইনমেন্ট</h3>
-            </div>
-            <div class="divide-y divide-gray-200 dark:divide-slate-700">
-                <template x-for="assignment in completedAssignments" :key="assignment.id">
-                    <div class="px-6 py-4 hover:bg-gray-50 dark:hover:bg-slate-700 transition">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-800 dark:text-white" x-text="assignment.title"></h4>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" x-text="`${assignment.course} • স্কোর: ${assignment.score}`"></p>
+                        
+                        <div class="p-4 flex-1 flex flex-col">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-[10px] bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded text-slate-500 dark:text-slate-400 font-medium" x-text="course.instructor"></span>
                             </div>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
-                                সম্পন্ন
-                            </span>
+                            <h3 class="text-sm font-bold text-slate-800 dark:text-white line-clamp-2 mb-3" x-text="course.name"></h3>
+                            
+                            <div class="mt-auto pt-3 border-t border-slate-100 dark:border-slate-700/50">
+                                <div class="flex justify-between text-[10px] text-slate-500 mb-1.5">
+                                    <span>অগ্রগতি</span>
+                                    <span class="font-bold text-blue-600" x-text="`${course.progress}%`"></span>
+                                </div>
+                                <div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                                    <div class="bg-blue-600 h-full rounded-full transition-all duration-500" :style="`width: ${course.progress}%`"></div>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                </template>
+                
+                <template x-if="filteredMyCourses.length === 0">
+                    <div class="col-span-full text-center py-16 bg-white dark:bg-slate-800 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
+                        <i class="far fa-sad-tear text-3xl text-slate-300 mb-3"></i>
+                        <p class="text-sm text-slate-500">কোনো কোর্স পাওয়া যায়নি।</p>
                     </div>
                 </template>
             </div>
         </div>
-    </div>
+    </template>
     
-    <!-- Certificates -->
-    <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center">
-            <h3 class="text-lg font-medium text-gray-800 dark:text-white">আমার সার্টিফিকেট</h3>
-            <a href="{{ route('student.certificates.index') }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-500 text-sm font-medium">সব দেখুন</a>
+    <!-- Certificates Tab Placeholder -->
+    <template x-if="activeTab === 'certificates'">
+        <div class="flex flex-col items-center justify-center py-20 text-slate-400 bg-white dark:bg-slate-800 rounded-2xl border border-dashed border-slate-200 dark:border-slate-700">
+            <i class="fas fa-certificate text-4xl mb-3 opacity-50 text-yellow-500"></i>
+            <p class="text-sm font-medium">আপনার সব সার্টিফিকেট এখানে দেখা যাবে।</p>
         </div>
-        <div class="p-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <template x-for="certificate in certificates" :key="certificate.id">
-                    <div class="border border-gray-200 dark:border-slate-700 rounded-lg overflow-hidden hover:shadow-md transition">
-                        <div class="p-4 bg-gray-50 dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700">
-                            <h4 class="text-md font-medium text-gray-800 dark:text-white text-center" x-text="certificate.course"></h4>
-                        </div>
-                        <div class="p-4 flex flex-col items-center">
-                            <img src="{{ asset('images/logo.png') }}" alt="Certificate" class="h-24 w-24 opacity-50 mb-3">
-                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3" x-text="`ইস্যুর তারিখ: ${certificate.issueDate}`"></p>
-                            <button @click="viewCertificate(certificate.id)" class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
-                                ডাউনলোড করুন
-                            </button>
-                        </div>
-                    </div>
-                </template>
-            </div>
-        </div>
-    </div>
+    </template>
+
 </div>
 
 <script>
 document.addEventListener('alpine:init', () => {
     Alpine.data('studentDashboard', () => ({
-        // Student data
         student: {
-            name: "{{ Auth::user()->name }}",
-            email: "{{ Auth::user()->email }}"
+            name: "{{ $user->name }}",
+            email: "{{ $user->email }}",
         },
-        
-        // Active courses (for dashboard)
-        activeCourses: [
-            {
-                id: 1,
-                name: "লারাভেল অ্যান্ড ভিউ",
-                image: "{{ asset('images/courses/laravel-vue.jpeg') }}",
-                progress: 65,
-                lastAccessed: "২ ঘন্টা আগে"
-            },
-            {
-                id: 2,
-                name: "রিয়েক্ট জেএস",
-                image: "{{ asset('https://images.unsplash.com/photo-1633356122544-f134324a6cee') }}",
-                progress: 30,
-                lastAccessed: "১ দিন আগে"
-            }
-        ],
-        
-        // My courses (for courses tab)
-        myCourses: [
-            {
-                id: 1,
-                name: "লারাভেল অ্যান্ড ভিউ",
-                image: "{{ asset('images/courses/laravel-vue.jpeg') }}",
-                instructor: "নাঈম হোসেন",
-                progress: 65,
-                status: "active",
-                completedLessons: 13,
-                totalLessons: 20,
-                lastAccessed: "২ ঘন্টা আগে"
-            },
-            {
-                id: 2,
-                name: "রিয়েক্ট জেএস",
-                image: "{{ asset('images/courses/react-js.jpg') }}",
-                instructor: "শাফায়েত রানা",
-                progress: 30,
-                status: "active",
-                completedLessons: 6,
-                totalLessons: 20,
-                lastAccessed: "১ দিন আগে"
-            },
-            {
-                id: 3,
-                name: "MERN স্ট্যাক ডেভেলপমেন্ট",
-                image: "{{ asset('images/courses/mern-stack.jpg') }}",
-                instructor: "মো. গালিব হাসান",
-                progress: 100,
-                status: "completed",
-                completedLessons: 15,
-                totalLessons: 15,
-                lastAccessed: "২ সপ্তাহ আগে"
-            }
-        ],
-        
-        // Recent activities
-        recentActivities: [
-            {
-                id: 1,
-                type: "lesson",
-                message: "লারাভেল অ্যান্ড ভিউ কোর্সের লেসন ৫ সম্পন্ন করেছেন",
-                time: "২ ঘন্টা আগে"
-            },
-            {
-                id: 2,
-                type: "quiz",
-                message: "রিয়েক্ট জেএস কোর্সের কুইজ ২ সম্পন্ন করেছেন",
-                time: "১ দিন আগে"
-            },
-            {
-                id: 3,
-                type: "lesson",
-                message: "ডাটা সায়েন্স কোর্সের লেসন ৮ সম্পন্ন করেছেন",
-                time: "৩ দিন আগে"
-            }
-        ],
-        
-        // Pending quizzes
-        pendingQuizzes: [
-            {
-                id: 1,
-                title: "কুইজ ৩: লারাভেল বেসিক",
-                course: "লারাভেল অ্যান্ড ভিউ",
-                dueDate: "১০ জুন, ২০২৩"
-            },
-            {
-                id: 2,
-                title: "মিড টার্ম কুইজ",
-                course: "রিয়েক্ট জেএস",
-                dueDate: "১৫ জুন, ২০২৩"
-            }
-        ],
-        
-        // Completed assignments
-        completedAssignments: [
-            {
-                id: 1,
-                title: "অ্যাসাইনমেন্ট ১: CRUD অপারেশন",
-                course: "লারাভেল অ্যান্ড ভিউ",
-                score: "৯৫/১০০"
-            },
-            {
-                id: 2,
-                title: "প্রজেক্ট ১: টুডু অ্যাপ",
-                course: "রিয়েক্ট জেএস",
-                score: "৮৮/১০০"
-            }
-        ],
-        
-        // Certificates
-        certificates: [
-            {
-                id: 1,
-                course: "MERN স্ট্যাক ডেভেলপমেন্ট",
-                issueDate: "১৫ মে, ২০২৩"
-            },
-            {
-                id: 2,
-                course: "ইউআই/ইউএক্স ডিজাইন",
-                issueDate: "২৮ মার্চ, ২০২৩"
-            }
-        ],
-        
-        // Methods
-        init() {
-            // Load initial data if needed
-            this.loadDashboardData();
+        totalXP: {{ $totalXP ?? 0 }},
+        overallProgress: {
+            total: {{ $totalEnrolled }},
+            completed: {{ $completedCourses }},
+            percentage: {{ $averageProgress }}
         },
+        activeCourses: @json($activeCoursesData),
+        myCourses: @json($myCoursesData),
+        recentActivities: @json($recentActivitiesData),
         
-        loadDashboardData() {
-            // You can add API calls here to load real data
-            console.log('Loading dashboard data...');
+        courseSearchQuery: '',
+        courseFilter: 'all',
+        activeTab: 'dashboard',
+
+        get filteredMyCourses() {
+            let courses = this.myCourses;
+            if (this.courseSearchQuery) {
+                const query = this.courseSearchQuery.toLowerCase();
+                courses = courses.filter(course => 
+                    course.name.toLowerCase().includes(query) ||
+                    course.instructor.toLowerCase().includes(query)
+                );
+            }
+            if (this.courseFilter !== 'all') {
+                courses = courses.filter(course => course.status === this.courseFilter);
+            }
+            return courses;
         },
-        
+
         viewCourse(courseId) {
             window.location.href = `/student/courses/${courseId}`;
         },
-        
+
         continueCourse(courseId) {
-            window.location.href = `/student/courses/${courseId}/continue`;
+            window.location.href = `/student/courses/${courseId}/content`; 
         },
         
-        startQuiz(quizId) {
-            window.location.href = `/student/quizzes/${quizId}/start`;
-        },
-        
-        viewCertificate(certificateId) {
-            window.location.href = `/student/certificates/${certificateId}/download`;
+        init() {
+            // Optional: Handle URL hash for tabs
+            const hash = window.location.hash.replace('#', '');
+            if (['dashboard', 'courses', 'certificates'].includes(hash)) {
+                this.activeTab = hash;
+            }
         }
     }));
 });

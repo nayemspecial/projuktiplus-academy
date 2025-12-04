@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\CourseController;
 use App\Http\Controllers\Frontend\HomeController;
 
@@ -23,6 +24,15 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // কোর্স পেজসমূহ (Course Pages)
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 Route::get('/courses/{slug}', [CourseController::class, 'show'])->name('courses.show');
+
+// Checkout Routes s
+Route::middleware(['auth'])->group(function () {
+    // চেকআউট পেজ দেখার জন্য
+    Route::get('/courses/{slug}/checkout', [CheckoutController::class, 'index'])->name('courses.checkout');
+    
+    // পেমেন্ট সাবমিট করার জন্য
+    Route::post('/courses/{id}/enroll', [CheckoutController::class, 'store'])->name('courses.enroll');
+});
 // Route::get('/about', [PageController::class, 'about'])->name('about');
 // Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 

@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Student Dashboard') - ProjuktiPlus LMS</title>
+    <title>@yield('title', 'Student Dashboard') - ProjuktiPlus Academy</title>
     
-    {{-- [FIX] ডার্ক মোড প্রি-লোডার --}}
+    {{-- [FIX] ডার্ক মোড ফ্ল্যাশ প্রিভেন্টার --}}
     <script>
         if (localStorage.getItem('darkMode') === 'true' || (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
@@ -19,6 +19,8 @@
     @vite(['resources/css/tailwind.css', 'resources/js/app.js'])
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- বাংলা ফন্ট ইম্পোর্ট -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Kohinoor+Bangla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         body { font-family: 'Kohinoor Bangla', sans-serif; letter-spacing: .5px; }

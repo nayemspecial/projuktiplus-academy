@@ -17,7 +17,7 @@
     </div>
 
     <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         <!-- মোট কোর্স -->
         <div class="bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700/50 rounded-lg shadow p-6 transition">
             <div class="flex items-center">
@@ -88,7 +88,7 @@
     </div>
     
     <!-- [নতুন] Earnings Chart -->
-    <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 mb-6">
+    <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 mb-4">
         <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-4">আয়ের চার্ট (গত ৬ মাস)</h3>
         <div class="h-80 relative w-full">
             @if(count($dashboardChart['data']) > 0)
@@ -102,7 +102,7 @@
     </div>
 
     <!-- Recent Enrollments and Course Performance -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <!-- Recent Enrollments -->
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-slate-700">

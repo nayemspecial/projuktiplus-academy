@@ -73,8 +73,8 @@
                     <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">স্ট্যাটাস <span class="text-red-500">*</span></label>
                     <select name="status" id="status" required 
                             class="block w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-slate-900 text-gray-900 dark:text-white">
-                        <option value="active" {{ old('status', $user->status) == 'active' ? 'selected' : '' }}>Active (সক্রিয়)</option>
-                        <option value="inactive" {{ old('status', $user->status) == 'inactive' ? 'selected' : '' }}>Inactive (নিষ্ক্রিয়)</option>
+                        <option value="active" {{ old('status', $user->status) == 'active' ? 'selected' : '' }}>Active (সক্রিয়)</option>
+                        <option value="inactive" {{ old('status', $user->status) == 'inactive' ? 'selected' : '' }}>Inactive (নিষ্ক্রিয়)</option>
                         <option value="banned" {{ old('status', $user->status) == 'banned' ? 'selected' : '' }}>Banned (নিষিদ্ধ)</option>
                     </select>
                     @error('status') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
@@ -98,17 +98,9 @@
                     @error('profile_photo') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
 
-                <!-- Address -->
-                <div class="col-span-2">
-                    <label for="address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">ঠিকানা</label>
-                    <textarea name="address" id="address" rows="2" 
-                              class="block w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-slate-900 text-gray-900 dark:text-white">{{ old('address', $user->address) }}</textarea>
-                    @error('address') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
-                </div>
-
                 <!-- Bio -->
                 <div class="col-span-2">
-                    <label for="bio" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">বায়ো</label>
+                    <label for="bio" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">বায়ো</label>
                     <textarea name="bio" id="bio" rows="3" 
                               class="block w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-slate-900 text-gray-900 dark:text-white">{{ old('bio', $user->bio) }}</textarea>
                     @error('bio') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror

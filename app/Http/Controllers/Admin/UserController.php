@@ -71,6 +71,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // ভ্যালিডেশন
         $validated = $request->validate([
             'name'          => 'required|string|max:255',
             'email'         => 'required|email|unique:users,email',
@@ -78,7 +79,7 @@ class UserController extends Controller
             'password'      => 'required|string|min:8|confirmed',
             'role'          => 'required|in:student,instructor,admin',
             'status'        => 'required|in:active,inactive,banned',
-            'address'       => 'nullable|string|max:500',
+            // 'address' বাদ দেওয়া হয়েছে কারণ টেবিলে এই কলাম নেই
             'bio'           => 'nullable|string|max:1000',
             'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
@@ -90,7 +91,7 @@ class UserController extends Controller
         $user->password = Hash::make($validated['password']);
         $user->role = $validated['role'];
         $user->status = $validated['status'];
-        $user->address = $validated['address'] ?? null;
+        // $user->address = $validated['address'] ?? null; // বাদ দেওয়া হয়েছে
         $user->bio = $validated['bio'] ?? null;
 
         if ($request->hasFile('profile_photo')) {
@@ -142,7 +143,7 @@ class UserController extends Controller
             'password'      => 'nullable|string|min:8|confirmed',
             'role'          => 'required|in:student,instructor,admin',
             'status'        => 'required|in:active,inactive,banned',
-            'address'       => 'nullable|string|max:500',
+            // 'address' বাদ দেওয়া হয়েছে
             'bio'           => 'nullable|string|max:1000',
             'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
@@ -152,7 +153,7 @@ class UserController extends Controller
         $user->phone = $validated['phone'];
         $user->role = $validated['role'];
         $user->status = $validated['status'];
-        $user->address = $validated['address'] ?? $user->address;
+        // $user->address = $validated['address'] ?? $user->address; // বাদ দেওয়া হয়েছে
         $user->bio = $validated['bio'] ?? $user->bio;
 
         if (!empty($validated['password'])) {
@@ -207,6 +208,6 @@ class UserController extends Controller
 
         $user->update(['status' => $request->status]);
 
-        return back()->with('success', 'স্ট্যাটাস পরিবর্তন করা হয়েছে।');
+        return back()->with('success', 'স্ট্যাটাস পরিবর্তন করা হয়েছে।');
     }
 }

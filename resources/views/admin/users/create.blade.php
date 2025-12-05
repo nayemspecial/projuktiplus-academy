@@ -73,8 +73,9 @@
                     <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">স্ট্যাটাস <span class="text-red-500">*</span></label>
                     <select name="status" id="status" required 
                             class="block w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-slate-900 text-gray-900 dark:text-white">
-                        <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active (সক্রিয়)</option>
-                        <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive (নিষ্ক্রিয়)</option>
+                        <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active (সক্রিয়)</option>
+                        <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive (নিষ্ক্রিয়)</option>
+                        <option value="banned" {{ old('status') == 'banned' ? 'selected' : '' }}>Banned (নিষিদ্ধ)</option>
                     </select>
                     @error('status') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
@@ -82,28 +83,13 @@
                 <!-- Profile Photo -->
                 <div class="col-span-2 md:col-span-1">
                     <label for="profile_photo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">প্রোফাইল ছবি</label>
-                    <div class="mt-1 flex items-center">
-                        <span class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100 dark:bg-slate-700">
-                            <svg class="h-full w-full text-gray-300 dark:text-gray-500" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                        </span>
-                        <input type="file" name="profile_photo" id="profile_photo" class="ml-5 bg-white dark:bg-slate-800 py-2 px-3 border border-gray-300 dark:border-slate-600 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    </div>
+                    <input type="file" name="profile_photo" id="profile_photo" class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-slate-700 dark:file:text-gray-300">
                     @error('profile_photo') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
-                </div>
-
-                <!-- Address -->
-                <div class="col-span-2">
-                    <label for="address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">ঠিকানা</label>
-                    <textarea name="address" id="address" rows="2" 
-                              class="block w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-slate-900 text-gray-900 dark:text-white">{{ old('address') }}</textarea>
-                    @error('address') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- Bio -->
                 <div class="col-span-2">
-                    <label for="bio" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">বায়ো</label>
+                    <label for="bio" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">বায়ো</label>
                     <textarea name="bio" id="bio" rows="3" 
                               class="block w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-slate-900 text-gray-900 dark:text-white">{{ old('bio') }}</textarea>
                     @error('bio') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror

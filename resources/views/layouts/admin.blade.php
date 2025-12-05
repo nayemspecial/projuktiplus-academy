@@ -12,11 +12,20 @@
     $metaAuthor = Setting::get('meta_author', 'ProjuktiPlus');
     $ogImage = Setting::get('og_image');
 @endphp
-<html lang="bn" x-data="adminApp()" :class="{'dark': isDark}">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    {{-- [FIX] ডার্ক মোড প্রি-লোডার (FOUC ফিক্স) --}}
+    <script>
+        if (localStorage.getItem('darkMode') === 'true' || (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
 
     <!-- SEO Meta Tags -->
     <meta name="description" content="{{ $metaDesc }}">
@@ -39,40 +48,50 @@
         <link rel="icon" href="{{ asset('favicon.ico') }}">
     @endif
     
-    <!-- Tailwind & FontAwesome -->
-        {{-- Vite Assets --}}
-    @vite(['resources/css/tailwind.css', 'resources/js/app.js'])
+    {{-- Vite Assets --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Alpine.js Plugins -->
-    <script src="https://cdn.jsdelivr.net/npm/@alpinejs/sort@3.13.3/dist/cdn.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script> <!-- Collapse Plugin Added -->
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Kohinoor+Bangla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Kohinoor+Bangla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: { slate: { 50: '#f8fafc', 800: '#1e293b', 900: '#0f172a' }, primary: { 600: '#4f46e5' } },
-                    fontFamily: { 'heading': ['Hind Siliguri'], 'body': ['Kohinoor Bangla'] }
-                }
-            }
-        }
-    </script>
     <style>
+        :root { --color-primary-600: {{ $primaryColor }}; }
+        body { font-family: 'Kohinoor Bangla', sans-serif; letter-spacing: .5px; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Hind Siliguri', sans-serif; }
+        
         [x-cloak] { display: none !important; }
-        body { font-family: 'Kohinoor Bangla', sans-serif; }
-        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; }
-        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #475569; }
+        
+        .sidebar-link.active {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border-left: 3px solid #3b82f6;
+        }
+        .dark .sidebar-link.active {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+        }
+        .sidebar-link:hover { background-color: rgba(59, 130, 246, 0.05); }
+        .dark .sidebar-link:hover { background-color: rgba(59, 130, 246, 0.1); }
+
+        /* SweetAlert Dark Mode Fix */
+        .dark .swal2-popup { background: #1e293b; color: #e2e8f0; }
+        .dark .swal2-title, .dark .swal2-content, .dark .swal2-html-container { color: #e2e8f0 !important; }
     </style>
+    
     @stack('styles')
 </head>
-<body class="bg-gray-50 dark:bg-slate-900 text-gray-800 dark:text-slate-300 font-body">
+<body class="bg-gray-50 dark:bg-slate-900 text-gray-800 dark:text-slate-300 font-body min-h-screen"
+      x-data="{ 
+          isDark: localStorage.getItem('darkMode') === 'true' || (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+          isMobileMenuOpen: false 
+      }"
+      x-init="$watch('isDark', val => {
+          localStorage.setItem('darkMode', val);
+          val ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
+      })"
+>
 
     <div class="flex h-screen overflow-hidden" x-cloak>
         
@@ -88,7 +107,7 @@
             @include('partials.admin.mobile-sidebar')
 
             <!-- Main Content -->
-            <main class="flex-1 overflow-y-auto p-2 md:p-4 custom-scrollbar">
+            <main class="flex-1 overflow-y-auto p-2 md:p-4 custom-scrollbar flex flex-col">
                 
                 <!-- Dynamic Page Header -->
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -100,10 +119,14 @@
                     </div>
                 </div>
 
-                @yield('admin-content')
+                <div class="flex-1">
+                    @yield('admin-content')
+                </div>
                 
                 <!-- Footer -->
-                @include('partials.footer')
+                <div class="mt-auto pt-6">
+                    @include('partials.footer')
+                </div>
             </main>
         </div>
     </div>
@@ -115,20 +138,28 @@
     
     @stack('modals')
 
+    {{-- Toast Notification Script --}}
     <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('adminApp', () => ({
-                isDark: localStorage.getItem('darkMode') === 'true' || 
-                        (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
-                isMobileMenuOpen: false,
-                init() {
-                    this.$watch('isDark', val => {
-                        localStorage.setItem('darkMode', val);
-                        val ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
-                    });
-                    if(this.isDark) document.documentElement.classList.add('dark');
+        document.addEventListener('DOMContentLoaded', () => {
+            const Toast = window.Swal ? window.Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = window.Swal.stopTimer;
+                    toast.onmouseleave = window.Swal.resumeTimer;
                 }
-            }));
+            }) : null;
+
+            if (Toast) {
+                @if(session('success')) Toast.fire({ icon: 'success', title: "{{ session('success') }}" }); @endif
+                @if(session('error')) Toast.fire({ icon: 'error', title: "{{ session('error') }}" }); @endif
+                @if(session('warning')) Toast.fire({ icon: 'warning', title: "{{ session('warning') }}" }); @endif
+                @if(session('info')) Toast.fire({ icon: 'info', title: "{{ session('info') }}" }); @endif
+                @if($errors->any()) Toast.fire({ icon: 'error', title: 'ফর্মের তথ্যগুলো চেক করুন।' }); @endif
+            }
         });
     </script>
 

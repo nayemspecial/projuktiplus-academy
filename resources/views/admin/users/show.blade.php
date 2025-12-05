@@ -33,7 +33,7 @@
                     {{ $user->role === 'admin' ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300' : 
                        ($user->role === 'instructor' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300' : 
                        'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300') }}">
-                    {{ $user->role }}
+                    {{ ucfirst($user->role) }}
                 </span>
 
                 <div class="mt-6 border-t border-gray-100 dark:border-slate-700 pt-4 text-left space-y-3">
@@ -42,12 +42,8 @@
                         {{ $user->phone ?? 'N/A' }}
                     </div>
                     <div class="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                        <i class="fas fa-map-marker-alt w-6 text-center mr-2 text-gray-400"></i>
-                        {{ $user->address ?? 'ঠিকানা নেই' }}
-                    </div>
-                    <div class="flex items-center text-sm text-gray-600 dark:text-gray-300">
                         <i class="fas fa-calendar-alt w-6 text-center mr-2 text-gray-400"></i>
-                        জয়েন করেছেন: {{ $user->created_at->format('d M, Y') }}
+                        জয়েন করেছেন: {{ $user->created_at->format('d M, Y') }}
                     </div>
                 </div>
             </div>
@@ -55,7 +51,7 @@
             <!-- Bio (If Exists) -->
             @if($user->bio)
             <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 p-6 mt-6">
-                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-3">বায়ো</h3>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-3">বায়ো</h3>
                 <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                     {{ $user->bio }}
                 </p>
@@ -129,18 +125,16 @@
                                     </td>
                                 </tr>
                                 @empty
-                                <tr><td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">কোনো কোর্স পাওয়া যায়নি।</td></tr>
+                                <tr><td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">কোনো কোর্স পাওয়া যায়নি।</td></tr>
                                 @endforelse
                             @elseif($user->role === 'instructor')
-                                {{-- এখানে ইনস্ট্রাকটরের কোর্স লুপ হবে --}}
-                                {{-- @forelse($user->courses as $course) ... @empty ... @endforelse --}}
+                                {{-- এখানে ইনস্ট্রাক্টরের কোর্স লুপ হবে --}}
                                 <tr><td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">ডেটা লোড করার লজিক এখানে বসবে।</td></tr>
                             @endif
                         </tbody>
                     </table>
                 </div>
             </div>
-
         </div>
     </div>
 @endsection

@@ -19,7 +19,7 @@ class LessonController extends Controller
             'section_id' => 'required|exists:sections,id',
             'title' => 'required|string|max:255',
             'video_url' => 'nullable|url',
-            'duration' => 'nullable|string',
+            'duration' => 'nullable|string', // ফর্মের ইনপুট নাম 'duration'
             'content' => 'nullable|string',
             'is_free' => 'boolean',
             'is_published' => 'boolean',
@@ -28,13 +28,17 @@ class LessonController extends Controller
         $section = Section::findOrFail($request->section_id);
         $lastOrder = $section->lessons()->max('order');
 
+        // স্লাগ জেনারেশন (ইউনিক করার জন্য টাইমস্ট্যাম্প বা রেন্ডম স্ট্রিং যোগ করা ভালো)
+        $slug = Str::slug($request->title) . '-' . Str::random(6);
+
         Lesson::create([
             'section_id' => $request->section_id,
             'title' => $request->title,
-            'slug' => Str::slug($request->title) . '-' . uniqid(),
+            'slug' => $slug,
             'video_url' => $request->video_url,
-            'video_type' => 'youtube', // আপাতত ডিফল্ট
-            'duration' => $request->duration,
+            'video_type' => 'youtube', // ডিফল্ট
+            // [FIX] ইনপুট 'duration' কে ডাটাবেসের 'video_duration' কলামে ম্যাপ করা হলো
+            'video_duration' => $request->duration, 
             'content' => $request->content,
             'is_free' => $request->boolean('is_free'),
             'is_published' => $request->boolean('is_published'),
@@ -59,9 +63,10 @@ class LessonController extends Controller
             'is_published' => 'boolean',
         ]);
 
+        // স্লাগ আপডেট লজিক (শুধু টাইটেল পাল্টালে স্লাগ পাল্টাবে)
         $slug = $lesson->slug;
         if ($lesson->title !== $request->title) {
-            $slug = Str::slug($request->title) . '-' . uniqid();
+            $slug = Str::slug($request->title) . '-' . Str::random(6);
         }
         
         $isPublished = $request->boolean('is_published');
@@ -70,7 +75,8 @@ class LessonController extends Controller
             'title' => $request->title,
             'slug' => $slug,
             'video_url' => $request->video_url,
-            'duration' => $request->duration,
+            // [FIX] আপডেট করার সময়ও ম্যাপিং ঠিক করা হলো
+            'video_duration' => $request->duration,
             'content' => $request->content,
             'is_free' => $request->boolean('is_free'),
             'is_published' => $isPublished,
@@ -109,6 +115,6 @@ class LessonController extends Controller
             ]);
         }
 
-        return response()->json(['success' => true, 'message' => 'লেসন সাজানো হয়েছে।']);
+        return response()->json(['success' => true, 'message' => 'লেসন সাজানো হয়েছে।']);
     }
 }

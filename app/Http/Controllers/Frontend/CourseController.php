@@ -14,34 +14,31 @@ class CourseController extends Controller
      */
     public function index(Request $request)
     {
-        // নোট: সার্চ বা ফিল্টার রেজাল্ট সাধারণত ক্যাশ করা কঠিন কারণ প্রতিটি কম্বিনেশন আলাদা।
-        // তবে আমরা বেসিক কুয়েরি অপ্টিমাইজ করব।
-
-        $query = Course::with(['instructor:id,name,avatar']) // Eager Loading Optimization
-            ->withCount(['lessons', 'enrollments', 'reviews']) // Count Optimization
+        // 1. Query Optimization: with() এবং withCount() ব্যবহার করা হয়েছে
+        // এটি N+1 কুয়েরি প্রবলেম সমাধান করবে এবং পেজ লোড ফাস্ট করবে
+        $query = Course::with(['instructor']) // ইনস্ট্রাক্টর ডাটা একসাথে আনবে
+            ->withCount(['lessons', 'enrollments', 'reviews']) // আলাদা কুয়েরি না করে কাউন্ট আনবে
             ->where('status', 'published');
 
-        // ১. সার্চ ফিল্টার
-        if ($request->filled('search')) {
+        // ২. সার্চ ফিল্টার
+        if ($request->has('search') && !empty($request->search)) {
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
-        // ২. ক্যাটাগরি ফিল্টার
-        if ($request->filled('category') && $request->category !== 'all') {
+        // ৩. ক্যাটাগরি ফিল্টার
+        if ($request->has('category') && !empty($request->category) && $request->category !== 'all') {
             $query->where('category', $request->category);
         }
 
-        // ৩. লেভেল ফিল্টার
-        if ($request->filled('level') && $request->level !== 'all') {
+        // ৪. লেভেল ফিল্টার
+        if ($request->has('level') && !empty($request->level) && $request->level !== 'all') {
             $query->where('level', $request->level);
         }
 
-        // পেজিনেশন সহ ডাটা আনা
+        // ৫. পেজিনেশন (লেটেস্ট আগে)
         $courses = $query->latest()->paginate(9)->withQueryString();
         
         // প্রতিটি কোর্সের ডাটা ফরম্যাট করা (Alpine.js এর জন্য)
-        // পেজিনেটেড কালেকশন মডিফাই করা একটু ট্রিকি, তাই আমরা ভিউ ফাইলে লুপের মধ্যে অ্যাক্সেসর ব্যবহার করব
-        // অথবা এখানে through() মেথড ব্যবহার করতে পারি
         $courses->through(function ($course) {
             $course->formatted_data = [
                 'id' => $course->id,
@@ -62,8 +59,9 @@ class CourseController extends Controller
             return $course;
         });
 
-        // সাইডবার ক্যাটাগরি লিস্ট (ক্যাশ করা হলো ২৪ ঘন্টার জন্য)
-        $categories = Cache::remember('course_categories', 1440, function () {
+        // ৬. সাইডবার ক্যাটাগরি লিস্ট (Caching)
+        // ক্যাটাগরি লিস্ট বারবার ডাটাবেস থেকে না এনে ক্যাশ থেকে আনা হবে (২৪ ঘন্টার জন্য)
+        $categories = Cache::remember('course_categories', 60 * 24, function () {
             return Course::where('status', 'published')->distinct()->pluck('category');
         });
 
@@ -72,20 +70,30 @@ class CourseController extends Controller
 
     /**
      * নির্দিষ্ট কোর্সের বিস্তারিত
-     * হাই পারফরমেন্স টিপ: স্লাগ অনুযায়ী ক্যাশ করা।
      */
     public function show($slug)
     {
-        // ক্যাশ কী তৈরি করা (যেমন: course_details_laravel-course)
+        // ৭. সিঙ্গেল কোর্স ক্যাশিং (Caching)
+        // প্রতিটি কোর্সের ডিটেইলস ১ ঘন্টার জন্য ক্যাশ করা হবে
         $cacheKey = 'course_details_' . $slug;
 
+        // Cache::remember ব্যবহার করা হচ্ছে যাতে বারবার কুয়েরি না হয়
         $course = Cache::remember($cacheKey, 60, function () use ($slug) {
             return Course::with([
                 'instructor', 
                 'reviews.user', 
+                // [IMPORTANT] স্টুডেন্টদের ছবি দেখানোর জন্য এই রিলেশনটি জরুরি
+                'enrollments.user', 
                 'sections.lessons' => function($q) {
-                    // লেসনের শুধু প্রয়োজনীয় ডাটা আনা
-                    $q->select('id', 'section_id', 'title', 'duration', 'is_free', 'type');
+                    // [FIXED] লেসনের কলাম নাম ঠিক করা হয়েছে এবং alias করা হয়েছে
+                    $q->select(
+                        'id', 
+                        'section_id', 
+                        'title', 
+                        'video_duration as duration', // video_duration কে duration হিসেবে নেওয়া হচ্ছে
+                        'is_free', 
+                        'video_type as type' // video_type কে type হিসেবে নেওয়া হচ্ছে
+                    );
                 }
             ])
             ->withCount(['enrollments', 'reviews', 'lessons'])

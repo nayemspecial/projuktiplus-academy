@@ -7,12 +7,14 @@
             </button>
             <a href="{{ url('/') }}" class="flex items-center gap-2 group no-underline">
                 @if(\App\Models\Setting::get('site_logo'))
-                    <img src="{{ asset('storage/' . \App\Models\Setting::get('site_logo')) }}" alt="Logo" class="h-9 w-auto object-contain group-hover:scale-105 transition-transform">
+                    <img src="{{ asset('storage/' . \App\Models\Setting::get('site_logo')) }}" alt="Logo" class="h-10 w-auto object-contain group-hover:scale-105 transition-transform"><h1 class="text-2xl font-bold ml-2 text-slate-800 dark:text-white font-heading tracking-tight">
+                        {{ \App\Models\Setting::get('site_name', 'ProjuktiPlus') }}
+                    </h1>
                 @else
                     <div class="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
                         <i class="fas fa-graduation-cap text-xl"></i>
                     </div>
-                    <h1 class="text-2xl font-bold ml-2 text-slate-800 dark:text-white font-heading tracking-tight">
+                    <h1 class="text-3xl font-bold ml-2 text-slate-800 dark:text-white font-heading tracking-tight">
                         {{ \App\Models\Setting::get('site_name', 'ProjuktiPlus') }}
                     </h1>
                 @endif

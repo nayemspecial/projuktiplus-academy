@@ -4,7 +4,16 @@
 
 @section('content')
 
-<section class="relative w-full py-12 lg:py-20 overflow-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-300" x-data="{ paymentMethod: 'manual' }">
+<section class="relative w-full py-12 lg:py-20 overflow-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-300" 
+         x-data="{ 
+             selectedMethod: 'bkash', 
+             paymentNumber: '01955800853',
+             methods: {
+                 bkash: { name: 'bKash', color: 'bg-pink-600', hover: 'hover:border-pink-500', border: 'peer-checked:border-pink-600', text: 'text-pink-600' },
+                 rocket: { name: 'Rocket', color: 'bg-purple-600', hover: 'hover:border-purple-500', border: 'peer-checked:border-purple-600', text: 'text-purple-600' },
+                 nagad: { name: 'Nagad', color: 'bg-orange-600', hover: 'hover:border-orange-500', border: 'peer-checked:border-orange-600', text: 'text-orange-600' }
+             }
+         }">
     
     <!-- Mesh Gradient Background -->
     <div class="absolute inset-0 pointer-events-none">
@@ -27,90 +36,139 @@
         <!-- Header -->
         <div class="text-center mb-10">
             <h2 class="text-3xl font-bold text-slate-900 dark:text-white font-heading mb-2">
-                চেকআউট
+                পেমেন্ট সম্পন্ন করুন
             </h2>
-            <p class="text-slate-600 dark:text-slate-400">আপনার এনরোলমেন্ট সম্পন্ন করতে পেমেন্ট করুন</p>
+            <p class="text-slate-600 dark:text-slate-400">নিচে আপনার পছন্দের পেমেন্ট মাধ্যম নির্বাচন করুন</p>
         </div>
 
-        <div class="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto">
+        <div class="flex flex-col lg:flex-row gap-8 mx-auto">
             
-            <!-- Left Column: Payment Methods -->
+            <!-- Left Column: Payment Methods & Form -->
             <div class="lg:w-2/3">
                 <div class="bg-white/80 dark:bg-slate-800/60 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700/50 overflow-hidden">
-                    <div class="p-6 border-b border-slate-100 dark:border-slate-700/50">
+                    <div class="p-6 border-b border-slate-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-900/50">
                         <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                            <i class="far fa-credit-card text-blue-600"></i> পেমেন্ট মেথড নির্বাচন করুন
+                            <i class="far fa-credit-card text-blue-600"></i> পেমেন্ট মেথড
                         </h3>
                     </div>
                     
                     <div class="p-6">
                         @if($course->current_price > 0)
-                            <!-- Payment Tabs -->
-                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
-                                @foreach($gateways as $gateway)
-                                <label class="cursor-pointer group">
-                                    <input type="radio" name="gateway" value="{{ $gateway->name }}" class="peer sr-only" 
-                                           @click="paymentMethod = '{{ $gateway->name }}'" 
-                                           {{ $loop->first ? 'checked' : '' }}>
-                                    <div class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 peer-checked:border-blue-600 dark:peer-checked:border-blue-500 peer-checked:bg-blue-50 dark:peer-checked:bg-blue-900/20 transition-all group-hover:border-blue-400">
-                                        @if($gateway->name == 'bkash')
-                                            <!-- আইকন বা লোগো -->
-                                            <div class="text-pink-600 font-bold text-xl">bKash</div>
-                                        @elseif($gateway->name == 'stripe')
-                                            <i class="fab fa-stripe text-3xl text-blue-600"></i>
-                                        @else
-                                            <i class="fas fa-wallet text-2xl text-slate-600 dark:text-slate-300"></i>
-                                        @endif
-                                        <span class="mt-2 text-xs font-bold text-slate-700 dark:text-slate-300">{{ $gateway->title }}</span>
+                            
+                            <!-- Payment Selection Tabs -->
+                            <div class="grid grid-cols-3 gap-4 mb-8">
+                                <!-- bKash -->
+                                <label class="cursor-pointer group relative">
+                                    <input type="radio" name="gateway_selector" value="bkash" class="peer sr-only" x-model="selectedMethod">
+                                    <div class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 peer-checked:border-pink-500 peer-checked:bg-pink-50 dark:peer-checked:bg-pink-900/10 transition-all hover:border-pink-300 h-24">
+                                        <!-- You can use image here instead of text if you have logos -->
+                                        <span class="text-pink-600 font-bold text-xl">bKash</span>
+                                        <div class="absolute top-2 right-2 opacity-0 peer-checked:opacity-100 transition-opacity text-pink-600">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
                                     </div>
                                 </label>
-                                @endforeach
+
+                                <!-- Rocket -->
+                                <label class="cursor-pointer group relative">
+                                    <input type="radio" name="gateway_selector" value="rocket" class="peer sr-only" x-model="selectedMethod">
+                                    <div class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 peer-checked:border-purple-500 peer-checked:bg-purple-50 dark:peer-checked:bg-purple-900/10 transition-all hover:border-purple-300 h-24">
+                                        <span class="text-purple-600 font-bold text-xl">Rocket</span>
+                                        <div class="absolute top-2 right-2 opacity-0 peer-checked:opacity-100 transition-opacity text-purple-600">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <!-- Nagad -->
+                                <label class="cursor-pointer group relative">
+                                    <input type="radio" name="gateway_selector" value="nagad" class="peer sr-only" x-model="selectedMethod">
+                                    <div class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 peer-checked:border-orange-500 peer-checked:bg-orange-50 dark:peer-checked:bg-orange-900/10 transition-all hover:border-orange-300 h-24">
+                                        <span class="text-orange-600 font-bold text-xl">Nagad</span>
+                                        <div class="absolute top-2 right-2 opacity-0 peer-checked:opacity-100 transition-opacity text-orange-600">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
+                                    </div>
+                                </label>
                             </div>
 
-                            <!-- Manual Payment Form (Example: Bkash/Nagad) -->
-                            <form action="{{ route('courses.enroll', $course->id) }}" method="POST" class="space-y-5" x-show="paymentMethod === 'manual'">
-                                @csrf
-                                <input type="hidden" name="payment_method" value="manual">
+                            <!-- Dynamic Instructions Box -->
+                            <div class="mb-8 rounded-xl p-5 border transition-colors duration-300"
+                                 :class="selectedMethod === 'bkash' ? 'bg-pink-50 border-pink-200 text-pink-900 dark:bg-pink-900/20 dark:border-pink-800 dark:text-pink-100' : 
+                                        (selectedMethod === 'rocket' ? 'bg-purple-50 border-purple-200 text-purple-900 dark:bg-purple-900/20 dark:border-purple-800 dark:text-purple-100' : 
+                                        'bg-orange-50 border-orange-200 text-orange-900 dark:bg-orange-900/20 dark:border-orange-800 dark:text-orange-100')">
                                 
-                                <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700/50 rounded-xl p-5 text-sm text-yellow-800 dark:text-yellow-300 flex gap-3">
-                                    <i class="fas fa-info-circle mt-0.5 text-lg"></i>
+                                <h4 class="font-bold text-lg mb-3 flex items-center gap-2">
+                                    <i class="fas fa-info-circle"></i> 
+                                    <span x-text="methods[selectedMethod].name"></span> পেমেন্ট নির্দেশনা
+                                </h4>
+                                
+                                <ol class="list-decimal list-inside space-y-2 text-sm opacity-90">
+                                    <li>আপনার <span x-text="methods[selectedMethod].name" class="font-bold"></span> অ্যাপ অথবা ডায়াল অপশনে যান।</li>
+                                    <li><span class="font-bold">Send Money</span> অপশনটি সিলেক্ট করুন।</li>
+                                    <li>প্রাপক নম্বর হিসেবে <span class="font-bold font-mono text-lg bg-white/50 px-2 rounded select-all cursor-pointer" @click="navigator.clipboard.writeText(paymentNumber); alert('নাম্বার কপি হয়েছে!')" title="কপি করতে ক্লিক করুন" x-text="paymentNumber"></span> দিন।</li>
+                                    <li>টাকার পরিমাণ <span class="font-bold">৳{{ number_format($course->current_price) }}</span> লিখুন।</li>
+                                    <li>রেফারেন্স হিসেবে আপনার <span class="font-bold">নাম</span> ব্যবহার করুন।</li>
+                                    <li>পেমেন্ট সম্পন্ন হলে ট্রানজেকশন আইডি (TrxID) টি কপি করুন।</li>
+                                </ol>
+                            </div>
+
+                            <!-- Payment Submission Form -->
+                            <form action="{{ route('courses.enroll', $course->id) }}" method="POST" class="space-y-5">
+                                @csrf
+                                <!-- Hidden input to send selected method -->
+                                <input type="hidden" name="payment_method" x-model="selectedMethod">
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <p class="font-bold mb-1">পেমেন্ট নির্দেশনা:</p>
-                                        <p class="leading-relaxed">অনুগ্রহ করে <strong>017XXXXXXXX</strong> নম্বরে সেন্ড মানি করুন। এরপর নিচের ফর্মে ট্রানজেকশন আইডি এবং আপনার নম্বর দিন।</p>
+                                        <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                                            যে নাম্বার থেকে টাকা পাঠিয়েছেন
+                                        </label>
+                                        <div class="relative">
+                                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                                <i class="fas fa-phone-alt"></i>
+                                            </span>
+                                            <input type="text" name="sender_number" required placeholder="01XXXXXXXXX" 
+                                                class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm">
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                                            ট্রানজেকশন আইডি (TrxID)
+                                        </label>
+                                        <div class="relative">
+                                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                                <i class="fas fa-receipt"></i>
+                                            </span>
+                                            <input type="text" name="transaction_id" required placeholder="8N7A6..." 
+                                                class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm uppercase">
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">আপনার মোবাইল নম্বর</label>
-                                    <input type="text" name="sender_number" required placeholder="017XXXXXXXX" 
-                                           class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm">
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">ট্রানজেকশন আইডি (TrxID)</label>
-                                    <input type="text" name="transaction_id" required placeholder="8N7A6..." 
-                                           class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm">
-                                </div>
-
-                                <button type="submit" class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-600/30 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
-                                    <i class="fas fa-check-circle"></i> পেমেন্ট নিশ্চিত করুন
+                                <button type="submit" 
+                                        class="w-full py-4 text-white font-bold text-lg rounded-xl shadow-lg transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 mt-4"
+                                        :class="selectedMethod === 'bkash' ? 'bg-pink-600 hover:bg-pink-700 shadow-pink-500/30' : 
+                                               (selectedMethod === 'rocket' ? 'bg-purple-600 hover:bg-purple-700 shadow-purple-500/30' : 
+                                               'bg-orange-600 hover:bg-orange-700 shadow-orange-500/30')">
+                                    <i class="fas fa-check-circle"></i> 
+                                    <span x-text="methods[selectedMethod].name"></span> পেমেন্ট নিশ্চিত করুন
                                 </button>
+                                
+                                <p class="text-center text-xs text-slate-500 dark:text-slate-400 mt-2">
+                                    সাবমিট করার পর অ্যাডমিন ভেরিফিকেশনের জন্য অপেক্ষা করুন। সাধারণত ৩০ মিনিটের মধ্যে কোর্স চালু হয়ে যায়।
+                                </p>
                             </form>
 
-                            <!-- Stripe Form (Placeholder) -->
-                            <div x-show="paymentMethod === 'stripe'" class="text-center py-10 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-dashed border-slate-300 dark:border-slate-700">
-                                <i class="fas fa-credit-card text-4xl text-slate-300 mb-3"></i>
-                                <p class="text-slate-500">স্ট্রাইপ পেমেন্ট ইন্টিগ্রেশন লোড হচ্ছে...</p>
-                            </div>
-
                         @else
-                            <!-- Free Course Enrollment -->
+                            <!-- Free Course Enrollment (No Changes Needed Here) -->
                             <div class="text-center py-10">
-                                <div class="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-green-600 shadow-sm">
+                                <div class="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-green-600 shadow-sm animate-bounce-slow">
                                     <i class="fas fa-gift text-3xl"></i>
                                 </div>
                                 <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">এটি একটি ফ্রি কোর্স!</h3>
-                                <p class="text-slate-600 dark:text-slate-400 mb-8">আপনি এখনই ফ্রিতে এনরোল করে ক্লাস শুরু করতে পারেন।</p>
+                                <p class="text-slate-600 dark:text-slate-400 mb-8">কোনো পেমেন্ট ছাড়াই আপনি এখনই এনরোল করে ক্লাস শুরু করতে পারেন।</p>
                                 
                                 <form action="{{ route('courses.enroll', $course->id) }}" method="POST">
                                     @csrf
@@ -179,4 +237,5 @@
         </div>
     </div>
 </section>
+
 @endsection

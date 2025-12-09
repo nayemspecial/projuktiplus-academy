@@ -123,6 +123,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/{enrollment}/edit', [EnrollmentController::class, 'edit'])->name('edit');
         Route::put('/{enrollment}', [EnrollmentController::class, 'update'])->name('update');
         Route::delete('/{enrollment}', [EnrollmentController::class, 'destroy'])->name('destroy');
+        Route::post('/{enrollment}/status', [EnrollmentController::class, 'updateStatus'])->name('status');
     });
     
     // Payments Management

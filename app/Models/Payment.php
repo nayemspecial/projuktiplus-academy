@@ -12,6 +12,7 @@ class Payment extends Model
     protected $fillable = [
         'user_id',
         'course_id',
+        'enrollment_id',
         'transaction_id',
         'payment_gateway',
         'amount',
@@ -48,10 +49,9 @@ class Payment extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function enrollment()
-    {
-        return $this->hasOne(Enrollment::class, 'user_id', 'user_id')
-                    ->where('course_id', $this->course_id);
+    public function enrollment() 
+    { 
+        return $this->belongsTo(Enrollment::class); 
     }
 
     // Scopes

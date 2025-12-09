@@ -91,28 +91,30 @@
 
                         <div class="hidden md:block w-px h-8 bg-slate-200 dark:bg-slate-700"></div>
 
-                        <!-- [UPDATED] Student Avatar Stack (Map) -->
+                        <!-- Student Avatar Stack (Map View) -->
                         <div class="flex items-center gap-4">
                             <div class="flex flex-col">
                                 {{-- রিয়েল স্টুডেন্ট কাউন্ট দেখানো হচ্ছে --}}
                                 <p class="text-xs text-slate-500 dark:text-slate-400 font-medium mb-1">
-                                    {{ $course->enrollments->count() }} জন শিক্ষার্থী এনরোল করেছেন
+                                    {{ $course->enrollments_count ?? $course->total_students }} জন শিক্ষার্থী এনরোল করেছেন
                                 </p>
                                 
                                 @if($course->enrollments->count() > 0)
                                     <div class="flex items-center -space-x-3 overflow-hidden p-1">
                                         {{-- প্রথম ৫ জনের ছবি লুপ করা হচ্ছে --}}
-                                        @foreach($course->enrollments->take(10) as $enrollment)
-                                            <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white dark:ring-slate-900 object-cover shadow-sm hover:z-10 hover:scale-110 transition-transform duration-200 cursor-pointer bg-slate-200 dark:bg-slate-700" 
-                                                 src="{{ $enrollment->user->avatar_url }}" 
-                                                 alt="{{ $enrollment->user->name }}"
-                                                 title="{{ $enrollment->user->name }}"/>
+                                        @foreach($course->enrollments->take(5) as $enrollment)
+                                            @if($enrollment->user) {{-- [FIX] ইউজার আছে কিনা চেক করা হচ্ছে --}}
+                                                <img class="relative inline-block h-9 w-9 rounded-full ring-2 ring-white dark:ring-slate-900 object-cover shadow-sm hover:z-10 hover:scale-110 transition-transform duration-200 cursor-pointer bg-slate-200 dark:bg-slate-700" 
+                                                     src="{{ $enrollment->user->avatar_url }}" 
+                                                     alt="{{ $enrollment->user->name }}"
+                                                     title="{{ $enrollment->user->name }}"/>
+                                            @endif
                                         @endforeach
 
                                         {{-- ৫ জনের বেশি হলে বাকি সংখ্যা --}}
-                                        @if($course->enrollments->count() > 10)
+                                        @if($course->enrollments->count() > 5)
                                             <div class="relative z-10 inline-flex items-center justify-center h-9 w-9 rounded-full ring-2 ring-white dark:ring-slate-900 bg-slate-100 dark:bg-slate-800 text-[10px] font-bold text-slate-600 dark:text-slate-300 shadow-sm">
-                                                +{{ $course->enrollments->count() - 10 }}
+                                                +{{ $course->enrollments->count() - 5 }}
                                             </div>
                                         @endif
                                     </div>
@@ -221,7 +223,7 @@
                                         </div>
                                         <div class="flex items-center gap-3">
                                             <span class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">{{ $section->lessons->count() }} লেসন</span>
-                                            <i class="fas text-slate-400 text-xs transition-transform" :class="activeSection === {{ $index }} ? 'rotate-180' : ''"></i>
+                                            <i class="fas text-slate-400 text-xs transition-transform duration-300" :class="activeSection === {{ $index }} ? 'rotate-180' : ''"></i>
                                         </div>
                                     </button>
                                     
@@ -262,8 +264,30 @@
                             <div class="flex-1 text-center md:text-left">
                                 <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">{{ $course->instructor->name }}</h3>
                                 <p class="text-blue-600 dark:text-blue-400 text-sm font-bold uppercase tracking-wide mb-4">{{ $course->instructor->bio_title ?? 'Instructor' }}</p>
+                                
+                                <div class="flex flex-wrap justify-center md:justify-start gap-4 mb-6">
+                                    <div class="flex flex-col items-center md:items-start p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-700 min-w-[100px]">
+                                        <span class="text-xs text-slate-500">রেটিং</span>
+                                        <span class="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-1">
+                                            4.8 <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                        </span>
+                                    </div>
+                                    <div class="flex flex-col items-center md:items-start p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-700 min-w-[100px]">
+                                        <span class="text-xs text-slate-500">কোর্স</span>
+                                        <span class="text-lg font-bold text-slate-800 dark:text-white">
+                                            {{ $course->instructor->courses->count() }} টি
+                                        </span>
+                                    </div>
+                                    <div class="flex flex-col items-center md:items-start p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-700 min-w-[100px]">
+                                        <span class="text-xs text-slate-500">শিক্ষার্থী</span>
+                                        <span class="text-lg font-bold text-slate-800 dark:text-white">
+                                            2.5k+
+                                        </span>
+                                    </div>
+                                </div>
+                                
                                 <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                                    {{ $course->instructor->bio ?? 'বিস্তারিত তথ্য শীঘ্রই আসছে...' }}
+                                    {{ $course->instructor->bio ?? 'এই ইনস্ট্রাক্টরের বিস্তারিত তথ্য শীঘ্রই যুক্ত করা হবে।' }}
                                 </p>
                             </div>
                         </div>
@@ -281,9 +305,8 @@
                 </div>
             </div>
 
-            <!-- Right Column: Sticky Sidebar (Pushed Higher) -->
+            <!-- Right Column: Sticky Sidebar -->
             <div class="lg:w-1/3 relative">
-                <!-- Sidebar pulled up to overlap hero (-mt-[400px]) -->
                 <div class="lg:sticky lg:top-24 z-20 lg:-mt-[400px]"> 
                     
                     <!-- Enrollment Card -->
@@ -302,9 +325,14 @@
 
                         <div class="p-6">
                             <div class="flex items-end gap-2 mb-6">
-                                @if($course->discount_price)
+                                @if($course->discount_price && $course->price > 0)
                                     <span class="text-4xl font-extrabold text-slate-900 dark:text-white">৳{{ number_format($course->discount_price) }}</span>
                                     <span class="text-lg text-slate-400 line-through mb-1">৳{{ number_format($course->price) }}</span>
+                                    <span class="ml-auto text-[10px] font-bold text-white bg-red-500 px-2 py-1 rounded shadow-sm animate-pulse">
+                                        {{ round((($course->price - $course->discount_price) / $course->price) * 100) }}% OFF
+                                    </span>
+                                @elseif($course->price == 0)
+                                    <span class="text-4xl font-extrabold text-emerald-600 dark:text-emerald-400">ফ্রি</span>
                                 @else
                                     <span class="text-4xl font-bold text-slate-900 dark:text-white">৳{{ number_format($course->price) }}</span>
                                 @endif
@@ -313,30 +341,34 @@
                             <div class="space-y-3">
                                 @auth
                                     @if(auth()->user()->enrollments->where('course_id', $course->id)->count() > 0)
-                                        <a href="{{ route('student.courses.show', $course->id) }}" class="w-full flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg">
-                                            ক্লাস শুরু করুন
+                                        <a href="{{ route('student.courses.show', $course->id) }}" class="w-full flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-emerald-500/20 transform active:scale-95">
+                                            <i class="fas fa-play-circle mr-2"></i> ক্লাস শুরু করুন
                                         </a>
                                     @else
-                                        <form action="" method="POST"> @csrf
-                                            <!-- এনরোল বাটন লিংক আপডেট -->
-                                            <a href="{{ route('courses.checkout', $course->slug) }}" class="w-full flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-500/30 transform hover:-translate-y-0.5">
-                                                এনরোল করুন
-                                            </a>
-                                        </form>
-                                        <button class="w-full flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold py-3 rounded-xl transition">
-                                            কার্টে যোগ করুন
+                                        <a href="{{ route('courses.checkout', $course->slug) }}" class="w-full flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-500/30 transform hover:-translate-y-0.5 active:scale-95">
+                                            এখনই এনরোল করুন
+                                        </a>
+                                        <button class="w-full flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold py-3 rounded-xl transition hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                                            <i class="fas fa-cart-plus mr-2"></i> কার্টে যোগ করুন
                                         </button>
                                     @endif
                                 @else
-                                    <a href="{{ route('login') }}" class="w-full flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg">
-                                        লগইন করুন
+                                    <a href="{{ route('login') }}" class="w-full flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-500/30">
+                                        লগইন করে এনরোল করুন
                                     </a>
                                 @endauth
                             </div>
                             
+                            <!-- Money Back Guarantee -->
+                            <div class="mt-4 text-center">
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-center gap-1.5">
+                                    <i class="fas fa-shield-alt text-green-500"></i> ৩০ দিনের মানিব্যাক গ্যারান্টি
+                                </p>
+                            </div>
+
                             <!-- Course Includes -->
                             <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700">
-                                <p class="text-xs font-bold text-slate-900 dark:text-white uppercase mb-3">এই কোর্সে যা পাচ্ছেন:</p>
+                                <p class="text-xs font-bold text-slate-900 dark:text-white uppercase mb-3 tracking-wide">এই কোর্সে যা পাচ্ছেন:</p>
                                 <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
                                     <li class="flex items-center gap-3">
                                         <i class="fas fa-video w-5 text-center text-blue-500"></i>
@@ -368,10 +400,10 @@
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <!-- Mobile Sticky Bottom Bar -->
-<div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 p-4 lg:hidden z-50 shadow-[0_-5px_20px_rgba(0,0,0,0.1)] animate-slide-up">
+<div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 p-4 lg:hidden z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.1)] animate-slide-up">
     <div class="flex justify-between items-center gap-4 max-w-2xl mx-auto">
         <div class="flex flex-col">
             @if($course->discount_price)
@@ -384,9 +416,9 @@
         
         <div class="flex-1">
             @auth
-                <button class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center font-bold py-3 rounded-xl transition text-sm shadow-lg shadow-blue-600/20">
+                <a href="{{ route('courses.checkout', $course->slug) }}" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center font-bold py-3 rounded-xl transition text-sm shadow-lg shadow-blue-600/20">
                     এনরোল করুন
-                </button>
+                </a>
             @else
                 <a href="{{ route('login') }}" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center font-bold py-3 rounded-xl transition shadow-lg shadow-blue-600/20">
                     লগইন করুন

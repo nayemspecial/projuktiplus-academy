@@ -362,7 +362,7 @@
                             <!-- Money Back Guarantee -->
                             <div class="mt-4 text-center">
                                 <p class="text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-center gap-1.5">
-                                    <i class="fas fa-shield-alt text-green-500"></i> ৩০ দিনের মানিব্যাক গ্যারান্টি
+                                    <i class="fas fa-shield-alt text-green-500"></i> প্রজেক্ট ভিত্তিক লার্নিং
                                 </p>
                             </div>
 
@@ -380,7 +380,7 @@
                                     </li>
                                     <li class="flex items-center gap-3">
                                         <i class="fas fa-infinity w-5 text-center text-green-500"></i>
-                                        <span>আজীবন এক্সেস</span>
+                                        <span>প্রতিদিন সাপোর্ট সেশন</span>
                                     </li>
                                     <li class="flex items-center gap-3">
                                         <i class="fas fa-mobile-alt w-5 text-center text-orange-500"></i>

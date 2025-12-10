@@ -63,7 +63,6 @@ class CourseController extends Controller
             ->where('course_id', $course->id)
             ->firstOrFail();
 
-        // ফিক্স: ডাটাবেস থেকে লেসন সংখ্যা গণনা করা হচ্ছে যাতে ভুল না হয়
         $totalLessons = $course->lessons()->count();
         $completedLessonsCount = $enrollment->completed_lessons;
         $progress = $enrollment->progress;
@@ -72,7 +71,7 @@ class CourseController extends Controller
     }
 
     /**
-     * কোর্সে এনরোলমেন্ট
+     * কোর্সে এনরোলমেন্ট (ফ্রি বা পেইড)
      */
     public function enroll(Course $course)
     {
@@ -81,27 +80,38 @@ class CourseController extends Controller
             ->first();
 
         if ($existingEnrollment) {
+            // যদি পেন্ডিং থাকে তবে ড্যাশবোর্ডে পাঠাবে
+            if($existingEnrollment->status == 'pending') {
+                return redirect()->route('student.dashboard')->with('info', 'আপনার এনরোলমেন্ট রিকোয়েস্ট পেন্ডিং আছে।');
+            }
+            // অ্যাক্টিভ থাকলে প্লেয়ারে পাঠাবে
             return redirect()->route('student.courses.content', $course->id)
                 ->with('info', 'আপনি ইতিমধ্যে এই কোর্সে এনরোল করা আছেন।');
         }
 
-        Enrollment::create([
-            'user_id' => Auth::id(),
-            'course_id' => $course->id,
-            'price_paid' => $course->price ?? 0,
-            'status' => 'active',
-            'progress' => 0,
-            'completed_lessons' => 0,
-            'total_lessons' => $course->lessons()->count(),
-            'last_accessed_at' => now(),
-        ]);
-
-        return redirect()->route('student.courses.content', $course->id)
+        // ফ্রি কোর্সের ক্ষেত্রে সরাসরি অ্যাক্টিভ
+        // পেইড হলে CheckoutController এর মাধ্যমে আসবে, তাই এখানে শুধু ফ্রি হ্যান্ডেল করা সেফ
+        if($course->price == 0){
+             Enrollment::create([
+                'user_id' => Auth::id(),
+                'course_id' => $course->id,
+                'price_paid' => 0,
+                'status' => 'active',
+                'progress' => 0,
+                'completed_lessons' => 0,
+                'total_lessons' => $course->lessons()->count(),
+                'last_accessed_at' => now(),
+                'enrolled_at' => now(),
+            ]);
+            return redirect()->route('student.courses.content', $course->id)
             ->with('success', 'কোর্সে সফলভাবে এনরোল করা হয়েছে!');
+        }
+        
+        return redirect()->route('courses.checkout', $course->slug);
     }
 
     /**
-     * 'চালিয়ে যান' বাটন ক্লিক করলে এখানে আসবে
+     * 'চালিয়ে যান' বাটন ক্লিক করলে এখানে আসবে (Smart Redirect)
      */
     public function content(Course $course)
     {
@@ -110,41 +120,41 @@ class CourseController extends Controller
             ->where('status', 'active')
             ->firstOrFail();
 
-        $completedLessonIds = $enrollment->completedLessons()->pluck('lesson_id')->toArray();
+        // লাস্ট এক্সেস করা লেসন বের করা (CompletedLesson থেকে)
+        $lastCompleted = $enrollment->completedLessons()->latest('completed_at')->first();
         
-        // [FIX] ডুপ্লিকেট জয়েন সমস্যা সমাধানের জন্য সরাসরি Lesson মডেল ব্যবহার করা হয়েছে
-        $nextLessonToWatch = Lesson::query()
-            ->join('sections', 'lessons.section_id', '=', 'sections.id')
-            ->where('sections.course_id', $course->id) // কোর্সের আইডি দিয়ে ফিল্টার
-            ->where('sections.is_published', true)
-            ->where('lessons.is_published', true)
-            ->whereNotIn('lessons.id', $completedLessonIds)
-            ->orderBy('sections.order', 'asc')
-            ->orderBy('lessons.order', 'asc')
-            ->select('lessons.*') // শুধু লেসনের ডাটা সিলেক্ট
-            ->first();
-
-        if ($nextLessonToWatch) {
-             return redirect()->route('student.courses.lessons.show', [$course->id, $nextLessonToWatch->id]);
+        // যদি কোনো লেসন কমপ্লিট না করে থাকে, প্রথম লেসনে পাঠাবে
+        if (!$lastCompleted) {
+            return $this->startCourse($course);
         }
-
-        return $this->startCourse($course);
+        
+        // সব লেসন অর্ডার অনুযায়ী আনা
+        $allLessons = $course->lessons()->orderBy('section_id')->orderBy('order')->get();
+        
+        // লাস্ট কমপ্লিট লেসনের ইনডেক্স
+        $lastCompletedIndex = $allLessons->search(function($item) use ($lastCompleted) {
+            return $item->id === $lastCompleted->lesson_id;
+        });
+        
+        // যদি পরের লেসন থাকে, সেখানে রিডাইরেক্ট করবে
+        if ($lastCompletedIndex !== false && isset($allLessons[$lastCompletedIndex + 1])) {
+            $nextLesson = $allLessons[$lastCompletedIndex + 1];
+            return redirect()->route('student.courses.lessons.show', [$course->id, $nextLesson->id]);
+        }
+        
+        // কোর্স শেষ হয়ে গেলে বা কিছু না পেলে শেষ লেসনেই রাখবে
+        $lastLesson = $allLessons->last();
+        return redirect()->route('student.courses.lessons.show', [$course->id, $lastLesson->id]);
     }
 
-    /**
-     * কোর্স শুরু করার মেথড
-     */
     public function startCourse(Course $course)
     {
-        // [FIX] ডুপ্লিকেট জয়েন সমস্যা সমাধান
-        $firstLesson = Lesson::query()
-            ->join('sections', 'lessons.section_id', '=', 'sections.id')
-            ->where('sections.course_id', $course->id)
-            ->where('sections.is_published', true)
-            ->where('lessons.is_published', true)
-            ->orderBy('sections.order', 'asc')
-            ->orderBy('lessons.order', 'asc')
-            ->select('lessons.*')
+        // প্রথম লেসন খোঁজা
+        $firstLesson = Lesson::whereHas('section', function($q) use($course){
+                $q->where('course_id', $course->id);
+            })
+            ->orderBy('section_id')
+            ->orderBy('order')
             ->first();
 
         if (!$firstLesson) {
@@ -156,7 +166,7 @@ class CourseController extends Controller
     }
 
     /**
-     * মেইন লেসন প্লেয়ার ভিউ
+     * মেইন লেসন প্লেয়ার ভিউ (ভিডিও/কুইজ)
      */
     public function showLesson(Course $course, Lesson $lesson)
     {
@@ -166,7 +176,7 @@ class CourseController extends Controller
             ->firstOrFail();
 
         // সিকিউরিটি চেক
-        if($lesson->section->course_id !== $course->id || !$lesson->is_published) {
+        if ($lesson->section->course_id !== $course->id) {
             abort(404);
         }
 
@@ -174,12 +184,9 @@ class CourseController extends Controller
 
         // সাইডবারের জন্য ডাটা লোড
         $course->load(['sections' => function ($q) {
-            $q->where('is_published', true)
-              ->orderBy('order', 'asc')
+            $q->orderBy('order', 'asc')
               ->with(['lessons' => function ($lq) {
-                  $lq->where('is_published', true)
-                     ->orderBy('order', 'asc')
-                     ->with('quiz');
+                  $lq->orderBy('order', 'asc');
               }]);
         }]);
 
@@ -187,11 +194,10 @@ class CourseController extends Controller
             ->pluck('lesson_id')
             ->toArray();
 
-        // প্রোগ্রেস ক্যালকুলেশন (যদি এনরোলমেন্টে আপডেট না থাকে)
+        // প্রোগ্রেস
         $progress = $enrollment->progress;
 
-        // নেভিগেশন লজিক (পূর্ববর্তী ও পরবর্তী লেসন)
-        // [FIX] সরাসরি কালেকশন ব্যবহার করে ইন্ডেক্সিং করা হচ্ছে যাতে জয়েন এরর না হয়
+        // নেভিগেশন লজিক
         $allLessons = $course->sections->pluck('lessons')->collapse();
         
         $currentLessonIndex = $allLessons->search(function ($item) use ($lesson) {
@@ -201,6 +207,16 @@ class CourseController extends Controller
         $prevLesson = $currentLessonIndex > 0 ? $allLessons[$currentLessonIndex - 1] : null;
         $nextLesson = $currentLessonIndex < $allLessons->count() - 1 ? $allLessons[$currentLessonIndex + 1] : null;
 
+        // [NEW] ভিডিও ID এক্সট্রাক্ট করা (Plyr এর জন্য)
+        $videoId = null;
+        if ($lesson->video_type === 'youtube' && $lesson->video_url) {
+            preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $lesson->video_url, $matches);
+            $videoId = $matches[1] ?? null;
+        } elseif ($lesson->video_type === 'vimeo' && $lesson->video_url) {
+            preg_match('/vimeo\.com\/(?:.*?\/)?([0-9]+)/', $lesson->video_url, $matches);
+            $videoId = $matches[1] ?? null;
+        }
+
         return view('student.courses.player', compact(
             'course',
             'lesson',
@@ -208,22 +224,40 @@ class CourseController extends Controller
             'completedLessonIds',
             'progress',
             'prevLesson',
-            'nextLesson'
+            'nextLesson',
+            'videoId' // ভিউতে পাস করা হচ্ছে
         ));
     }
 
-    public function updateProgress(Request $request, Course $course)
+    /**
+     * [NEW] লেসন কমপ্লিট মার্ক করা (AJAX Request)
+     */
+    public function markLessonComplete(Request $request, Lesson $lesson)
     {
         $enrollment = Enrollment::where('user_id', Auth::id())
-            ->where('course_id', $course->id)
+            ->where('course_id', $lesson->section->course_id)
             ->firstOrFail();
 
-        // $enrollment->updateProgress(); // যদি মেথড থাকে
+        $completed = $request->boolean('completed');
+
+        if ($completed) {
+            CompletedLesson::firstOrCreate([
+                'enrollment_id' => $enrollment->id,
+                'lesson_id' => $lesson->id
+            ], ['completed_at' => now(), 'time_spent' => 0]);
+        } else {
+            CompletedLesson::where('enrollment_id', $enrollment->id)
+                ->where('lesson_id', $lesson->id)
+                ->delete();
+        }
+
+        // এনরোলমেন্ট প্রগ্রেস আপডেট (মডেলের মেথড কল)
+        $enrollment->updateProgress();
 
         return response()->json([
             'success' => true,
-            'progress' => $enrollment->progress,
-            'message' => 'প্রোগ্রেস সিঙ্ক করা হয়েছে!'
+            'completed' => $completed,
+            'progress' => $enrollment->refresh()->progress
         ]);
     }
 }

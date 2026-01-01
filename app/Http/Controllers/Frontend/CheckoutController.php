@@ -22,6 +22,7 @@ class CheckoutController extends Controller
             ->where('status', 'published')
             ->firstOrFail();
 
+        // ইউজার ইতিমধ্যে এনরোল করা আছে কিনা চেক করা
         if (Auth::check() && Enrollment::where('user_id', Auth::id())->where('course_id', $course->id)->exists()) {
             return redirect()->route('student.courses.show', $course->id)
                 ->with('info', 'আপনি ইতিমধ্যে এই কোর্সে এনরোল করেছেন।');
@@ -38,12 +39,15 @@ class CheckoutController extends Controller
     {
         $course = Course::findOrFail($id);
 
+        // ১. বেসিক ভ্যালিডেশন
         $rules = [
             'payment_method' => 'required|string',
         ];
 
+        // ২. পেইড কোর্স এবং ম্যানুয়াল পেমেন্টের জন্য অতিরিক্ত ভ্যালিডেশন
         if ($course->price > 0 && in_array($request->payment_method, ['bkash', 'rocket', 'nagad', 'manual'])) {
-            $rules['transaction_id'] = 'required|string|max:255';
+            // [নিরাপত্তা] transaction_id অবশ্যই ইউনিক হতে হবে payments টেবিলে
+            $rules['transaction_id'] = 'required|string|max:255|unique:payments,transaction_id'; 
             $rules['sender_number'] = 'required|string|max:20';
         }
 
@@ -52,30 +56,32 @@ class CheckoutController extends Controller
         try {
             DB::beginTransaction();
 
-            // স্ট্যাটাস নির্ধারণ (ডাটাবেসে 'pending' থাকতে হবে)
+            // ৩. স্ট্যাটাস নির্ধারণ (ফ্রি হলে active, পেইড হলে pending)
+            // আপনার ডাটাবেসে এখন 'pending' স্ট্যাটাস সাপোর্ট করবে।
             $status = $course->price == 0 ? 'active' : 'pending';
             
-            // ১. এনরোলমেন্ট তৈরি
+            // ৪. এনরোলমেন্ট তৈরি
             $enrollment = Enrollment::create([
                 'user_id' => Auth::id(),
                 'course_id' => $course->id,
                 'status' => $status,
                 'price_paid' => $course->current_price,
                 'progress' => 0,
-                'total_lessons' => $course->lessons()->count() ?? 0,
+                // রিলেশনশিপ এরর এড়াতে সরাসরি চেক করা ভালো
+                'total_lessons' => $course->lessons()->count() ?? 0, 
                 'enrolled_at' => $status === 'active' ? now() : null, // শুধুমাত্র একটিভ হলে ডেট বসবে
             ]);
 
-            // ২. পেমেন্ট রেকর্ড তৈরি
+            // ৫. পেমেন্ট রেকর্ড তৈরি (শুধুমাত্র পেইড কোর্সের জন্য)
             if ($course->price > 0) {
                 Payment::create([
                     'user_id' => Auth::id(),
                     'course_id' => $course->id,
-                    'enrollment_id' => $enrollment->id, // [FIX] আইডি লিংক করা হলো (মাইগ্রেশনে এই কলাম থাকা লাগবে)
+                    'enrollment_id' => $enrollment->id, // এনরোলমেন্ট আইডি লিংক করা হলো
                     'transaction_id' => $request->transaction_id ?? strtoupper(Str::random(10)),
                     'payment_gateway' => $request->payment_method,
                     'amount' => $course->current_price,
-                    'status' => 'pending',
+                    'status' => 'pending', // পেমেন্ট ডিফল্টভাবে পেন্ডিং থাকবে
                     'currency' => 'BDT',
                     'payment_details' => json_encode([
                         'sender_number' => $request->sender_number,
@@ -87,6 +93,7 @@ class CheckoutController extends Controller
 
             DB::commit();
 
+            // ৬. সাকসেস পেজে রিডাইরেক্ট
             return redirect()->route('courses.enroll.success', [
                 'course_id' => $course->id, 
                 'status' => $status
@@ -94,7 +101,8 @@ class CheckoutController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'সমস্যা হয়েছে: ' . $e->getMessage())->withInput();
+            // এরর লগ বা ডিবাগিংয়ের জন্য মেসেজ দেখালে সুবিধা হবে
+            return back()->with('error', 'সমস্যা হয়েছে: ' . $e->getMessage())->withInput();
         }
     }
 

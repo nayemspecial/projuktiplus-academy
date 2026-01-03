@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Enrollment;
-use App\Models\CompletedLesson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -63,7 +62,6 @@ class CourseController extends Controller
             ->where('course_id', $course->id)
             ->firstOrFail();
 
-        // ফিক্স: ডাটাবেস থেকে লেসন সংখ্যা গণনা করা হচ্ছে যাতে ভুল না হয়
         $totalLessons = $course->lessons()->count();
         $completedLessonsCount = $enrollment->completed_lessons;
         $progress = $enrollment->progress;
@@ -112,16 +110,16 @@ class CourseController extends Controller
 
         $completedLessonIds = $enrollment->completedLessons()->pluck('lesson_id')->toArray();
         
-        // [FIX] ডুপ্লিকেট জয়েন সমস্যা সমাধানের জন্য সরাসরি Lesson মডেল ব্যবহার করা হয়েছে
+        // পরবর্তী লেসন বের করার লজিক
         $nextLessonToWatch = Lesson::query()
             ->join('sections', 'lessons.section_id', '=', 'sections.id')
-            ->where('sections.course_id', $course->id) // কোর্সের আইডি দিয়ে ফিল্টার
+            ->where('sections.course_id', $course->id)
             ->where('sections.is_published', true)
             ->where('lessons.is_published', true)
             ->whereNotIn('lessons.id', $completedLessonIds)
             ->orderBy('sections.order', 'asc')
             ->orderBy('lessons.order', 'asc')
-            ->select('lessons.*') // শুধু লেসনের ডাটা সিলেক্ট
+            ->select('lessons.*')
             ->first();
 
         if ($nextLessonToWatch) {
@@ -136,7 +134,6 @@ class CourseController extends Controller
      */
     public function startCourse(Course $course)
     {
-        // [FIX] ডুপ্লিকেট জয়েন সমস্যা সমাধান
         $firstLesson = Lesson::query()
             ->join('sections', 'lessons.section_id', '=', 'sections.id')
             ->where('sections.course_id', $course->id)
@@ -156,23 +153,29 @@ class CourseController extends Controller
     }
 
     /**
-     * মেইন লেসন প্লেয়ার ভিউ
+     * মেইন লেসন প্লেয়ার ভিউ (Model Binding Version)
      */
     public function showLesson(Course $course, Lesson $lesson)
     {
+        // ১. ম্যানুয়াল ভ্যালিডেশন: লেসনটি আসলেই এই কোর্সের কিনা
+        if ($lesson->section->course_id != $course->id) {
+            abort(404);
+        }
+
+        // ২. লেসনটি পাবলিশ করা আছে কিনা
+        if (!$lesson->is_published) {
+            abort(404);
+        }
+
+        // ৩. এনরোলমেন্ট চেক
         $enrollment = Enrollment::where('user_id', Auth::id())
             ->where('course_id', $course->id)
             ->where('status', 'active')
             ->firstOrFail();
 
-        // সিকিউরিটি চেক
-        if($lesson->section->course_id !== $course->id || !$lesson->is_published) {
-            abort(404);
-        }
-
         $enrollment->update(['last_accessed_at' => now()]);
 
-        // সাইডবারের জন্য ডাটা লোড
+        // ৪. সাইডবারের ডাটা লোড (Eager Loading)
         $course->load(['sections' => function ($q) {
             $q->where('is_published', true)
               ->orderBy('order', 'asc')
@@ -187,12 +190,10 @@ class CourseController extends Controller
             ->pluck('lesson_id')
             ->toArray();
 
-        // প্রোগ্রেস ক্যালকুলেশন (যদি এনরোলমেন্টে আপডেট না থাকে)
-        $progress = $enrollment->progress;
-
-        // নেভিগেশন লজিক (পূর্ববর্তী ও পরবর্তী লেসন)
-        // [FIX] সরাসরি কালেকশন ব্যবহার করে ইন্ডেক্সিং করা হচ্ছে যাতে জয়েন এরর না হয়
-        $allLessons = $course->sections->pluck('lessons')->collapse();
+        // ৫. নেভিগেশন লজিক (flatMap ব্যবহার করা হয়েছে যা নিরাপদ)
+        $allLessons = $course->sections->flatMap(function($section) {
+            return $section->lessons->where('is_published', true);
+        })->values();
         
         $currentLessonIndex = $allLessons->search(function ($item) use ($lesson) {
             return $item->id === $lesson->id;
@@ -200,6 +201,8 @@ class CourseController extends Controller
 
         $prevLesson = $currentLessonIndex > 0 ? $allLessons[$currentLessonIndex - 1] : null;
         $nextLesson = $currentLessonIndex < $allLessons->count() - 1 ? $allLessons[$currentLessonIndex + 1] : null;
+
+        $progress = $enrollment->progress;
 
         return view('student.courses.player', compact(
             'course',
@@ -217,8 +220,6 @@ class CourseController extends Controller
         $enrollment = Enrollment::where('user_id', Auth::id())
             ->where('course_id', $course->id)
             ->firstOrFail();
-
-        // $enrollment->updateProgress(); // যদি মেথড থাকে
 
         return response()->json([
             'success' => true,

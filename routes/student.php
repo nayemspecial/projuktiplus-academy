@@ -26,7 +26,11 @@ Route::middleware(['auth', 'student'])->prefix('student')->name('student.')->gro
         Route::post('/{course}/progress', [CourseController::class, 'updateProgress'])->name('progress.update');
         
         // New route for lesson player
-        Route::get('/{course}/lessons/{lesson}', [CourseController::class, 'showLesson'])->name('lessons.show');
+        // [FIXED] withoutScopedBindings() যুক্ত করা হয়েছে যাতে 404 এরর না আসে
+        Route::get('/{course}/lessons/{lesson}', [CourseController::class, 'showLesson'])
+            ->name('lessons.show')
+            ->withoutScopedBindings(); 
+            
         Route::get('/{course}/start', [CourseController::class, 'startCourse'])->name('start');
     });
     

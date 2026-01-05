@@ -14,17 +14,15 @@ class HomeController extends Controller
 {
     /**
      * হোম পেজ দেখানোর মেথড
-     * হাই পারফরমেন্স টিপ: ডাটাবেস কোয়েরিগুলো ক্যাশ করা হয়েছে।
      */
     public function index()
     {
         // ১. জনপ্রিয় কোর্স (Cache for 60 minutes)
         $courses = Cache::remember('home_popular_courses', 60, function () {
-            return Course::with(['instructor:id,name,avatar']) // শুধুমাত্র প্রয়োজনীয় কলাম সিলেক্ট করা
-                ->withCount(['lessons', 'enrollments', 'reviews']) // রিলেশন কাউন্ট
+            return Course::with(['instructor:id,name,avatar']) 
+                ->withCount(['lessons', 'enrollments', 'reviews']) 
                 ->where('status', 'published')
-                ->where('featured', true) // অথবা এনরোলমেন্ট কাউন্ট অনুযায়ী সর্ট করতে পারেন
-                ->latest()
+                ->latest() // অথবা ->inRandomOrder() দিতে পারেন
                 ->take(8)
                 ->get()
                 ->map(function ($course) {
@@ -32,17 +30,18 @@ class HomeController extends Controller
                         'id' => $course->id,
                         'title' => $course->title,
                         'slug' => $course->slug,
-                        'image' => $course->thumbnail_url,
-                        'level' => ucfirst($course->level),
-                        'category' => $course->category,
+                        // নিশ্চিত করবেন মডেলে getThumbnailUrlAttribute আছে
+                        'image' => $course->thumbnail_url ?? asset('images/default-course.png'),
+                        'level' => $this->translateLevel($course->level),
+                        'category' => $course->category ?? 'web-development', // ডিফল্ট ক্যাটাগরি
                         'instructor' => $course->instructor->name ?? 'ProjuktiPlus',
                         'instructor_avatar' => $course->instructor->avatar_url,
-                        'price' => $course->price,
-                        'discount_price' => $course->discount_price,
-                        'rating' => number_format($course->rating ?? 5.0, 1),
+                        'price' => (int) $course->price, // ইন্টিজার করা হয়েছে ডিজাইনের জন্য
+                        'discount_price' => $course->discount_price ? (int) $course->discount_price : null,
+                        'rating' => number_format($course->rating ?? 0.0, 1),
                         'reviews' => $course->reviews_count ?? 0,
-                        'lessons' => $course->lessons_count,
-                        'students' => $course->enrollments_count,
+                        'lessons' => $course->lessons_count ?? 0,
+                        'students' => $course->enrollments_count ?? 0,
                     ];
                 });
         });
@@ -57,7 +56,7 @@ class HomeController extends Controller
             ];
         });
 
-        // ৩. রিভিউ/টেস্টিমোনিয়াল (Cache for 24 hours)
+        // ৩. রিভিউ/টেস্টিমোনিয়াল (Cache for 24 hours)
         $testimonials = Cache::remember('home_testimonials', 1440, function () {
             return Review::with('user:id,name,avatar')
                 ->where('rating', '>=', 4)
@@ -67,5 +66,16 @@ class HomeController extends Controller
         });
 
         return view('frontend.home', compact('courses', 'stats', 'testimonials'));
+    }
+
+    // লেভেল ট্রান্সলেটর
+    private function translateLevel($level)
+    {
+        return match (strtolower($level)) {
+            'beginner' => 'বিগিনার',
+            'intermediate' => 'ইন্টারমিডিয়েট',
+            'advanced' => 'এডভান্সড',
+            default => 'বিগিনার',
+        };
     }
 }

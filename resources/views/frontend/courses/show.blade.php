@@ -365,7 +365,7 @@
                                     <i class="fas fa-shield-alt text-green-500"></i> প্রজেক্ট ভিত্তিক লার্নিং
                                 </p>
                             </div>
-
+                            {{--
                             <!-- Course Includes -->
                             <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700">
                                 <p class="text-xs font-bold text-slate-900 dark:text-white uppercase mb-3 tracking-wide">এই কোর্সে যা পাচ্ছেন:</p>
@@ -380,11 +380,11 @@
                                     </li>
                                     <li class="flex items-center gap-3">
                                         <i class="fas fa-infinity w-5 text-center text-green-500"></i>
-                                        <span>প্রতিদিন সাপোর্ট সেশন</span>
+                                        <span></span>
                                     </li>
                                     <li class="flex items-center gap-3">
                                         <i class="fas fa-mobile-alt w-5 text-center text-orange-500"></i>
-                                        <span>মোবাইল ও টিভিতে এক্সেস</span>
+                                        <span>ক্লাস শেষে প্রশ্ন উত্তর পর্ব </span>
                                     </li>
                                     @if($course->certificate_included)
                                     <li class="flex items-center gap-3">
@@ -394,6 +394,7 @@
                                     @endif
                                 </ul>
                             </div>
+                            --}}
                         </div>
                     </div>
                 </div>

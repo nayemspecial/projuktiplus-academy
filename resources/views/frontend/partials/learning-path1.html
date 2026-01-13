@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laravel Learning Path - ProjuktiPlus</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Kohinoor+Bangla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            500: '#6366f1', // Your Theme Color
+                            600: '#4f46e5',
+                        },
+                        slate: {
+                            800: '#1e293b',
+                            900: '#0f172a', // Your Dark BG
+                            950: '#020617',
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['"Hind Siliguri"', 'sans-serif'],
+                        body: ['"Kohinoor Bangla"', 'sans-serif'], // Fallback if Kohinoor not available locally
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'blob': 'blob 7s infinite',
+                        'pulse-glow': 'pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '.5' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* CSS Automatic Numbering System */
+        .timeline-container {
+            counter-reset: step-counter; /* কাউন্টার রিসেট */
+        }
+
+        .timeline-step {
+            counter-increment: step-counter; /* প্রতি স্টেপে ১ করে বাড়বে */
+        }
+
+        /* The Blob Number Styling using CSS Content */
+        .timeline-number::after {
+            content: counter(step-counter, decimal-leading-zero); /* 01, 02... */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-family: 'Hind Siliguri', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            z-index: 20;
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4); /* slate-800 with opacity */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(99, 102, 241, 0.1); /* primary-500 border light */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Organic Blob Shape */
+        .blob-shape {
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            transition: all 0.5s ease;
+        }
+        .group:hover .blob-shape {
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-slate-900 text-e2e8f0 font-body overflow-x-hidden">
+
+    <nav class="fixed w-full z-50 glass-card border-b border-white/5">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-heading font-bold text-white">Projukti<span class="text-primary-500">Plus</span></h1>
+            <a href="#" class="px-5 py-2 rounded-full bg-primary-600 hover:bg-primary-500 text-white font-bold transition text-sm">কোর্স শুরু করুন</a>
+        </div>
+    </nav>
+
+    <section class="relative pt-32 pb-20 overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none">
+            <div class="absolute top-20 left-10 w-[500px] h-[500px] bg-primary-600/20 rounded-full blur-[120px] animate-pulse-glow"></div>
+            <div class="absolute bottom-0 right-10 w-[400px] h-[400px] bg-purple-600/20 rounded-full blur-[120px] animate-pulse-glow" style="animation-delay: 1s;"></div>
+        </div>
+
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <span class="inline-block py-1 px-3 rounded-full bg-primary-500/10 border border-primary-500/30 text-primary-500 text-sm font-bold mb-4 animate-bounce">রোডম্যাপ ২০২৬</span>
+            <h1 class="text-4xl md:text-6xl font-heading font-bold text-white mb-6 leading-tight">
+                Laravel <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-purple-500">Mastery</span> Path
+            </h1>
+            <p class="text-slate-300 text-lg max-w-2xl mx-auto">
+                শূন্য থেকে শুরু করে একজন প্রফেশনাল লারাভেল ডেভেলপার হওয়ার কমপ্লিট স্টেপ-বাই-স্টেপ গাইডলাইন। আধুনিক টেকনোলজি এবং বেস্ট প্র্যাকটিস সহ।
+            </p>
+        </div>
+    </section>
+
+    <section class="relative w-full pb-32">
+        <div class="container mx-auto px-4 relative">
+            
+            <div class="hidden md:block absolute left-1/2 top-0 transform -translate-x-1/2 w-full h-full pointer-events-none z-0">
+                <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 800 1800">
+                    <path d="M 400 0 
+                             C 400 100, 150 100, 150 300 
+                             S 400 500, 400 600
+                             S 650 700, 650 900
+                             S 400 1100, 400 1200
+                             S 150 1300, 150 1500
+                             S 400 1700, 400 1800" 
+                          fill="none" 
+                          stroke="#6366f1" 
+                          stroke-width="2" 
+                          stroke-dasharray="12, 12" 
+                          stroke-opacity="0.3"
+                          stroke-linecap="round">
+                    </path>
+                    <path d="M 400 0 C 400 100, 150 100, 150 300 S 400 500, 400 600 S 650 700, 650 900 S 400 1100, 400 1200 S 150 1300, 150 1500 S 400 1700, 400 1800" 
+                          fill="none" 
+                          stroke="#6366f1" 
+                          stroke-width="8" 
+                          stroke-opacity="0.1"
+                          class="blur-sm">
+                    </path>
+                </svg>
+            </div>
+
+            <div class="md:hidden absolute left-8 top-0 h-full w-0.5 bg-gradient-to-b from-primary-500/50 to-transparent border-r border-dashed border-slate-600"></div>
+
+            <div class="timeline-container relative z-10 flex flex-col gap-24 pt-10">
+
+                <div class="timeline-step flex flex-col md:flex-row items-center justify-center w-full relative group">
+                    
+                    <div class="w-full md:w-5/12 order-2 md:order-1 md:pr-16 pl-20 md:pl-0 text-left md:text-right">
+                        <div class="glass-card p-6 rounded-2xl relative transition-transform duration-300 hover:-translate-y-2 border-t-4 border-t-primary-500">
+                            <h3 class="text-2xl font-heading font-bold text-white mb-2 group-hover:text-primary-500 transition-colors">PHP Fundamentals</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">লারাভেল একটি পিএইচপি ফ্রেমওয়ার্ক। তাই শুরুতেই পিএইচপি-র সিনট্যাক্স, লুপ, ফাংশন এবং টাইপ সিস্টেম ভালোভাবে আয়ত্ত করতে হবে।</p>
+                            <div class="mt-4 flex gap-2 justify-start md:justify-end flex-wrap">
+                                <span class="px-2 py-1 bg-slate-800 rounded text-xs text-primary-500 font-bold border border-primary-500/20">Variables</span>
+                                <span class="px-2 py-1 bg-slate-800 rounded text-xs text-primary-500 font-bold border border-primary-500/20">Functions</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="absolute left-2 md:left-1/2 transform md:-translate-x-1/2 top-0 md:top-auto z-20 order-1">
+                        <div class="timeline-number relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-primary-600 blob-shape opacity-80 group-hover:bg-primary-500 transition-colors"></div>
+                            <div class="absolute inset-0 bg-primary-500 blob-shape opacity-50 blur-md animate-pulse"></div>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-5/12 order-3 md:order-2 pl-20 md:pl-16 mt-4 md:mt-0">
+                        <div class="relative w-full max-w-[200px] aspect-video md:aspect-square flex items-center justify-center">
+                            <i class="fab fa-php text-6xl md:text-8xl text-indigo-400 drop-shadow-[0_0_15px_rgba(99,102,241,0.5)] animate-float"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-step flex flex-col md:flex-row items-center justify-center w-full relative group">
+                    
+                    <div class="w-full md:w-5/12 order-3 md:order-1 pl-20 md:pr-16 md:pl-0 mt-4 md:mt-0 md:flex md:justify-end">
+                        <div class="relative w-full max-w-[200px] aspect-video md:aspect-square flex items-center justify-center">
+                            <i class="fas fa-cubes text-6xl md:text-8xl text-purple-400 drop-shadow-[0_0_15px_rgba(168,85,247,0.5)] animate-float" style="animation-delay: 1s;"></i>
+                        </div>
+                    </div>
+
+                    <div class="absolute left-2 md:left-1/2 transform md:-translate-x-1/2 top-0 md:top-auto z-20 order-1">
+                        <div class="timeline-number relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-slate-700 blob-shape opacity-90 border-2 border-primary-500 group-hover:bg-slate-600 transition-colors"></div>
+                            <div class="absolute inset-0 bg-purple-500 blob-shape opacity-30 blur-md animate-pulse"></div>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-5/12 order-2 md:order-2 pl-20 md:pl-16 text-left">
+                        <div class="glass-card p-6 rounded-2xl relative transition-transform duration-300 hover:-translate-y-2 border-t-4 border-t-purple-500">
+                            <h3 class="text-2xl font-heading font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">OOP & Composer</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">মডার্ন ডেভেলপমেন্টের ভিত্তি হলো OOP। ক্লাস, অবজেক্ট, ইনহেরিটেন্স এবং প্যাকেজ ম্যানেজমেন্টের জন্য কম্পোজার শিখুন।</p>
+                            <div class="mt-4 flex gap-2 flex-wrap">
+                                <span class="px-2 py-1 bg-slate-800 rounded text-xs text-purple-400 font-bold border border-purple-500/20">Namespace</span>
+                                <span class="px-2 py-1 bg-slate-800 rounded text-xs text-purple-400 font-bold border border-purple-500/20">Autoloading</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-step flex flex-col md:flex-row items-center justify-center w-full relative group">
+                    <div class="w-full md:w-5/12 order-2 md:order-1 md:pr-16 pl-20 md:pl-0 text-left md:text-right">
+                        <div class="glass-card p-6 rounded-2xl relative transition-transform duration-300 hover:-translate-y-2 border-t-4 border-t-cyan-500">
+                            <h3 class="text-2xl font-heading font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">Database Design</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">ডাটাবেস রিলেশনশিপ (One-to-One, One-to-Many) বোঝা এবং Raw SQL কুয়েরি লেখার দক্ষতা অর্জন করুন।</p>
+                            <div class="mt-4 flex gap-2 justify-start md:justify-end flex-wrap">
+                                <span class="px-2 py-1 bg-slate-800 rounded text-xs text-cyan-400 font-bold border border-cyan-500/20">MySQL</span>
+                                <span class="px-2 py-1 bg-slate-800 rounded text-xs text-cyan-400 font-bold border border-cyan-500/20">Normalization</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="absolute left-2 md:left-1/2 transform md:-translate-x-1/2 top-0 md:top-auto z-20 order-1">
+                        <div class="timeline-number relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-primary-600 blob-shape opacity-80 group-hover:bg-primary-500 transition-colors"></div>
+                            <div class="absolute inset-0 bg-cyan-500 blob-shape opacity-50 blur-md animate-pulse"></div>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-5/12 order-3 md:order-2 pl-20 md:pl-16 mt-4 md:mt-0">
+                        <div class="relative w-full max-w-[200px] aspect-video md:aspect-square flex items-center justify-center">
+                            <i class="fas fa-database text-6xl md:text-8xl text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)] animate-float"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-step flex flex-col md:flex-row items-center justify-center w-full relative group">
+                    <div class="w-full md:w-5/12 order-3 md:order-1 pl-20 md:pr-16 md:pl-0 mt-4 md:mt-0 md:flex md:justify-end">
+                        <div class="relative w-full max-w-[200px] aspect-video md:aspect-square flex items-center justify-center">
+                            <i class="fab fa-laravel text-6xl md:text-8xl text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)] animate-float" style="animation-delay: 1.5s;"></i>
+                        </div>
+                    </div>
+
+                    <div class="absolute left-2 md:left-1/2 transform md:-translate-x-1/2 top-0 md:top-auto z-20 order-1">
+                        <div class="timeline-number relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-slate-700 blob-shape opacity-90 border-2 border-red-500 group-hover:bg-slate-600 transition-colors"></div>
+                            <div class="absolute inset-0 bg-red-500 blob-shape opacity-30 blur-md animate-pulse"></div>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-5/12 order-2 md:order-2 pl-20 md:pl-16 text-left">
+                        <div class="glass-card p-6 rounded-2xl relative transition-transform duration-300 hover:-translate-y-2 border-t-4 border-t-red-500">
+                            <h3 class="text-2xl font-heading font-bold text-white mb-2 group-hover:text-red-500 transition-colors">Laravel Installation</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">MVC আর্কিটেকচার বোঝা, লারাভেল ইনস্টল করা এবং ফোল্ডার স্ট্রাকচার পরিচিতি। আর্টিসান কমান্ডের ব্যবহার।</p>
+                            <div class="mt-4 flex gap-2 flex-wrap">
+                                <span class="px-2 py-1 bg-slate-800 rounded text-xs text-red-400 font-bold border border-red-500/20">Route</span>
+                                <span class="px-2 py-1 bg-slate-800 rounded text-xs text-red-400 font-bold border border-red-500/20">Controller</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-step flex flex-col md:flex-row items-center justify-center w-full relative group">
+                    <div class="w-full md:w-5/12 order-2 md:order-1 md:pr-16 pl-20 md:pl-0 text-left md:text-right">
+                        <div class="glass-card p-6 rounded-2xl relative transition-transform duration-300 hover:-translate-y-2 border-t-4 border-t-orange-500">
+                            <h3 class="text-2xl font-heading font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">Blade Templating</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">লারাভেলের শক্তিশালী টেমপ্লেট ইঞ্জিন। লেআউট এক্সটেন্ড করা, কম্পোনেন্ট তৈরি এবং Tailwind CSS ইন্টিগ্রেশন।</p>
+                            <div class="mt-4 flex gap-2 justify-start md:justify-end flex-wrap">
+                                <span class="px-2 py-1 bg-slate-800 rounded text-xs text-orange-400 font-bold border border-orange-500/20">Master Layout</span>
+                                <span class="px-2 py-1 bg-slate-800 rounded text-xs text-orange-400 font-bold border border-orange-500/20">Components</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="absolute left-2 md:left-1/2 transform md:-translate-x-1/2 top-0 md:top-auto z-20 order-1">
+                        <div class="timeline-number relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-primary-600 blob-shape opacity-80 group-hover:bg-primary-500 transition-colors"></div>
+                            <div class="absolute inset-0 bg-orange-500 blob-shape opacity-50 blur-md animate-pulse"></div>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-5/12 order-3 md:order-2 pl-20 md:pl-16 mt-4 md:mt-0">
+                        <div class="relative w-full max-w-[200px] aspect-video md:aspect-square flex items-center justify-center">
+                            <i class="fab fa-html5 text-6xl md:text-8xl text-orange-500 drop-shadow-[0_0_15px_rgba(249,115,22,0.5)] animate-float"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-step flex flex-col md:flex-row items-center justify-center w-full relative group">
+                    <div class="w-full md:w-5/12 order-3 md:order-1 pl-20 md:pr-16 md:pl-0 mt-4 md:mt-0 md:flex md:justify-end">
+                        <div class="relative w-full max-w-[200px] aspect-video md:aspect-square flex items-center justify-center">
+                            <i class="fas fa-magic text-6xl md:text-8xl text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.5)] animate-float" style="animation-delay: 0.5s;"></i>
+                        </div>
+                    </div>
+
+                    <div class="absolute left-2 md:left-1/2 transform md:-translate-x-1/2 top-0 md:top-auto z-20 order-1">
+                        <div class="timeline-number relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-slate-700 blob-shape opacity-90 border-2 border-emerald-500 group-hover:bg-slate-600 transition-colors"></div>
+                            <div class="absolute inset-0 bg-emerald-500 blob-shape opacity-30 blur-md animate-pulse"></div>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-5/12 order-2 md:order-2 pl-20 md:pl-16 text-left">
+                        <div class="glass-card p-6 rounded-2xl relative transition-transform duration-300 hover:-translate-y-2 border-t-4 border-t-emerald-500">
+                            <h3 class="text-2xl font-heading font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Eloquent ORM</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">SQL কুয়েরি না লিখেও ডাটাবেস হ্যান্ডেল করা। মডেল তৈরি, মাইগ্রেশন, সিডিং এবং রিলেশনশিপ (One-to-Many, Many-to-Many)।</p>
+                            <div class="mt-4 flex gap-2 flex-wrap">
+                                <span class="px-2 py-1 bg-slate-800 rounded text-xs text-emerald-400 font-bold border border-emerald-500/20">Migration</span>
+                                <span class="px-2 py-1 bg-slate-800 rounded text-xs text-emerald-400 font-bold border border-emerald-500/20">Seeder</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="text-center mt-24 mb-10 relative z-20">
+                <a href="#" class="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-primary-600 font-heading rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-600 hover:bg-primary-500 shadow-[0_0_20px_rgba(99,102,241,0.5)]">
+                    <span class="mr-2 text-lg">সম্পূর্ণ সিলেবাস দেখুন</span>
+                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    <div class="absolute -inset-3 rounded-full bg-primary-500 opacity-20 group-hover:opacity-40 blur-lg transition-opacity duration-200"></div>
+                </a>
+            </div>
+
+        </div>
+    </section>
+	
+	<section class="wrapper border-general scroll-mt-16 border-t bg-right bg-no-repeat dark:bg-none lg:bg-shape2 py-20" id="process">
+    <div class="container mx-auto px-4 space-y-12">
+        <div class="text-center space-y-4">
+            <div class="flex justify-center items-center">
+                <div class="relative w-28 h-28">
+                    <span class="block w-full h-full bg-contain bg-no-repeat bg-center" style="background-image: url('/assets/images/svgs/peep4.svg');"></span>
+                </div>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-bold font-heading text-slate-800 dark:text-slate-100">
+                কোর্সটি <span class="text-primary-500">কিভাবে চলবে</span>
+            </h2>
+            <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-body">
+                যেভাবে আমরা আপনাকে একজন দক্ষ লারাভেল ডেভেলপার হয়ে উঠতে সাহায্য করতে পারি
+            </p>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto lg:px-10 space-y-16 lg:space-y-0">
+            
+            <div class="flex flex-col-reverse lg:flex-row lg:items-center lg:gap-16 group">
+                <div class="w-full lg:w-1/2 space-y-4 text-center lg:text-right mt-6 lg:mt-0" data-aos="fade-right">
+                    <h3 class="text-2xl font-bold font-heading text-slate-800 dark:text-slate-200 group-hover:text-primary-500 transition-colors">ধাপে ধাপে প্রজেক্ট ভিত্তিক শেখানোর পদ্ধতি</h3>
+                    <p class="text-slate-600 dark:text-slate-400 font-body leading-relaxed">
+                        প্রতি সপ্তাহে এক থেকে দুটি করে মডিউল রিলিজ দেয়া হবে এবং প্রতিটি মডিউলে ১০-১২ টি প্রি-রেকোর্ডেড ভিডিও থাকবে যেন আপনারা ধাপে ধাপে একটার পর একটা টপিক শিখতে পারেন। ভিডিও গুলোতে লারাভেল এর ডকুমেন্টেশন ধরে ধরে শিখানো হয়েছে। সেই সাথে প্রজেক্ট ভিত্তিক লার্নিং প্রসেস ফলো করার জন্য প্রতিটি মডিউলেই রয়েছে একটি করে প্রজেক্ট টিউটোরিয়াল।
+                    </p>
+                </div>
+                
+                <div class="relative z-10 flex justify-center lg:w-24">
+                    <div class="w-20 h-20 rounded-full bg-orange-500 flex items-center justify-center text-3xl font-bold text-white font-heading shadow-lg border-4 border-white dark:border-slate-900 z-20 relative">
+                        ১
+                    </div>
+                    <div class="hidden lg:block absolute h-full w-1 bg-slate-200 dark:bg-slate-700 left-1/2 -translate-x-1/2 top-10 -z-10"></div>
+                </div>
+
+                <div class="w-full lg:w-1/2 flex justify-center lg:justify-start" data-aos="fade-left">
+                     <div class="w-full max-w-sm h-48 bg-orange-100 dark:bg-orange-900/20 rounded-2xl border-2 border-dashed border-orange-300 dark:border-orange-700 flex items-center justify-center">
+                        <span class="text-orange-500 font-medium">Project Based Learning Illustration</span>
+                     </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col-reverse lg:flex-row-reverse lg:items-center lg:gap-16 group">
+                <div class="w-full lg:w-1/2 space-y-4 text-center lg:text-left mt-6 lg:mt-0" data-aos="fade-left">
+                    <h3 class="text-2xl font-bold font-heading text-slate-800 dark:text-slate-200 group-hover:text-teal-500 transition-colors">পরীক্ষার মাধ্যমে নিজেকে যাচাই করার সুযোগ</h3>
+                    <p class="text-slate-600 dark:text-slate-400 font-body leading-relaxed">
+                        আপনারা ভিডিও দেখে কি শিখলেন সেটা যাচাই করার জন্য প্রতিটি ভিডিও এর সাথে কুইজ এবং প্রতিটি মডিউল শেষে এসাইনমেন্ট থাকছে। কুইজ গুলো আপনারা তাৎক্ষণিক উত্তর দিতে পারবেন এবং একেকটি এসাইনমেন্ট শেষ করার জন্য আপনারা এসাইনমেন্টের জটিলতা অনুযায়ী নির্ধারিত সময় পাবেন। এসাইনমেন্ট করে সোর্স কোড এর গিটহাব লিঙ্ক জমা দিতে হবে।
+                    </p>
+                </div>
+                
+                <div class="relative z-10 flex justify-center lg:w-24">
+                    <div class="w-20 h-20 rounded-full bg-teal-500 flex items-center justify-center text-3xl font-bold text-white font-heading shadow-lg border-4 border-white dark:border-slate-900 z-20 relative">
+                        ২
+                    </div>
+                    <div class="hidden lg:block absolute h-full w-1 bg-slate-200 dark:bg-slate-700 left-1/2 -translate-x-1/2 top-10 -z-10"></div>
+                </div>
+
+                <div class="w-full lg:w-1/2 flex justify-center lg:justify-end" data-aos="fade-right">
+                     <div class="w-full max-w-sm h-48 bg-teal-100 dark:bg-teal-900/20 rounded-2xl border-2 border-dashed border-teal-300 dark:border-teal-700 flex items-center justify-center">
+                        <span class="text-teal-500 font-medium">Quiz & Assignment Illustration</span>
+                     </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col-reverse lg:flex-row lg:items-center lg:gap-16 group">
+                <div class="w-full lg:w-1/2 space-y-4 text-center lg:text-right mt-6 lg:mt-0" data-aos="fade-right">
+                    <h3 class="text-2xl font-bold font-heading text-slate-800 dark:text-slate-200 group-hover:text-blue-500 transition-colors">পরীক্ষার পরে থাকছে প্রশ্নের সঠিক সমাধান</h3>
+                    <p class="text-slate-600 dark:text-slate-400 font-body leading-relaxed">
+                        প্রতিটি কুইজ এর শেষে আপনারা সঠিক উত্তর ব্যাখ্যা সহ দেখতে পারবেন। সবগুলো এসাইনমেন্টের সল্যুশন কোর্স শেষে গিটহাব - এ শেয়ার করে দেয়া হবে যেন আপনারা বেস্ট প্র্যাকটিস এবং পদ্ধতি গুলো আরো ভাল করে যাচাই করে নিতে পারেন। আপনাদের জমা দেয়া এসাইনমেন্ট আমরা ম্যানুয়ালি কোড রিভিউ করে মার্কিং করবো।
+                    </p>
+                </div>
+                
+                <div class="relative z-10 flex justify-center lg:w-24">
+                    <div class="w-20 h-20 rounded-full bg-blue-600 flex items-center justify-center text-3xl font-bold text-white font-heading shadow-lg border-4 border-white dark:border-slate-900 z-20 relative">
+                        ৩
+                    </div>
+                    <div class="hidden lg:block absolute h-full w-1 bg-slate-200 dark:bg-slate-700 left-1/2 -translate-x-1/2 top-10 -z-10"></div>
+                </div>
+
+                <div class="w-full lg:w-1/2 flex justify-center lg:justify-start" data-aos="fade-left">
+                     <div class="w-full max-w-sm h-48 bg-blue-100 dark:bg-blue-900/20 rounded-2xl border-2 border-dashed border-blue-300 dark:border-blue-700 flex items-center justify-center">
+                        <span class="text-blue-500 font-medium">Solution & Review Illustration</span>
+                     </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col-reverse lg:flex-row-reverse lg:items-center lg:gap-16 group">
+                <div class="w-full lg:w-1/2 space-y-4 text-center lg:text-left mt-6 lg:mt-0" data-aos="fade-left">
+                    <h3 class="text-2xl font-bold font-heading text-slate-800 dark:text-slate-200 group-hover:text-sky-500 transition-colors">সাপোর্ট ও কমিউনিটি</h3>
+                    <p class="text-slate-600 dark:text-slate-400 font-body leading-relaxed">
+                        কোর্স চলাকালীন যেকোন সমস্যার সম্মুখীন হলে, কোথাও আটকে গেলে অথবা বুঝতে না পারলে, আপনার প্রশ্নটি আমাদের ডিসকোর্ড সাপোর্ট চ্যানেলে পোস্ট করতে পারবেন। প্রয়োজনে ভয়েস চ্যাট বা স্ক্রিন শেয়ারের মাধ্যমে সমাধান দেওয়া হবে।
+                    </p>
+                </div>
+                
+                <div class="relative z-10 flex justify-center lg:w-24">
+                    <div class="w-20 h-20 rounded-full bg-sky-500 flex items-center justify-center text-3xl font-bold text-white font-heading shadow-lg border-4 border-white dark:border-slate-900 z-20 relative">
+                        ৪
+                    </div>
+                    <div class="hidden lg:block absolute h-full w-1 bg-slate-200 dark:bg-slate-700 left-1/2 -translate-x-1/2 top-10 -z-10"></div>
+                </div>
+
+                <div class="w-full lg:w-1/2 flex justify-center lg:justify-end" data-aos="fade-right">
+                     <div class="w-full max-w-sm h-48 bg-sky-100 dark:bg-sky-900/20 rounded-2xl border-2 border-dashed border-sky-300 dark:border-sky-700 flex items-center justify-center">
+                        <span class="text-sky-500 font-medium">Support & Community Illustration</span>
+                     </div>
+                </div>
+            </div>
+
+             <div class="flex flex-col-reverse lg:flex-row lg:items-center lg:gap-16 group">
+                <div class="w-full lg:w-1/2 space-y-4 text-center lg:text-right mt-6 lg:mt-0" data-aos="fade-right">
+                    <h3 class="text-2xl font-bold font-heading text-slate-800 dark:text-slate-200 group-hover:text-yellow-500 transition-colors">সাপ্তাহিক লাইভ আলোচনা</h3>
+                    <p class="text-slate-600 dark:text-slate-400 font-body leading-relaxed">
+                        প্রতি সপ্তাহে আমরা কমপক্ষে একটি করে লাইভ সেশনের আয়োজন করবো যেখানে পুরো সপ্তাহে যা শেখানো হয়েছে সেটার উপর আলোচনা, এসাইনমেন্ট এর সল্যুশন বুঝিয়ে দেয়া এবং আপনাদের প্রশ্নের সরাসরি উত্তর দেয়া হবে।
+                    </p>
+                </div>
+                
+                <div class="relative z-10 flex justify-center lg:w-24">
+                    <div class="w-20 h-20 rounded-full bg-yellow-500 flex items-center justify-center text-3xl font-bold text-white font-heading shadow-lg border-4 border-white dark:border-slate-900 z-20 relative">
+                        ৫
+                    </div>
+                    <div class="hidden lg:block absolute h-full w-1 bg-slate-200 dark:bg-slate-700 left-1/2 -translate-x-1/2 top-10 -z-10"></div>
+                </div>
+
+                <div class="w-full lg:w-1/2 flex justify-center lg:justify-start" data-aos="fade-left">
+                     <div class="w-full max-w-sm h-48 bg-yellow-100 dark:bg-yellow-900/20 rounded-2xl border-2 border-dashed border-yellow-300 dark:border-yellow-700 flex items-center justify-center">
+                        <span class="text-yellow-500 font-medium">Weekly Live Session Illustration</span>
+                     </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col-reverse lg:flex-row-reverse lg:items-center lg:gap-16 group">
+                <div class="w-full lg:w-1/2 space-y-4 text-center lg:text-left mt-6 lg:mt-0" data-aos="fade-left">
+                    <h3 class="text-2xl font-bold font-heading text-slate-800 dark:text-slate-200 group-hover:text-rose-500 transition-colors">কোর্স শেষে ফাইনাল পরীক্ষা ও সার্টিফিকেট</h3>
+                    <p class="text-slate-600 dark:text-slate-400 font-body leading-relaxed">
+                        পুরো কোর্সের সবগুলো মডিউল শেষ হবার পর অনলাইনে একটি ফাইনাল পরীক্ষা নেয়া হবে। ফাইনাল পরীক্ষায় একটি বড় এসাইনমেন্ট করতে দেয়া হবে। এসাইনমেন্ট রিভিউ করে তারপর আমরা রেজাল্ট পাবলিশ করবো। <span class="font-bold text-primary-500">কমপক্ষে ৭০% মার্ক</span> প্রাপ্ত ছাত্ররা পাবেন এক্সিলেন্স সার্টিফিকেট।
+                    </p>
+                </div>
+                
+                <div class="relative z-10 flex justify-center lg:w-24">
+                    <div class="w-20 h-20 rounded-full bg-rose-500 flex items-center justify-center text-3xl font-bold text-white font-heading shadow-lg border-4 border-white dark:border-slate-900 z-20 relative">
+                        ৬
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-1/2 flex justify-center lg:justify-end" data-aos="fade-right">
+                     <div class="w-full max-w-sm h-48 bg-rose-100 dark:bg-rose-900/20 rounded-2xl border-2 border-dashed border-rose-300 dark:border-rose-700 flex items-center justify-center">
+                        <span class="text-rose-500 font-medium">Final Exam & Certificate Illustration</span>
+                     </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+    <footer class="border-t border-white/5 bg-[#020617] pt-12 pb-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-slate-500">&copy; 2026 ProjuktiPlus. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

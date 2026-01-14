@@ -281,7 +281,7 @@
                                     <div class="flex flex-col items-center md:items-start p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-700 min-w-[100px]">
                                         <span class="text-xs text-slate-500">শিক্ষার্থী</span>
                                         <span class="text-lg font-bold text-slate-800 dark:text-white">
-                                            2.5k+
+                                            9 জন।
                                         </span>
                                     </div>
                                 </div>

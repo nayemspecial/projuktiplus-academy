@@ -44,10 +44,10 @@
 
                 <!-- CTA Buttons -->
                 <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
-                    <a href="#courses" class="px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                    <a href="https://academy.projuktiplus.com/courses" class="px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2">
                         কোর্সগুলো দেখুন <i class="fas fa-arrow-right"></i>
                     </a>
-                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="px-8 py-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold text-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex items-center justify-center gap-2 group">
+                    <a href="https://www.youtube.com/watch?v=4oPAtDaeRhY&list=PLXu0yH5shlwFCc5REj64Z5inFF3xmoSLy" target="_blank" class="px-8 py-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold text-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex items-center justify-center gap-2 group">
                         <i class="fas fa-play-circle text-blue-600 text-xl group-hover:scale-110 transition-transform"></i> ডেমো ক্লাস
                     </a>
                 </div>

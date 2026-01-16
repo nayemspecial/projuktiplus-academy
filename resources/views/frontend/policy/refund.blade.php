@@ -33,7 +33,7 @@
     <div class="container mx-auto px-4 relative z-10">
         
         <div class="mx-auto">
-            <div class="bg-white/20 dark:bg-slate-800/20 backdrop-blur-xl border border-white/50 dark:border-slate-700/50 rounded-3xl p-8 md:p-12 shadow-sm space-y-10 text-slate-600 dark:text-slate-300 leading-relaxed text-justify">
+            <div class="bg-white/20 dark:bg-slate-800/20 backdrop-blur-xl border border-white/50 dark:border-slate-700/50 rounded-3xl p-8 md:p-12 shadow-sm space-y-10 text-slate-600 dark:text-slate-300 leading-relaxed text-start">
                 
                 <div>
                     <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-4 font-heading border-l-4 border-blue-600 pl-4">

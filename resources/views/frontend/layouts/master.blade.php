@@ -84,6 +84,9 @@
       })"
 >
 
+    <!-- হেডার টপ -->
+    @include('frontend.partials.header-top')
+
     <!-- হেডার -->
     @include('frontend.partials.header')
 

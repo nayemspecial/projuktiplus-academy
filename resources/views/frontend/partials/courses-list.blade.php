@@ -18,12 +18,12 @@
             </p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             
             @forelse($courses as $course)
                 <div class="group bg-white dark:bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-500/50 dark:hover:border-blue-500/50 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full overflow-hidden">
                     
-                    <div class="relative h-48 overflow-hidden">
+                    <div class="relative h-32 md:h-48 overflow-hidden">
                         <img src="{{ $course->thumbnail ? asset('storage/' . $course->thumbnail) : asset('images/default-course.png') }}" 
                              alt="{{ $course->title }}" 
                              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
@@ -42,7 +42,7 @@
                         </div>
                     </div>
 
-                    <div class="p-4 flex flex-col flex-grow">
+                    <div class="p-3 sm:p-4 flex flex-col flex-grow">
                         
                         <div class="flex justify-between items-center mb-2 text-[11px] font-medium text-slate-500 dark:text-slate-400">
                             <div class="flex items-center text-[10px] bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 font-semibold px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 gap-1" title="Students">
@@ -55,7 +55,7 @@
                             </div>
                         </div>
 
-                        <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2 line-clamp-2 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-heading">
+                        <h3 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white mb-2 line-clamp-2 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-heading">
                             <a href="{{ route('courses.show', $course->slug) }}">{{ $course->title }}</a>
                         </h3>
                         

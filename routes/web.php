@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\CourseController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\PageController;
 
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -35,7 +36,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/courses/enroll/success', [CheckoutController::class, 'success'])->name('courses.enroll.success');
 });
 
-// Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/about', [PageController::class, 'about'])->name('about');
 // Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 
 

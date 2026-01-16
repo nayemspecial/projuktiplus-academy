@@ -3,15 +3,17 @@
         
         <div class="text-center mb-12">
             <span class="text-primary-600 dark:text-primary-400 font-bold tracking-wider uppercase text-xs mb-2 block font-heading">স্টেপ বাই স্টেপ গাইডলাইন</span>
-            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 font-heading">
-                কোর্স <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-purple-600">কারিকুলাম</span>
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3 font-heading">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 dark:from-gray-100 via-purple-600 dark:via-purple-300 to-pink-600 dark:to-pink-200">
+                    লার্নিং পাথ
+                </span>
             </h2>
-            <p class="text-slate-600 dark:text-slate-400 text-lg">
-                ৬ মাসের এই জার্নিতে আমরা আপনাকে একদম বেসিক থেকে শুরু করে একজন প্রফেশনাল ফুল-স্ট্যাক ডেভেলপার হিসেবে গড়ে তুলব।
+            <p class="text-sm md:text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                স্কিল ডেভেলপমেন্টের জন্য বেছে নিন আপনার পছন্দের সেরা কোর্সটি
             </p>
         </div>
 
-        <div class="roadmap-container relative overflow-hidden transition-all duration-1000 ease-in-out bg-white/20 dark:bg-slate-800/20 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800"
+        <div class="roadmap-container relative overflow-hidden transition-all duration-1000 ease-in-out bg-white/20 dark:bg-slate-800/10 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800"
              :style="expanded ? 'max-height: 25000px' : 'max-height: 800px'">
             
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="-600 -50 1200 9500" class="w-full h-auto mx-auto font-heading">

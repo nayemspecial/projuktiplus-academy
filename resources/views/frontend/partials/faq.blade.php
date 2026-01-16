@@ -7,10 +7,12 @@
         
         <div class="text-center max-w-3xl mx-auto mb-16">
             <span class="text-primary-600 dark:text-primary-400 font-bold tracking-wider uppercase text-xs mb-2 block font-heading">আপনার প্রশ্ন, আমাদের উত্তর</span>
-            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 font-heading">
-                সচরাচর জিজ্ঞাসিত <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-purple-600">প্রশ্নাবলী</span>
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3 font-heading">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 dark:from-gray-100 via-purple-600 dark:via-purple-300 to-pink-600 dark:to-pink-200">
+                    সচরাচর জিজ্ঞাসিত প্রশ্নাবলী
+                </span>
             </h2>
-            <p class="text-slate-600 dark:text-slate-400 text-lg">
+            <p class="text-sm md:text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
                 ভর্তির আগে মনে কোনো প্রশ্ন আছে? নিচের কমন প্রশ্নগুলো দেখুন। এরপরও কিছু জানার থাকলে আমাদের সরাসরি কল করুন।
             </p>
         </div>

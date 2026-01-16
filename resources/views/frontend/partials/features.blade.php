@@ -8,10 +8,12 @@
     <div class="container mx-auto px-4 relative z-10">
         
         <div class="text-center max-w-3xl mx-auto mb-16">
-            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 font-heading">
-                কেন এই জার্নিটি <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">আপনার জন্য সেরা?</span>
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3 font-heading">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 dark:from-gray-100 via-purple-600 dark:via-purple-300 to-pink-600 dark:to-pink-200">
+                    কেন এই জার্নিটি আপনার জন্য সেরা?
+                </span>
             </h2>
-            <p class="text-slate-600 dark:text-slate-400 text-lg">
+            <p class="text-sm md:text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
                 গতানুগতিক ভিডিও কোর্সের মতো আমরা আপনাকে একা ছেড়ে দিই না। আমাদের স্ট্রাকচার্ড লার্নিং পাথ এবং মেন্টরশিপ আপনাকে লক্ষ্যে পৌঁছাতে সাহায্য করবে।
             </p>
         </div>

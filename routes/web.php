@@ -21,7 +21,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Home Route (Controller Based for Caching)
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Future Frontend Routes (যখন তৈরি করবেন তখন আনকমেন্ট করবেন)
 // কোর্স পেজসমূহ (Course Pages)
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 Route::get('/courses/{slug}', [CourseController::class, 'show'])->name('courses.show');
@@ -37,7 +36,10 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/about', [PageController::class, 'about'])->name('about');
-// Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+Route::get('/privacy-policy', [PageController::class, 'privacy'])->name('policy.privacy');
+Route::get('/terms-conditions', [PageController::class, 'terms'])->name('policy.terms');
+Route::get('/refund-policy', [PageController::class, 'refund'])->name('policy.refund');
 
 
 // Require other route files

@@ -7,10 +7,12 @@
         
         <div class="text-center max-w-3xl mx-auto mb-12">
             <span class="text-primary-600 dark:text-primary-400 font-bold tracking-wider uppercase text-xs mb-2 block font-heading">সাপোর্ট ইকোসিস্টেম</span>
-            <h2 class="text-2xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 font-heading">
-                প্রযুক্তির আড্ডায় <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-purple-600">শেখার পরিবেশ</span>
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3 font-heading">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 dark:from-gray-100 via-purple-600 dark:via-purple-300 to-pink-600 dark:to-pink-200">
+                    প্রযুক্তির আড্ডায় শেখার পরিবেশ
+                </span>
             </h2>
-            <p class="text-slate-600 dark:text-slate-400 text-sm md:text-lg">
+            <p class="text-sm md:text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
                 শেখার পথে একা পথ চলা কঠিন, তাই আমরা গড়ে তুলেছি ৪ স্তরের সাপোর্ট সিস্টেম।
             </p>
         </div>

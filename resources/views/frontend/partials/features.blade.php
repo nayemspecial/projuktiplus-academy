@@ -18,7 +18,7 @@
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             
-            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 md:p-6 border border-slate-200 dark:border-slate-700 hover:border-blue-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
+            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-3 md:p-5 border border-slate-200 dark:border-slate-700 hover:border-blue-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
                 <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center text-2xl mb-4 mx-auto group-hover:scale-110 transition-transform">
                     <i class="fas fa-chalkboard-teacher"></i>
                 </div>
@@ -28,7 +28,7 @@
                 </p>
             </div>
 
-            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 md:p-6 border border-slate-200 dark:border-slate-700 hover:border-purple-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
+            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-3 md:p-5 border border-slate-200 dark:border-slate-700 hover:border-purple-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
                 <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-purple-100 dark:bg-purple-900/30 text-purple-600 flex items-center justify-center text-2xl mb-4 mx-auto group-hover:scale-110 transition-transform">
                     <i class="fas fa-laptop-code"></i>
                 </div>
@@ -38,7 +38,7 @@
                 </p>
             </div>
 
-            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 md:p-6 border border-slate-200 dark:border-slate-700 hover:border-red-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
+            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-3 md:p-5 border border-slate-200 dark:border-slate-700 hover:border-red-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
                 <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-600 flex items-center justify-center text-2xl mb-4 mx-auto group-hover:scale-110 transition-transform">
                     <i class="fas fa-rocket"></i>
                 </div>
@@ -48,7 +48,7 @@
                 </p>
             </div>
 
-            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 md:p-6 border border-slate-200 dark:border-slate-700 hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
+            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-3 md:p-5 border border-slate-200 dark:border-slate-700 hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
                 <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 flex items-center justify-center text-2xl mb-4 mx-auto group-hover:scale-110 transition-transform">
                     <i class="fab fa-discord"></i>
                 </div>
@@ -58,7 +58,7 @@
                 </p>
             </div>
 
-            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 md:p-6 border border-slate-200 dark:border-slate-700 hover:border-emerald-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
+            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-3 md:p-5 border border-slate-200 dark:border-slate-700 hover:border-emerald-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
                 <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 flex items-center justify-center text-2xl mb-4 mx-auto group-hover:scale-110 transition-transform">
                     <i class="fas fa-briefcase"></i>
                 </div>
@@ -68,7 +68,7 @@
                 </p>
             </div>
 
-            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 md:p-6 border border-slate-200 dark:border-slate-700 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
+            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-3 md:p-5 border border-slate-200 dark:border-slate-700 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
                 <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 flex items-center justify-center text-2xl mb-4 mx-auto group-hover:scale-110 transition-transform">
                     <i class="fas fa-calendar-check"></i>
                 </div>
@@ -78,7 +78,7 @@
                 </p>
             </div>
 
-            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 md:p-6 border border-slate-200 dark:border-slate-700 hover:border-pink-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
+            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-3 md:p-5 border border-slate-200 dark:border-slate-700 hover:border-pink-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
                 <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-pink-100 dark:bg-pink-900/30 text-pink-600 flex items-center justify-center text-2xl mb-4 mx-auto group-hover:scale-110 transition-transform">
                     <i class="fas fa-users-cog"></i>
                 </div>
@@ -88,7 +88,7 @@
                 </p>
             </div>
 
-            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 md:p-6 border border-slate-200 dark:border-slate-700 hover:border-orange-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
+            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-3 md:p-5 border border-slate-200 dark:border-slate-700 hover:border-orange-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
                 <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-orange-100 dark:bg-orange-900/30 text-orange-600 flex items-center justify-center text-2xl mb-4 mx-auto group-hover:scale-110 transition-transform">
                     <i class="fas fa-flag-checkered"></i>
                 </div>

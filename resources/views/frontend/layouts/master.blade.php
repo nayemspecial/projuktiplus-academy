@@ -65,6 +65,9 @@
     
     {{-- ডাইনামিক প্রাইমারি কালার --}}
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
         :root {
             --color-primary-600: {{ $primaryColor }};
         }

@@ -27,12 +27,19 @@
                     </span>
                 </div>
 
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white font-heading leading-[1.1] mb-6">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-gray-100 font-heading leading-[1.1] mb-6">
+                    Laravel & Vue.js <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 animate-gradient-x">
+                        Full Stack Bootcamp
+                    </span>
+                </h1>
+
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-gray-100 font-heading leading-[1.1] mb-6">
                     আপনার ক্যারিয়ারকে <br>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 animate-gradient-x">
                         নেক্সট লেভেলে নিন
                     </span>
-                </h1>
+                </h2>
 
                 <p class="text-lg text-slate-600 dark:text-slate-300 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
                     প্রযুক্তি প্লাস একাডেমির সাথে শিখুন রিয়েল-ওয়ার্ল্ড স্কিল। ওয়েব ডেভেলপমেন্ট শিখে নিজেকে গ্লোবাল মার্কেটের জন্য প্রস্তুত করুন।
@@ -77,7 +84,7 @@
                 <div class="absolute -top-10 -right-10 w-40 h-40 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
                 <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
 
-                <div class="absolute -bottom-6 left-6 bg-white/80 dark:bg-slate-800/90 backdrop-blur-md p-4 rounded-xl shadow-xl border border-white/20 dark:border-slate-700 flex items-center gap-4 animate-float z-20 min-w-[180px]">
+                <div class="absolute -bottom-6 left-6 bg-white/80 dark:bg-slate-800/90 backdrop-blur-md p-4 rounded-xl shadow-xl border border-white/20 dark:border-slate-700 flex items-center gap-4 animate-float-delay z-20 min-w-[180px]">
                     <div class="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600">
                         <i class="fab fa-vuejs text-2xl"></i>
                     </div>
@@ -87,7 +94,7 @@
                     </div>
                 </div>
 
-                <div class="absolute -top-6 -right-6 bg-white/80 dark:bg-slate-800/90 backdrop-blur-md p-4 rounded-xl shadow-xl border border-white/20 dark:border-slate-700 flex items-center gap-4 animate-float-delay z-20 hidden sm:flex min-w-[180px]">
+                <div class="absolute -top-6 right-6 md:-right-6 bg-white/80 dark:bg-slate-800/90 backdrop-blur-md p-4 rounded-xl shadow-xl border border-white/20 dark:border-slate-700 flex items-center gap-4 animate-float-delay z-20 min-w-[180px]">
                     <div class="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600">
                         <i class="fab fa-laravel text-2xl"></i>
                     </div>

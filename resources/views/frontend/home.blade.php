@@ -10,7 +10,7 @@
     @include('frontend.partials.tech-stack')
     {{-- @include('frontend.partials.instructor') --}}
     @include('frontend.partials.curriculum')
-    @include('frontend.partials.faq')
+    {{-- @include('frontend.partials.faq') --}}
     <!-- @include('frontend.partials.testimonials') -->
     <!-- @include('frontend.partials.learning-path') -->
 @endsection

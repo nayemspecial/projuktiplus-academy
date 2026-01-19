@@ -7,11 +7,12 @@
     </div>
 
     <div class="container mx-auto px-4 relative z-10">
-        
-        <div class="text-center mb-10">
-            <span class="text-primary-600 dark:text-primary-400 font-bold tracking-wider uppercase text-xs mb-2 block font-heading">টেকনোলজি স্ট্যাক</span>
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-primary-600 dark:text-primary-400 font-bold tracking-wider uppercase text-xs mb-2 block font-heading">কোর্সে যেসকল টেকনোলজি প্রয়োজন</span>
             <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3 font-heading">
-                যা যা <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">শিখবেন</span>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 dark:from-gray-100 via-purple-600 dark:via-purple-300 to-pink-600 dark:to-pink-200">
+                    টেকনোলজি স্ট্যাক
+                </span>
             </h2>
             <p class="text-sm md:text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
                 এই কোর্সে আপনি শিখবেন শূন্য থেকে এডভান্সড লেভেল পর্যন্ত ইন্ডাস্ট্রির সেরা টুলস এবং টেকনোলজি।

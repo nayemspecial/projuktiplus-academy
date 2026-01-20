@@ -61,8 +61,8 @@
                             class="px-8 py-4 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-lg shadow-lg shadow-primary-600/30 hover:shadow-primary-600/50 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2">
                         <i class="fas fa-road"></i> লার্নিং পাথ দেখুন
                     </button>
-                    <a href="{{ url('/enroll') }}" class="px-8 py-4 rounded-xl bg-white dark:bg-slate-800 border-2 border-primary-600 dark:border-primary-500 text-primary-700 dark:text-primary-400 font-bold text-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-all flex items-center justify-center gap-2 group">
-                        এনরোল করুন <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    <a href="https://academy.projuktiplus.com/courses/full-stack-bootcamp-universal" class="px-8 py-4 rounded-xl bg-white dark:bg-slate-800 border-2 border-primary-600 dark:border-primary-500 text-primary-700 dark:text-primary-400 font-bold text-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-all flex items-center justify-center gap-2 group">
+                        কোর্সটি দেখুন <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                     </a>
                 </div>
 

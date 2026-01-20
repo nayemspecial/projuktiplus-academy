@@ -2,14 +2,15 @@
 @php
     use App\Models\Setting;
     
-    $siteName = Setting::get('site_name', 'ProjuktiPlus LMS');
+    // সেটিংস লোড (ডিফল্ট ভ্যালু সহ)
+    $siteName = Setting::get('site_name', 'ProjuktiPlus Academy');
     $siteFavicon = Setting::get('site_favicon');
     $primaryColor = Setting::get('primary_color', '#4F46E5');
     
     // SEO Meta Data
-    $metaDesc = Setting::get('meta_description', 'LMS Admin Dashboard');
-    $metaKeywords = Setting::get('meta_keywords', 'lms, admin, education');
-    $metaAuthor = Setting::get('meta_author', 'ProjuktiPlus');
+    $metaDesc = Setting::get('meta_description', 'ProjuktiPlus Academy Admin Dashboard');
+    $metaKeywords = Setting::get('meta_keywords', 'ProjuktiPlus, Academy, ProjuktiPlus Academy, admin, education');
+    $metaAuthor = Setting::get('meta_author', 'ProjuktiPlus Academy');
     $ogImage = Setting::get('og_image');
 @endphp
 <html lang="bn">
@@ -27,12 +28,10 @@
         }
     </script>
 
-    <!-- SEO Meta Tags -->
     <meta name="description" content="{{ $metaDesc }}">
     <meta name="keywords" content="{{ $metaKeywords }}">
     <meta name="author" content="{{ $metaAuthor }}">
     
-    <!-- Open Graph / Social Media -->
     <meta property="og:title" content="@yield('title', 'অ্যাডমিন ড্যাশবোর্ড') - {{ $siteName }}">
     <meta property="og:description" content="{{ $metaDesc }}">
     @if($ogImage)
@@ -41,7 +40,6 @@
     
     <title>@yield('title', 'অ্যাডমিন ড্যাশবোর্ড') - {{ $siteName }}</title>
 
-    <!-- Favicon -->
     @if($siteFavicon)
         <link rel="icon" type="image/png" href="{{ asset('storage/' . $siteFavicon) }}">
     @else
@@ -53,11 +51,12 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Kohinoor+Bangla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
+        /* ডাইনামিক প্রাইমারি কালার */
         :root { --color-primary-600: {{ $primaryColor }}; }
+        
         body { font-family: 'Kohinoor Bangla', sans-serif; letter-spacing: .5px; }
         h1, h2, h3, h4, h5, h6 { font-family: 'Hind Siliguri', sans-serif; }
         
@@ -65,8 +64,9 @@
         
         .sidebar-link.active {
             background-color: rgba(59, 130, 246, 0.1);
-            color: #3b82f6;
-            border-left: 3px solid #3b82f6;
+            color: #3b82f6; /* ফলব্যাক কালার */
+            color: var(--color-primary-600); /* ডাইনামিক কালার */
+            border-left: 3px solid var(--color-primary-600);
         }
         .dark .sidebar-link.active {
             background-color: rgba(59, 130, 246, 0.2);
@@ -95,21 +95,16 @@
 
     <div class="flex h-screen overflow-hidden" x-cloak>
         
-        <!-- Sidebar -->
         @include('partials.admin.sidebar')
 
         <div class="flex-1 flex flex-col overflow-hidden ml-0 lg:ml-64 transition-all duration-300">
             
-            <!-- Header -->
             @include('partials.admin.header')
 
-            <!-- Mobile Sidebar -->
             @include('partials.admin.mobile-sidebar')
 
-            <!-- Main Content -->
             <main class="flex-1 overflow-y-auto p-2 md:p-4 custom-scrollbar flex flex-col">
                 
-                <!-- Dynamic Page Header -->
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                     <h2 class="text-2xl font-bold text-gray-800 dark:text-white font-heading">
                         @yield('header', 'ড্যাশবোর্ড')
@@ -123,7 +118,6 @@
                     @yield('admin-content')
                 </div>
                 
-                <!-- Footer -->
                 <div class="mt-auto pt-6">
                     @include('partials.footer')
                 </div>
@@ -131,7 +125,6 @@
         </div>
     </div>
 
-    <!-- Logout Form -->
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
         @csrf
     </form>

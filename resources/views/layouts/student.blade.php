@@ -1,10 +1,25 @@
 <!DOCTYPE html>
+@php
+    use App\Models\Setting;
+    
+    // ডাইনামিক সেটিংস লোড
+    $siteName = Setting::get('site_name', 'ProjuktiPlus Academy');
+    $siteFavicon = Setting::get('site_favicon');
+    $primaryColor = Setting::get('primary_color', '#4F46E5');
+@endphp
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Student Dashboard') - ProjuktiPlus Academy</title>
+    
+    <title>@yield('title', 'Student Dashboard') - {{ $siteName }}</title>
+    
+    @if($siteFavicon)
+        <link rel="icon" type="image/png" href="{{ asset('storage/' . $siteFavicon) }}">
+    @else
+        <link rel="icon" href="{{ asset('favicon.ico') }}">
+    @endif
     
     {{-- [FIX] ডার্ক মোড ফ্ল্যাশ প্রিভেন্টার --}}
     <script>
@@ -19,17 +34,20 @@
     @vite(['resources/css/tailwind.css', 'resources/js/app.js'])
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- বাংলা ফন্ট ইম্পোর্ট -->
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Kohinoor+Bangla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        /* [UPDATED] Dynamic Primary Color */
+        :root { --color-primary-600: {{ $primaryColor }}; }
+
         body { font-family: 'Kohinoor Bangla', sans-serif; letter-spacing: .5px; }
         [x-cloak] { display: none !important; }
         
         .sidebar-link.active {
             background-color: rgba(59, 130, 246, 0.1);
-            color: #3b82f6;
-            border-left: 3px solid #3b82f6;
+            color: var(--color-primary-600);
+            border-left: 3px solid var(--color-primary-600);
         }
         .dark .sidebar-link.active {
             background-color: rgba(59, 130, 246, 0.2);
@@ -55,7 +73,6 @@
           val ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
       })"
 >
-    <!-- Mobile Sidebar Overlay -->
     <div x-show="isMobileMenuOpen" class="relative z-50 md:hidden" role="dialog" aria-modal="true">
         <div x-show="isMobileMenuOpen" 
              x-transition:enter="transition-opacity ease-linear duration-300" 
@@ -84,7 +101,6 @@
                     </button>
                 </div>
 
-                <!-- Mobile Sidebar Content -->
                 <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-slate-800 px-6 pb-4 ring-1 ring-white/10">
                     <div class="flex h-16 shrink-0 items-center border-b border-gray-200 dark:border-slate-700">
                          <a href="{{ route('student.dashboard') }}" class="flex items-center gap-2">
@@ -143,29 +159,21 @@
         </div>
     </div>
 
-    <!-- Sidebar (Desktop) -->
     @include('partials.student-sidebar')
     
     <div class="flex-1 flex flex-col overflow-hidden ml-0 md:ml-64 transition-all duration-300 h-screen">
-        <!-- Header -->
         @include('partials.student-header')
         
-        <!-- Main Content Area -->
-        <!-- flex flex-col এবং min-h-0 দেওয়া হয়েছে যাতে ফুটার নিচে থাকে -->
         <main class="flex-1 overflow-y-auto bg-gray-50 dark:bg-slate-900 flex flex-col custom-scrollbar relative">
             
-            <!-- Page Content -->
-            <!-- flex-1 দেওয়া হয়েছে যাতে এটি অবশিষ্ট সব জায়গা নিয়ে নেয় এবং ফুটারকে নিচে ঠেলে দেয় -->
             <div class="flex-1 p-4 md:p-6">
                 @yield('student-content')
             </div>
             
-            <!-- Footer (Sticky behavior via Flexbox) -->
             @include('partials.footer')
         </main>
     </div>
 
-    <!-- Logout Form -->
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
         @csrf
     </form>

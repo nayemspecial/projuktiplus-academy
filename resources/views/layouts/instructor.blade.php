@@ -1,10 +1,25 @@
 <!DOCTYPE html>
+@php
+    use App\Models\Setting;
+    
+    // ডাইনামিক সেটিংস লোড
+    $siteName = Setting::get('site_name', 'ProjuktiPlus LMS');
+    $siteFavicon = Setting::get('site_favicon');
+    $primaryColor = Setting::get('primary_color', '#4F46E5');
+@endphp
 <html lang="bn" x-data="instructorApp()" x-init="init()" :class="{'dark': isDark}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Instructor Dashboard') - ProjuktiPlus LMS</title>
+    
+    <title>@yield('title', 'Instructor Dashboard') - {{ $siteName }}</title>
+    
+    @if($siteFavicon)
+        <link rel="icon" type="image/png" href="{{ asset('storage/' . $siteFavicon) }}">
+    @else
+        <link rel="icon" href="{{ asset('favicon.ico') }}">
+    @endif
     
     {{-- [FIX] FOUC (সাদা ঝলকানি) প্রতিরোধক --}}
     <script>
@@ -20,17 +35,21 @@
     @vite(['resources/css/tailwind.css', 'resources/js/app.js'])
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Kohinoor+Bangla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        /* [UPDATED] Dynamic Primary Color */
+        :root { --color-primary-600: {{ $primaryColor }}; }
+
         body { font-family: 'Kohinoor Bangla', 'Hind Siliguri', sans-serif; letter-spacing: .5px; }
         h1, h2, h3, h4, h5, h6 { font-family: 'Hind Siliguri', sans-serif; }
         [x-cloak] { display: none !important; }
         
         .sidebar-link.active {
             background-color: rgba(59, 130, 246, 0.1);
-            color: #3b82f6;
-            border-left: 3px solid #3b82f6;
+            color: var(--color-primary-600);
+            border-left: 3px solid var(--color-primary-600);
         }
         .dark .sidebar-link.active {
             background-color: rgba(59, 130, 246, 0.2);
@@ -49,30 +68,21 @@
     
     <div class="flex h-full">
         
-        <!-- Sidebar (Desktop) -->
         @include('partials.instructor-sidebar')
 
-        <!-- Mobile Sidebar Overlay -->
         @include('partials.instructor-mobile-sidebar')
 
-        <!-- Main Wrapper -->
-        <!-- [FIX] xl:ml-64 ব্যবহার করা হয়েছে যাতে সাইডবারের জন্য পর্যাপ্ত জায়গা থাকে -->
         <div class="flex-1 flex flex-col overflow-hidden ml-0 xl:ml-64 transition-all duration-300 h-full">
             
-            <!-- Header -->
             @include('partials.instructor-header')
 
-            <!-- Scrollable Content Area -->
             <main class="flex-1 overflow-y-auto bg-gray-50 dark:bg-slate-900 custom-scrollbar">
-                <!-- [FIX] flex flex-col এবং min-h-full ব্যবহার করে ফুটারকে নিচে ঠেলে দেওয়া হয়েছে -->
                 <div class="flex flex-col min-h-full">
                     
-                    <!-- Content -->
                     <div class="flex-1 p-3 md:p-4">
                         @yield('instructor-content')
                     </div>
 
-                    <!-- Footer -->
                     <div class="mt-auto">
                         @include('partials.footer')
                     </div>
@@ -81,14 +91,12 @@
         </div>
     </div>
 
-    <!-- Logout Form -->
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
         @csrf
     </form>
     
     @stack('modals')
 
-    <!-- Scripts -->
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('instructorApp', () => ({

@@ -2,6 +2,31 @@
 
 @config "./tailwind.config.cjs";
 
+
+@font-face {
+  font-family: 'Kohinoor Bangla';
+  src: url('/fonts/KohinoorBangla-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kohinoor Bangla';
+  src: url('/fonts/KohinoorBangla-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kohinoor Bangla';
+  src: url('/fonts/KohinoorBangla-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* থিম কনফিগারেশন */
 @theme {
   --color-primary-500: #6366f1;
@@ -14,6 +39,7 @@
   --color-slate-900: #0f172a;
   --color-slate-950: #020617;
   
+  /* ফন্ট ফ্যামিলি সেটআপ */
   --font-family-heading: "Hind Siliguri", sans-serif;
   --font-family-body: "Kohinoor Bangla", sans-serif;
   
@@ -24,11 +50,12 @@
 /* বেস স্টাইলস */
 body {
   font-family: var(--font-family-body);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px; /* কোহিনূর বাংলার জন্য একটু স্পেসিং এডজাস্ট করা হয়েছে */
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-family-heading);
+  font-weight: 700;
 }
 
 [x-cloak] { 

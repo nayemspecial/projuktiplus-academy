@@ -52,15 +52,15 @@
                 <a href="#" class="text-sky-600 dark:text-sky-400 text-xs font-bold hover:underline">সাবস্ক্রাইব করুন &rarr;</a>
             </div>
 
-            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 md:p-6 border border-slate-200 dark:border-slate-700 hover:border-red-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
-                <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-500 flex items-center justify-center text-2xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                    <i class="fas fa-video"></i>
+            <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 md:p-6 border border-slate-200 dark:border-slate-700 hover:border-blue-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
+                <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center text-2xl mb-4 mx-auto group-hover:scale-110 transition-transform">
+                    <i class="fab fa-facebook-f"></i>
                 </div>
-                <h3 class="text-base md:text-lg font-bold text-slate-900 dark:text-white mb-2 font-heading">Live Session</h3>
+                <h3 class="text-base md:text-lg font-bold text-slate-900 dark:text-white mb-2 font-heading">Facebook Page</h3>
                 <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
-                    গুগল মিটে প্রতি সপ্তাহে সরাসরি প্রবলেম সলভিং ক্লাস।
+                    আমাদের একাডেমি সম্পর্কে আপডেট এখানে পেয়ে যাবেন।
                 </p>
-                <span class="text-red-600 dark:text-red-400 text-xs font-bold cursor-default">প্রতি শুক্রবার</span>
+                <a href="#" class="text-blue-600 dark:text-blue-400 text-xs font-bold hover:underline">জয়েন করুন &rarr;</a>
             </div>
 
         </div>

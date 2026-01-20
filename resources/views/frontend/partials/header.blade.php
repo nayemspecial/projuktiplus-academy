@@ -18,10 +18,10 @@
                 @endif
                 
                 <div class="flex flex-col">
-                    <h1 class="text-xl md:text-2xl font-bold text-slate-800 dark:text-white font-heading tracking-tight leading-none">
+                    <h1 class="text-xl md:text-2xl font-semibold text-slate-800 dark:text-white font-heading tracking-tight leading-none">
                         {{ \App\Models\Setting::get('site_name', 'ProjuktiPlus') }}
                     </h1>
-                    <span class="text-[10px] text-slate-500 dark:text-slate-400 font-medium tracking-wider hidden lg:block">ACADEMY</span>
+                    <span class="text-[11px] text-slate-500 dark:text-slate-400 font-medium tracking-wider hidden lg:block mt-1">যেখানে প্রযুক্তির গল্প হয় সহজ ভাষায়</span>
                 </div>
             </a>
         </div>

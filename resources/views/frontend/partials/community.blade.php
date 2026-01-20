@@ -27,7 +27,7 @@
                 <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
                     প্রতিদিনের আপডেট, অ্যাসাইনমেন্ট জমা এবং ডিসকাশন।
                 </p>
-                <a href="#" class="text-blue-600 dark:text-blue-400 text-xs font-bold hover:underline">জয়েন করুন &rarr;</a>
+                <a href="https://www.facebook.com/groups/projuktiplusacademy" class="text-blue-600 dark:text-blue-400 text-xs font-bold hover:underline">জয়েন করুন &rarr;</a>
             </div>
 
             <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 md:p-6 border border-slate-200 dark:border-slate-700 hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
@@ -38,7 +38,7 @@
                 <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
                     লাইভ কোডিং হেল্প এবং ডিবাগিং এর জন্য ভয়েস চ্যানেল।
                 </p>
-                <a href="#" class="text-indigo-600 dark:text-indigo-400 text-xs font-bold hover:underline">যুক্ত হোন &rarr;</a>
+                {{-- <a href="#" class="text-indigo-600 dark:text-indigo-400 text-xs font-bold hover:underline">যুক্ত হোন &rarr;</a> --}}
             </div>
 
             <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 md:p-6 border border-slate-200 dark:border-slate-700 hover:border-sky-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
@@ -49,7 +49,7 @@
                 <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
                     কুইক নোটিশ, রিসোর্স লিংক এবং জব অ্যালার্ট আপডেট।
                 </p>
-                <a href="#" class="text-sky-600 dark:text-sky-400 text-xs font-bold hover:underline">সাবস্ক্রাইব করুন &rarr;</a>
+                {{-- <a href="#" class="text-sky-600 dark:text-sky-400 text-xs font-bold hover:underline">সাবস্ক্রাইব করুন &rarr;</a> --}}
             </div>
 
             <div class="group bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 md:p-6 border border-slate-200 dark:border-slate-700 hover:border-blue-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 text-center">
@@ -60,7 +60,7 @@
                 <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
                     আমাদের একাডেমি সম্পর্কে আপডেট এখানে পেয়ে যাবেন।
                 </p>
-                <a href="#" class="text-blue-600 dark:text-blue-400 text-xs font-bold hover:underline">জয়েন করুন &rarr;</a>
+                <a href="https://www.facebook.com/ProjuktiPlusAcademy" class="text-blue-600 dark:text-blue-400 text-xs font-bold hover:underline">ঘুরে আসুন &rarr;</a>
             </div>
 
         </div>

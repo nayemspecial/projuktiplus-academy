@@ -421,8 +421,8 @@
                     এনরোল করুন
                 </a>
             @else
-                <a href="{{ route('login') }}" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center font-bold py-3 rounded-xl transition shadow-lg shadow-blue-600/20">
-                    লগইন করুন
+                <a href="{{ route('register') }}" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center font-bold py-3 rounded-xl transition shadow-lg shadow-blue-600/20">
+                    রেজিস্ট্রেশন করুন
                 </a>
             @endauth
         </div>

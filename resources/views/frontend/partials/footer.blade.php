@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            <div class="pl-4 md:pl-0 text-left md:text-left border-l-2 border-slate-800 md:border-0 ml-4 md:ml-0">
+            <div class="pl-4 md:pl-0 text-left md:text-left border-l-2 md:border-l-0 border-slate-800 md:border-0 ml-4 md:ml-0">
                 <h4 class="text-white font-bold mb-5 font-heading text-base relative inline-block">
                     প্রয়োজনীয় লিঙ্ক
                     <span class="absolute -bottom-1 left-0 w-1/2 h-0.5 bg-primary-600 rounded-full md:hidden"></span>
@@ -70,7 +70,7 @@
                 </ul>
             </div>
 
-            <div class="pl-4 md:pl-0 text-left md:text-left border-l-2 border-slate-800 md:border-0 ml-4 md:ml-0">
+            <div class="pl-4 md:pl-0 text-left md:text-left border-l-2 md:border-l-0 border-slate-800 md:border-0 ml-4 md:ml-0">
                 <h4 class="text-white font-bold mb-5 font-heading text-base relative inline-block">
                     পলিসি ও সাপোর্ট
                     <span class="absolute -bottom-1 left-0 w-1/2 h-0.5 bg-primary-600 rounded-full md:hidden"></span>
@@ -94,7 +94,7 @@
                 </ul>
             </div>
 
-            <div class="pl-4 md:pl-0 text-left md:text-left border-l-2 border-slate-800 md:border-0 ml-4 md:ml-0">
+            <div class="pl-4 md:pl-0 text-left md:text-left border-l-2 md:border-l-0 border-slate-800 md:border-0 ml-4 md:ml-0">
                 <h4 class="text-white font-bold mb-5 font-heading text-base relative inline-block">
                     যোগাযোগ
                     <span class="absolute -bottom-1 left-0 w-1/2 h-0.5 bg-primary-600 rounded-full md:hidden"></span>

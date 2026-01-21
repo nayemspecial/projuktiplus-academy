@@ -50,7 +50,7 @@
                         <i class="far fa-calendar-alt text-primary-500"></i> গুরুত্বপূর্ণ সময়সূচি
                     </h3>
                     <div class="space-y-2 text-sm">
-                         <div class="flex items-center justify-between"><span class="text-slate-600 dark:text-slate-400 flex items-center gap-2"><i class="fas fa-check-circle text-green-500 text-xs"></i>রেজিস্ট্রেশন শুরু:</span><span class="font-bold text-slate-800 dark:text-slate-200">১৬ জানুয়ারি, ২০২৬</span></div>
+                         <div class="flex items-center justify-between"><span class="text-slate-600 dark:text-slate-400 flex items-center gap-2"><i class="fas fa-check-circle text-green-500 text-xs"></i>রেজিস্ট্রেশন শুরু:</span><span class="font-bold text-slate-800 dark:text-slate-200">২০ জানুয়ারি, ২০২৬</span></div>
                          <div class="flex items-center justify-between"><span class="text-slate-600 dark:text-slate-400 flex items-center gap-2"><i class="fas fa-hourglass-half text-red-500 text-xs"></i>রেজিস্ট্রেশন শেষ:</span><span class="font-bold text-red-500">১৬ ফেব্রুয়ারি, ২০২৬</span></div>
                          <div class="flex items-center justify-between"><span class="text-slate-600 dark:text-slate-400 flex items-center gap-2"><i class="fas fa-rocket text-purple-500 text-xs"></i>ওরিয়েন্টেশন ক্লাস:</span><span class="font-bold text-primary-600 dark:text-primary-400">২০ ফেব্রুয়ারি, ২০২৬</span></div>
                     </div>
@@ -125,7 +125,7 @@
                         </div>
                         রেজিস্ট্রেশন শুরু
                     </span>
-                    <span class="font-bold text-slate-800 dark:text-slate-200">১৬ জানুয়ারী</span>
+                    <span class="font-bold text-slate-800 dark:text-slate-200">২০ জানুয়ারী</span>
                 </div>
                 
                 <div class="flex items-center justify-between group/item">

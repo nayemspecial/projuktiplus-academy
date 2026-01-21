@@ -36,26 +36,16 @@
             </div>
 
             <div>
-                <h4 class="text-white font-bold mb-5 font-heading text-base">প্লাটফর্ম</h4>
+                <h4 class="text-white font-bold mb-5 font-heading text-base">প্রয়োজনীয় লিঙ্ক</h4>
                 <ul class="space-y-3 text-sm">
                     <li>
-                        <a href="{{ url('/about') }}" class="hover:text-primary-400 transition-colors flex items-center gap-2 group">
-                            <i class="fas fa-chevron-right text-[10px] opacity-30 group-hover:opacity-100 transition-opacity"></i> আমাদের সম্পর্কে
+                        <a href="https://academy.projuktiplus.com/courses/full-stack-bootcamp-universal" class="hover:text-primary-400 transition-colors flex items-center gap-2 group">
+                            <i class="fas fa-chevron-right text-[10px] opacity-30 group-hover:opacity-100 transition-opacity"></i> আপকামিং ব্যাচ
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('/mentor') }}" class="hover:text-primary-400 transition-colors flex items-center gap-2 group">
-                            <i class="fas fa-chevron-right text-[10px] opacity-30 group-hover:opacity-100 transition-opacity"></i> মেন্টর প্রোফাইল
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ url('/courses') }}" class="hover:text-primary-400 transition-colors flex items-center gap-2 group">
-                            <i class="fas fa-chevron-right text-[10px] opacity-30 group-hover:opacity-100 transition-opacity"></i> প্রিমিয়াম কোর্স
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ url('/success') }}" class="hover:text-primary-400 transition-colors flex items-center gap-2 group">
-                            <i class="fas fa-chevron-right text-[10px] opacity-30 group-hover:opacity-100 transition-opacity"></i> সফলতার গল্প
+                        <a href="https://academy.projuktiplus.com/courses/web-design-html-css-masterclass" class="hover:text-primary-400 transition-colors flex items-center gap-2 group">
+                            <i class="fas fa-chevron-right text-[10px] opacity-30 group-hover:opacity-100 transition-opacity"></i> ফ্রি কোর্স 
                         </a>
                     </li>
                 </ul>

@@ -39,11 +39,11 @@
                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 transition-all group-hover:w-full"></span>
             </a>
 
-            <a href="{{ url('/about') }}" 
+            {{-- <a href="{{ url('/about') }}" 
                class="{{ request()->is('about') ? 'text-primary-600 dark:text-primary-400 font-bold' : 'text-slate-600 dark:text-slate-300' }} hover:text-primary-600 dark:hover:text-primary-400 transition relative group">
                আমাদের সম্পর্কে
                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 transition-all group-hover:w-full"></span>
-            </a>
+            </a> --}}
 
             <a href="{{ url('/contact') }}" 
                class="{{ request()->is('contact') ? 'text-primary-600 dark:text-primary-400 font-bold' : 'text-slate-600 dark:text-slate-300' }} hover:text-primary-600 dark:hover:text-primary-400 transition relative group">

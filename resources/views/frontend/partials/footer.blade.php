@@ -10,6 +10,10 @@
                 <a href="{{ url('/') }}" class="inline-block mb-5">
                     @if(\App\Models\Setting::get('site_logo'))
                         <img src="{{ asset('storage/' . \App\Models\Setting::get('site_logo')) }}" alt="ProjuktiPlus Academy" class="h-10 w-auto">
+                        <h1 class="text-xl md:text-2xl font-semibold text-slate-800 dark:text-white font-heading tracking-tight leading-none">
+                        {{ \App\Models\Setting::get('site_name', 'ProjuktiPlus') }}
+                        </h1>
+                        <span class="text-[11px] text-slate-500 dark:text-slate-400 font-medium tracking-wider hidden lg:block mt-1">যেখানে প্রযুক্তির গল্প হয় সহজ ভাষায়</span>
                     @else
                         <div class="flex items-center gap-2 text-2xl font-bold text-white font-heading">
                             <i class="fas fa-graduation-cap text-primary-500"></i>

@@ -1,22 +1,52 @@
 <!DOCTYPE html>
+@php
+    use App\Models\Setting;
+    
+    // ডাইনামিক সেটিংস লোড
+    $siteName = Setting::get('site_name', 'ProjuktiPlus Academy');
+    $siteFavicon = Setting::get('site_favicon');
+    // ডিফল্ট প্রাইমারি কালার
+    $primaryColor = Setting::get('primary_color', '#4F46E5'); 
+@endphp
 <html lang="bn" x-data="auth()" :class="{'dark': isDark}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title') - {{ \App\Models\Setting::get('site_name', 'ProjuktiPlus Academy') }}</title>
+    <title>@yield('title') - {{ $siteName }}</title>
 
     {{-- Favicon --}}
-    @if(\App\Models\Setting::get('site_favicon'))
-        <link rel="icon" type="image/png" href="{{ asset('storage/' . \App\Models\Setting::get('site_favicon')) }}">
+    @if($siteFavicon)
+        <link rel="icon" type="image/png" href="{{ asset('storage/' . $siteFavicon) }}">
     @else
         <link rel="icon" href="{{ asset('favicon.ico') }}">
     @endif
+
+    {{-- [FIXED] ডিফল্ট ডার্ক মোড স্ক্রিপ্ট --}}
+    <script>
+        // লজিক: যদি লোকাল স্টোরেজে 'false' (লাইট) সেট করা না থাকে, তবে ডিফল্ট 'dark' হবে
+        if (localStorage.getItem('darkMode') !== 'false') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
 
     {{-- Vite Assets --}}
     @vite(['resources/css/tailwind.css', 'resources/js/app.js'])
     
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ডাইনামিক প্রাইমারি কালার */
+        :root { --color-primary-600: {{ $primaryColor }}; }
+        
+        /* ফন্ট ফ্যামিলি */
+        body { font-family: 'Kohinoor Bangla', sans-serif; letter-spacing: .5px; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Hind Siliguri', sans-serif; }
+    </style>
 </head>
 <body class="bg-gray-50 dark:bg-slate-900 text-gray-800 dark:text-slate-300 min-h-screen font-body">
     <div class="flex min-h-screen">
@@ -38,7 +68,7 @@
                 </a>
                 
                 <h1 class="text-4xl font-bold mb-4 font-heading">
-                    {{ \App\Models\Setting::get('site_name', 'ProjuktiPlus Academy') }}
+                    {{ $siteName }}
                 </h1>
                 
                 <p class="text-lg mb-8 text-blue-100">
@@ -82,7 +112,7 @@
                     @if(\App\Models\Setting::get('site_logo'))
                         <img src="{{ asset('storage/' . \App\Models\Setting::get('site_logo')) }}" alt="Logo" class="h-12 w-auto">
                     @else
-                        <h2 class="text-2xl font-bold text-blue-600">{{ \App\Models\Setting::get('site_name') }}</h2>
+                        <h2 class="text-2xl font-bold text-blue-600">{{ $siteName }}</h2>
                     @endif
                 </div>
 
@@ -100,8 +130,9 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('auth', () => ({
-                isDark: localStorage.getItem('darkMode') === 'true' || 
-                        (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+                // [UPDATED Logic] ডিফল্ট ডার্ক মোড সেট করা হয়েছে
+                // যদি localStorage এ 'false' না থাকে, তাহলেই isDark = true হবে
+                isDark: localStorage.getItem('darkMode') !== 'false',
                 
                 init() {
                     this.applyTheme();

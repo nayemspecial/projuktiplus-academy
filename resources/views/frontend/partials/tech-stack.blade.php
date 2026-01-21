@@ -71,21 +71,19 @@
                     { id: 3, title: 'JavaScript', icon: 'fab fa-js', color: 'text-yellow-500', bgColor: 'bg-yellow-100 dark:bg-yellow-900/30', category: 'frontend', description: 'ES6+, DOM ও এসিঙ্ক্রোনাস প্রোগ্রামিং।' },
                     { id: 4, title: 'Tailwind CSS', icon: 'fas fa-wind', color: 'text-cyan-500', bgColor: 'bg-cyan-100 dark:bg-cyan-900/30', category: 'frontend', description: 'দ্রুত এবং রেস্পন্সিভ ডিজাইন ফ্রেমওয়ার্ক।' },
                     { id: 5, title: 'Vue.js 3', icon: 'fab fa-vuejs', color: 'text-emerald-500', bgColor: 'bg-emerald-100 dark:bg-emerald-900/30', category: 'frontend', description: 'কম্পোজিশন API ও সিঙ্গেল পেজ অ্যাপ।' },
-                    { id: 6, title: 'Pinia', icon: 'fas fa-pineapple', color: 'text-yellow-600', bgColor: 'bg-yellow-50 dark:bg-yellow-900/20', category: 'frontend', description: 'মডার্ন স্টেট ম্যানেজমেন্ট লাইব্রেরি।' },
 
                     // Backend
-                    { id: 7, title: 'PHP 8.x', icon: 'fab fa-php', color: 'text-indigo-500', bgColor: 'bg-indigo-100 dark:bg-indigo-900/30', category: 'backend', description: 'OOP, টাইপ সেফটি ও মডার্ন সিনট্যাক্স।' },
-                    { id: 8, title: 'Laravel 11', icon: 'fab fa-laravel', color: 'text-red-600', bgColor: 'bg-red-100 dark:bg-red-900/30', category: 'backend', description: 'পাওয়ারফুল MVC ফ্রেমওয়ার্ক ও সিকিউরিটি।' },
-                    { id: 9, title: 'MySQL', icon: 'fas fa-database', color: 'text-blue-600', bgColor: 'bg-blue-100 dark:bg-blue-900/30', category: 'backend', description: 'রিলেশনাল ডাটাবেস ডিজাইন ও কুয়েরি।' },
-                    { id: 10, title: 'API Dev', icon: 'fas fa-exchange-alt', color: 'text-purple-500', bgColor: 'bg-purple-100 dark:bg-purple-900/30', category: 'backend', description: 'RESTful API তৈরি ও অথেনটিকেশন।' },
+                    { id: 6, title: 'PHP', icon: 'fab fa-php', color: 'text-indigo-500', bgColor: 'bg-indigo-100 dark:bg-indigo-900/30', category: 'backend', description: 'OOP, টাইপ সেফটি ও মডার্ন সিনট্যাক্স।' },
+                    { id: 7, title: 'Laravel 12', icon: 'fab fa-laravel', color: 'text-red-600', bgColor: 'bg-red-100 dark:bg-red-900/30', category: 'backend', description: 'পাওয়ারফুল MVC ফ্রেমওয়ার্ক ও সিকিউরিটি।' },
+                    { id: 8, title: 'MySQL', icon: 'fas fa-database', color: 'text-blue-600', bgColor: 'bg-blue-100 dark:bg-blue-900/30', category: 'backend', description: 'রিলেশনাল ডাটাবেস ডিজাইন ও কুয়েরি।' },
+                    { id: 9, title: 'API Dev', icon: 'fas fa-exchange-alt', color: 'text-purple-500', bgColor: 'bg-purple-100 dark:bg-purple-900/30', category: 'backend', description: 'RESTful API তৈরি ও অথেনটিকেশন।' },
 
                     // Tools
-                    { id: 11, title: 'Git & GitHub', icon: 'fab fa-git-alt', color: 'text-orange-600', bgColor: 'bg-orange-50 dark:bg-orange-900/20', category: 'tools', description: 'ভার্সন কন্ট্রোল ও কোড কোলাবরেশন।' },
-                    { id: 12, title: 'VS Code', icon: 'fas fa-code', color: 'text-blue-500', bgColor: 'bg-blue-50 dark:bg-blue-900/20', category: 'tools', description: 'প্রফেশনাল কোড এডিটর সেটআপ।' },
-                    { id: 13, title: 'Postman', icon: 'fas fa-rocket', color: 'text-orange-500', bgColor: 'bg-orange-50 dark:bg-orange-900/20', category: 'tools', description: 'API টেস্টিং এবং ডকুমেন্টেশন।' },
-                    { id: 14, title: 'cPanel', icon: 'fas fa-server', color: 'text-orange-600', bgColor: 'bg-orange-100 dark:bg-orange-900/30', category: 'tools', description: 'লাইভ সার্ভার ডিপ্লয়মেন্ট ও ম্যানেজমেন্ট।' },
-                    { id: 15, title: 'Laragon', icon: 'fas fa-cube', color: 'text-cyan-600', bgColor: 'bg-cyan-50 dark:bg-cyan-900/20', category: 'tools', description: 'ফাস্ট লোকাল ডেভেলপমেন্ট সার্ভার।' },
-                    { id: 16, title: 'Vite', icon: 'fas fa-bolt', color: 'text-purple-500', bgColor: 'bg-purple-50 dark:bg-purple-900/20', category: 'tools', description: 'নেক্সট জেনারেশন বিল্ড টুল।' },
+                    { id: 10, title: 'Git & GitHub', icon: 'fab fa-git-alt', color: 'text-orange-600', bgColor: 'bg-orange-50 dark:bg-orange-900/20', category: 'tools', description: 'ভার্সন কন্ট্রোল ও কোড কোলাবরেশন।' },
+                    { id: 11, title: 'VS Code', icon: 'fas fa-code', color: 'text-blue-500', bgColor: 'bg-blue-50 dark:bg-blue-900/20', category: 'tools', description: 'প্রফেশনাল কোড এডিটর সেটআপ।' },
+                    { id: 12, title: 'cPanel', icon: 'fas fa-server', color: 'text-orange-600', bgColor: 'bg-orange-100 dark:bg-orange-900/30', category: 'tools', description: 'লাইভ সার্ভার ডিপ্লয়মেন্ট ও ম্যানেজমেন্ট।' },
+                    { id: 13, title: 'Laragon', icon: 'fas fa-cube', color: 'text-cyan-600', bgColor: 'bg-cyan-50 dark:bg-cyan-900/20', category: 'tools', description: 'ফাস্ট লোকাল ডেভেলপমেন্ট সার্ভার।' },
+                    { id: 14, title: 'Vite', icon: 'fas fa-bolt', color: 'text-purple-500', bgColor: 'bg-purple-50 dark:bg-purple-900/20', category: 'tools', description: 'নেক্সট জেনারেশন বিল্ড টুল।' },
                 ],
                 get filteredItems() {
                     if (this.activeTab === 'all') return this.techItems;

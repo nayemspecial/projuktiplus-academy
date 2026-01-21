@@ -109,7 +109,7 @@
                                             </div>
                                         </div>
                                         <a :href="`/student/courses/${course.id}/content`" class="px-3 py-1.5 bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 text-xs font-bold rounded-md border border-gray-200 dark:border-slate-600 hover:text-indigo-600 hover:border-indigo-200 dark:hover:border-indigo-500 transition shadow-sm whitespace-nowrap">
-                                            চালান
+                                            কন্টিনিউ করুন
                                         </a>
                                     </div>
                                 </template>

@@ -1,4 +1,4 @@
-<section id="learning-path" class="pt-20 bg-slate-50 dark:bg-slate-900 transition-colors duration-300 relative" x-data="{ expanded: false }">
+<section id="learning-path" class="py-12 bg-slate-50 dark:bg-slate-900 transition-colors duration-300 relative" x-data="{ expanded: false }">
     <div class="container mx-auto px-4">
         
         <div class="text-center mb-12">

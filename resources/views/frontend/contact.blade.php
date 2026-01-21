@@ -25,7 +25,7 @@
     </div>
 </section>
 
-<section class="py-12 relative bg-slate-50 dark:bg-slate-900">
+{{-- <section class="py-12 relative bg-slate-50 dark:bg-slate-900">
     <div class="container mx-auto px-4 relative z-10">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
@@ -65,7 +65,7 @@
 
         </div>
     </div>
-</section>
+</section> --}}
 
 <section class="py-16 bg-slate-50 dark:bg-slate-900 relative">
     <div class="container mx-auto px-4 relative z-10">

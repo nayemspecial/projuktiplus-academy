@@ -51,7 +51,10 @@ class Course extends Model
         'published_at' => 'datetime',
     ];
 
+    // =========================================================
     // Relationships
+    // =========================================================
+
     public function instructor()
     {
         return $this->belongsTo(User::class, 'instructor_id');
@@ -62,9 +65,22 @@ class Course extends Model
         return $this->hasMany(Section::class);
     }
 
+    /**
+     * ডিফল্ট এনরোলমেন্ট রিলেশন (সব ধরনের স্ট্যাটাস নিয়ে আসে)
+     */
     public function enrollments()
     {
         return $this->hasMany(Enrollment::class);
+    }
+
+    /**
+     * [NEW] শুধুমাত্র বৈধ (Active/Completed) এনরোলমেন্ট রিলেশন।
+     * এটি Cancelled, Pending বা Refunded এনরোলমেন্ট বাদ দিবে।
+     */
+    public function validEnrollments()
+    {
+        return $this->hasMany(Enrollment::class)
+                    ->whereIn('status', ['active', 'completed']);
     }
 
     public function reviews()
@@ -92,7 +108,10 @@ class Course extends Model
         return $this->hasManyThrough(Lesson::class, Section::class);
     }
 
+    // =========================================================
     // Scopes
+    // =========================================================
+
     public function scopePublished($query)
     {
         return $query->where('status', 'published');
@@ -118,7 +137,19 @@ class Course extends Model
         return $query->where('instructor_id', $instructorId);
     }
 
+    // =========================================================
     // Methods & Accessors
+    // =========================================================
+
+    /**
+     * [NEW] ব্লেড ফাইলে সঠিক স্টুডেন্ট সংখ্যা দেখানোর জন্য।
+     * ব্যবহার করবেন: {{ $course->student_count }}
+     */
+    public function getStudentCountAttribute()
+    {
+        // ডাটাবেস থেকে শুধু validEnrollments এর সংখ্যা গুনবে
+        return $this->validEnrollments()->count();
+    }
 
     public function getThumbnailUrlAttribute()
     {
@@ -154,25 +185,16 @@ class Course extends Model
     }
 
     /**
-     * [FIX] সেফটি অ্যাক্সেসর: যদি ডাটাবেসে JSON স্ট্রিং থাকে বা নাল থাকে,
-     * তবুও এটি যেন সবসময় অ্যারে রিটার্ন করে। এতে foreach এরর হবে না।
+     * [FIX] সেফটি অ্যাক্সেসর: JSON বা Null হ্যান্ডেল করার জন্য
      */
     public function getWhatYouWillLearnAttribute($value)
     {
-        // যদি ভ্যালু না থাকে, খালি অ্যারে রিটার্ন করো
         if (is_null($value)) return [];
-        
-        // যদি ইতিমধ্যে অ্যারে হয় (কাস্টের কারণে), তবে সেটাই রিটার্ন করো
         if (is_array($value)) return $value;
-        
-        // যদি স্ট্রিং হয়, ডিকোড করার চেষ্টা করো
         $decoded = json_decode($value, true);
-        
-        // ডিকোড সফল হলে অ্যারে, নাহলে খালি অ্যারে
         return is_array($decoded) ? $decoded : [];
     }
 
-    // Requirements এবং Target Audience এর জন্যও একই সেফটি
     public function getRequirementsAttribute($value)
     {
         if (is_null($value)) return [];
@@ -188,9 +210,4 @@ class Course extends Model
         $decoded = json_decode($value, true);
         return is_array($decoded) ? $decoded : [];
     }
-
-    // [OPTIMIZATION]
-    // rating, total_reviews, total_students এর জন্য অ্যাক্সেসরগুলো সরিয়ে ফেলা হয়েছে।
-    // কারণ এগুলো আপনার ডাটাবেস কলামেই আছে। অহেতুক কুয়েরি চালিয়ে সাইট স্লো করার দরকার নেই।
-    // এখন সরাসরি ডাটাবেসের ভ্যালু ব্যবহার হবে।
 }

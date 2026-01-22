@@ -94,27 +94,27 @@
                         <!-- Student Avatar Stack (Map View) -->
                         <div class="flex items-center gap-4">
                             <div class="flex flex-col">
-                                {{-- রিয়েল স্টুডেন্ট কাউন্ট দেখানো হচ্ছে --}}
+                                {{-- [FIXED] এখন শুধু Active/Completed স্টুডেন্ট কাউন্ট দেখাবে --}}
                                 <p class="text-xs text-slate-500 dark:text-slate-400 font-medium mb-1">
-                                    {{ $course->enrollments_count ?? $course->total_students }} জন শিক্ষার্থী এনরোল করেছেন
+                                    {{ $course->student_count }} জন শিক্ষার্থী এনরোল করেছেন
                                 </p>
                                 
-                                @if($course->enrollments->count() > 0)
+                                @if($course->student_count > 0)
                                     <div class="flex items-center -space-x-3 overflow-hidden p-1">
-                                        {{-- প্রথম ৫ জনের ছবি লুপ করা হচ্ছে --}}
-                                        @foreach($course->enrollments->take(5) as $enrollment)
-                                            @if($enrollment->user) {{-- [FIX] ইউজার আছে কিনা চেক করা হচ্ছে --}}
+                                        {{-- [FIXED] লুপ করার সময় শুধু validEnrollments থেকে ডাটা আনা হচ্ছে --}}
+                                        @foreach($course->validEnrollments->take(5) as $enrollment)
+                                            @if($enrollment->user) 
                                                 <img class="relative inline-block h-9 w-9 rounded-full ring-2 ring-white dark:ring-slate-900 object-cover shadow-sm hover:z-10 hover:scale-110 transition-transform duration-200 cursor-pointer bg-slate-200 dark:bg-slate-700" 
-                                                     src="{{ $enrollment->user->avatar_url }}" 
-                                                     alt="{{ $enrollment->user->name }}"
-                                                     title="{{ $enrollment->user->name }}"/>
+                                                    src="{{ $enrollment->user->avatar_url }}" 
+                                                    alt="{{ $enrollment->user->name }}"
+                                                    title="{{ $enrollment->user->name }}"/>
                                             @endif
                                         @endforeach
 
-                                        {{-- ৫ জনের বেশি হলে বাকি সংখ্যা --}}
-                                        @if($course->enrollments->count() > 5)
+                                        {{-- [FIXED] বাকি সংখ্যা দেখানোর লজিক আপডেট করা হয়েছে --}}
+                                        @if($course->student_count > 5)
                                             <div class="relative z-10 inline-flex items-center justify-center h-9 w-9 rounded-full ring-2 ring-white dark:ring-slate-900 bg-slate-100 dark:bg-slate-800 text-[10px] font-bold text-slate-600 dark:text-slate-300 shadow-sm">
-                                                +{{ $course->enrollments->count() - 5 }}
+                                                +{{ $course->student_count - 5 }}
                                             </div>
                                         @endif
                                     </div>

@@ -33,6 +33,9 @@ Route::middleware(['auth'])->group(function () {
     // পেমেন্ট সাবমিট করার জন্য
     Route::post('/courses/{id}/enroll', [CheckoutController::class, 'store'])->name('courses.enroll');
     Route::get('/courses/enroll/success', [CheckoutController::class, 'success'])->name('courses.enroll.success');
+
+    Route::post('/checkout/{id}/apply-coupon', [CheckoutController::class, 'applyCoupon'])->name('coupon.apply');
+    Route::get('/checkout/remove-coupon', [CheckoutController::class, 'removeCoupon'])->name('coupon.remove');
 });
 
 Route::get('/about', [PageController::class, 'about'])->name('about');

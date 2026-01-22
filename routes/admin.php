@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\EnrollmentController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\CertificateController;
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\EmailTemplateController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -139,6 +140,19 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/{payment}/edit', [PaymentController::class, 'edit'])->name('edit');
         Route::put('/{payment}', [PaymentController::class, 'update'])->name('update');
     });
+
+    // Coupons Management
+    Route::prefix('coupons')->name('coupons.')->group(function () {
+        Route::get('/', [CouponController::class, 'index'])->name('index');
+        Route::get('/create', [CouponController::class, 'create'])->name('create');
+        Route::post('/', [CouponController::class, 'store'])->name('store');
+        Route::get('/{coupon}/edit', [CouponController::class, 'edit'])->name('edit');
+        Route::put('/{coupon}', [CouponController::class, 'update'])->name('update');
+        Route::delete('/{coupon}', [CouponController::class, 'destroy'])->name('destroy');
+        
+        // স্ট্যাটাস টগল করার জন্য (Active/Inactive)
+        Route::get('/{coupon}/toggle', [CouponController::class, 'toggleStatus'])->name('toggle');
+    });
     
     // Certificate Management
     Route::prefix('certificates')->name('certificates.')->group(function () {
@@ -222,4 +236,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/security', [ProfileController::class, 'security'])->name('security');
         Route::put('/security', [ProfileController::class, 'updateSecurity'])->name('security.update');
     });
+
 });

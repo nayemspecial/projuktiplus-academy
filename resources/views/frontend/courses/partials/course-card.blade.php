@@ -28,7 +28,7 @@
         <!-- Rating & Lessons -->
         <div class="flex justify-between items-center mb-2 text-[11px] font-medium text-slate-500 dark:text-slate-400">
             <div class="flex items-center text-[10px] bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 font-semibold px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 gap-1" title="Students">
-                <i class="fas fa-user-graduate"></i> <span>{{ $course->total_students ?? 0 }}</span>
+                <i class="fas fa-user-graduate"></i> <span>{{ $course->student_count ?? 0 }}</span>
             </div>
             <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 text-[10px] font-semibold px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700">
                 <i class="far fa-file-video"></i>

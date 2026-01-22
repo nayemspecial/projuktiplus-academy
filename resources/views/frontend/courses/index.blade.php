@@ -69,7 +69,7 @@
                                    class="w-full pl-10 pr-4 py-3 rounded-lg bg-transparent text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none text-sm">
                         </div>
                         <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-colors ml-2 shadow-md shadow-blue-500/20">
-                            খুঁজুন
+                            কোর্স খুঁজুন
                         </button>
                     </form>
                 </div>

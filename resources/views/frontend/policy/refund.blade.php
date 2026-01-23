@@ -59,7 +59,7 @@
                         </li>
                         <li class="flex items-start gap-3">
                             <span class="w-6 h-6 rounded-full bg-blue-200 dark:bg-blue-800 text-blue-700 dark:text-white flex items-center justify-center text-xs font-bold shrink-0">2</span>
-                            <span>You have watched <strong>less than 10%</strong> of the course content. (Our system tracks your watch time automatically).</span>
+                            <span>You have watched <strong>less than 5%</strong> of the course content. (Our system tracks your watch time automatically).</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <span class="w-6 h-6 rounded-full bg-blue-200 dark:bg-blue-800 text-blue-700 dark:text-white flex items-center justify-center text-xs font-bold shrink-0">3</span>
